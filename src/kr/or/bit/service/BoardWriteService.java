@@ -49,13 +49,24 @@ public class BoardWriteService implements Action {
 			  
 			  String mybcode = request.getParameter("bcode");
 			  String writer  = request.getParameter("writer");
+			  int idx = Integer.parseInt(request.getParameter("idx"));
+			  
 			  System.out.println("글쓴이..." + writer);
 			  System.out.println(request.getParameter("bcode"));
 			  System.out.println("bcode는 여기까지 잘 왔을까??" + mybcode);
+			  System.out.println("답글의 원본글 번호 여기까지 왔을까?"+idx);
 			  
 			  BoardDao boarddao = new BoardDao(); 
 			  
-			  if(mybcode.equals("401") || mybcode.equals("303")) {
+			  if(idx != 0) {
+				  board.setId(request.getParameter("writer"));
+					 board.setBcode(Integer.parseInt(request.getParameter("bcode")));
+					 board.setTcode(Integer.parseInt(request.getParameter("tcode")));
+					 board.setTitle(request.getParameter("subject")); 
+					 board.setContent(request.getParameter("content")); 
+					 
+					 result = boarddao.reboardInsert(board,idx);
+			  }else if(mybcode.equals("401") || mybcode.equals("303")) {
 				  System.out.println("파일이 없을 경우 여기 와야함");
 				  board.setId(request.getParameter("writer"));
 					 board.setBcode(Integer.parseInt(request.getParameter("bcode")));

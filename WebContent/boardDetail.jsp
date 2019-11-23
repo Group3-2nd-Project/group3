@@ -47,6 +47,10 @@
 	// 아... 아이디는 구지 보낼 필요가 없겠는데... 로그인....하면.. 이민 세션 값에 저장이 되어 있을 테고.. 아이디 엑스만 보내면 되겠는데...
 	
 	
+	/* $(function(){
+		$('#reply').attr("action", ${board.idx})
+	}); */
+	
 </SCRIPT>
 
 	
@@ -101,21 +105,19 @@ display : none;
                         <td width="80%" align="left"><input type="file" name="filename"></td>                       
                     </tr>
                     
-                    <tr id="dataForM">
-                        <td width="20%" align="center">게시판코드</td>
-                        <td width="80%" align="left"><input id="bcode" type="text" name="bcode"></td>
-                        <td width="20%" align="center">거래코드</td>
-                        <td width="80%" align="left"><input id="tcode" type="text" name="tcode"></td>
-                                               
-                    </tr>
+                    
                     
                     <tr>
                         <td colspan="2" align="center">
-                        <form id="reply" method="get" target="_blank">
+                        <form id="reply" action="boardWrite.jsp" method="get" target="_blank">
+                        <input type="hidden" name='idx' value='${board.idx }' />
+                        <input type="hidden" name="bcode" value='${board.bcode}'>
+                        <input type="hidden" name="tcode" value='${board.tcode}'>
         				 <button type="submit">답글 쓰기</button>
       					</form>
       					
-      					<form action="https://www.w3docs.com/" method="get" target="_blank">
+      					<form action="boardList.do" method="get" target="_blank">
+      					<input type="hidden" name="bcode" value='${board.bcode}'>
         				 <button type="submit">목록</button>
       					</form>
                             

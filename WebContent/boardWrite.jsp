@@ -54,18 +54,18 @@
 			$('#notice1').css("display", "block");
 		}
 		
-		var tableCode = <%=request.getParameter("bcode")%>;
-		var tradeCode = <%=request.getParameter("tcode")%>;
+		 ///var tableCode = <%=request.getParameter("bcode")%>;
+		///var tradeCode = <%=request.getParameter("tcode")%>; 
 		
-		console.log(tableCode);
+		//console.log(tableCode);
 		console.log("이거 왜 안돼");
 		
 		//$('#myform').attr("action","boardList.do?bcode="+tableCode); //
 		
-		$('#bcode').val(tableCode);
-		$('#tcode').val(tradeCode);
+		//$('#bcode').val(tableCode);
+		//$('#tcode').val(tradeCode);
 		
-		console.log($('#bcode').val());
+		//console.log($('#bcode').val());
 		
 		
 		if(tableCode == 102) {
@@ -157,10 +157,11 @@ display : none;
                     
                     <tr id="dataForM">
                         <td width="20%" align="center">게시판코드</td>
-                        <td width="80%" align="left"><input id="bcode" type="text" name="bcode"></td>
+                        <td width="80%" align="left"><input id="bcode" type="text" name="bcode" value='${param.bcode }'></td>
                         <td width="20%" align="center">거래코드</td>
-                        <td width="80%" align="left"><input id="tcode" type="text" name="tcode"></td>
-                                               
+                        <td width="80%" align="left"><input id="tcode" type="text" name="tcode" value='${param.tcode }'></td>
+                        <td width="20%" align="center">답글 쓸 때 원본글 번호</td>
+                        <td width="80%" align="left"><input id="tcode" type="text" name="idx" value='${param.idx }'></td>                       
                     </tr>
                     
                     <tr>
