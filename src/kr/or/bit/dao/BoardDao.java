@@ -29,7 +29,7 @@ public class BoardDao {
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		
-		String sql = "insert into board(idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values(sequence.nextval,?,?,?,?,?,0,sysdate,?,0,0,0)";
+		String sql = "insert into board(idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values(test1.nextval,?,?,?,?,?,0,sysdate,?,0,0,0)";
 		int resultrow = 0;		
 		try {														
 			conn = ds.getConnection();								
@@ -61,6 +61,77 @@ public class BoardDao {
 		return resultrow;
 	}
 	
+	public int boardInsert(Board board, File file) {   //글쓰기Dao
+		PreparedStatement pstmt =null;
+		Connection conn = null;
+		
+		String sql = "insert into board(idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values(test1.nextval,?,?,?,?,?,0,sysdate,?,0,0,0)";
+		int resultrow = 0;		
+		try {														
+			conn = ds.getConnection();								
+			pstmt = conn.prepareStatement(sql);	
+			pstmt.setString(1, board.getId());
+			pstmt.setInt(2, board.getBcode());
+			pstmt.setInt(3, board.getTcode());
+			pstmt.setString(4, board.getTitle());
+			pstmt.setString(5, board.getContent());
+			int refermax = getMaxRefer();
+			int refer = refermax + 1;
+			pstmt.setInt(6, refer);
+			
+			
+			resultrow = pstmt.executeUpdate();
+			
+			int resultForfile = fileInsert(file); 
+			
+			if(resultForfile == 0) {
+				System.out.println("디비에 저장할 파일 정보가 없거나.. 디비에 파일 정보 저장 실패");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();//반환
+				
+			
+				
+			}catch (Exception e) {
+			}
+		}
+		return resultrow;
+	}
+	
+	
+
+	public int fileInsert(File file) {   //파일 글쓰기Dao
+		PreparedStatement pstmt =null;
+		Connection conn = null;
+		String sql = "insert into file(fidx, idx, oriname, savename, fsize, cocode) values(test2.nextval,test1.currval,?,?,?,0)";	//날짜 제외(DB에서 Timestamp로)
+		
+		int resultrow = 0;		
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, file.getIdx());
+			pstmt.setString(2, file.getOriname());
+			pstmt.setString(3, file.getSavename());
+			pstmt.setInt(4, file.getFsize());
+			
+			resultrow = pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();//반환
+			}catch (Exception e) {
+			}
+		}
+		return resultrow;
+	}
 	
 	
 	private int getMaxRefer() {
@@ -70,7 +141,7 @@ public class BoardDao {
 		int refer_max=0;
 		try {
 			conn = ds.getConnection(); //빌려주세여^^  이따 반납할게요 
-			String sql="select nvl(max(ref),0) from reboard";
+			String sql="select nvl(max(ref),0) from board";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -96,18 +167,18 @@ public class BoardDao {
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		ResultSet rs = null;
-		Board boarddto = null;
-		ArrayList<Board> boardlist = null;
-		String sql = "select idx, id, bcode, tcode, title, readnum, writedate from board where bcode=? and cocode=0";	
+		
+		ArrayList<Board> boardlist =new ArrayList<>();
+		String sql = "select idx, id, bcode, tcode, title, readnum, writedate from board where bcode=? and cocode=0 order by ref desc , step asc";	
 	
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bcode);
 			rs = pstmt.executeQuery();
-			boardlist = new ArrayList<>();
-			if(rs.next()) {
-				boarddto = new Board();
+			
+			while(rs.next()) {
+				Board boarddto = new Board();
 				boarddto.setIdx(rs.getInt("idx"));
 				boarddto.setId(rs.getString("id"));
 				boarddto.setBcode(rs.getInt("bcode"));
@@ -146,7 +217,7 @@ public class BoardDao {
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				boarddto = new Board();
 				boarddto.setIdx(rs.getInt("idx"));
 				boarddto.setId(rs.getString("id"));
@@ -268,7 +339,7 @@ public class BoardDao {
 			pstmt.setString(2, keyword);
 			rs = pstmt.executeQuery();
 			boardlist = new ArrayList<>();
-			if(rs.next()) {
+			while(rs.next()) {
 				boarddto = new Board();
 				boarddto.setIdx(rs.getInt("idx"));
 				boarddto.setId(rs.getString("id"));
@@ -362,7 +433,7 @@ public class BoardDao {
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				boarddto = new BoardForReply();
 				boarddto.setReplycontent(rs.getString("replycontent"));
 				boarddto.setReplyid(rs.getString("replyid"));
@@ -440,34 +511,6 @@ public class BoardDao {
 	}
 	
 
-	public int fileInsert(File file) {   //파일 글쓰기Dao
-		PreparedStatement pstmt =null;
-		Connection conn = null;
-		String sql = "insert into file(fidx, idx, oriname, savename, fsize, cocode) values(sequence.nextval,?,?,?,?,0)";	//날짜 제외(DB에서 Timestamp로)
-		
-		int resultrow = 0;		
-		try {
-			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, file.getIdx());
-			pstmt.setInt(2, file.getOriname());
-			pstmt.setInt(3, file.getSavename());
-			pstmt.setInt(4, file.getFsize());
-			
-			resultrow = pstmt.executeUpdate();
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();//반환
-			}catch (Exception e) {
-			}
-		}
-		return resultrow;
-	}
-	
 	
 	public int deleteFile(int fidx) {   //댓글 삭제(=cocode 수정)
 		PreparedStatement pstmt =null;

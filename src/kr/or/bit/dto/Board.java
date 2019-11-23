@@ -15,6 +15,8 @@ public class Board {	//게시판
 	private int step;
 	private int cocode;
 	private int reboardcount;	//답글 수
+	
+	
 	public int getIdx() {
 		return idx;
 	}

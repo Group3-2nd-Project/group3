@@ -1,5 +1,7 @@
   <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+	
 	
 	
   
@@ -42,8 +44,8 @@
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Service Center<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="qna.jsp">Notice</a>
-                                        <a class="dropdown-item" href="qna.jsp">Q&A</a>
+                                        <a class="dropdown-item" href="boardList.do?bcode=401">Notice</a>
+                                        <a class="dropdown-item" href="boardList.do?bcode=401">Q&A</a>
                                     </div>
                                 </li>
                                 

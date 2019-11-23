@@ -1,7 +1,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% session.setAttribute("id", "csy"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 	
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,68 +42,11 @@
 
 	<SCRIPT type="text/javascript">
 	
-	
-	$(function(){
-		
-		var id = '<%= session.getAttribute("id") %>'; 
-		console.log(id);
-		$('#user').val(id);
-		console.log($('#user').val());
-		
-		
-		if(id == "admin") {
-			$('#notice1').css("display", "block");
-		}
-		
-		var tableCode = <%=request.getParameter("bcode")%>;
-		var tradeCode = <%=request.getParameter("tcode")%>;
-		
-		console.log(tableCode);
-		console.log("이거 왜 안돼");
-		
-		//$('#myform').attr("action","boardList.do?bcode="+tableCode); //
-		
-		$('#bcode').val(tableCode);
-		$('#tcode').val(tradeCode);
-		
-		console.log($('#bcode').val());
-		
-		
-		if(tableCode == 102) {
-			$('#file1').css("display", "block");
-			$('#tcode').val(0);
-		}else if(tableCode == 201) {
-			$('#tcode').val(1);
-		}
-		
-		
-	});
+	//유저가 답글을 쓰는 버튼을 눌럿을 경우...   폼 태그에...  어느글에 답글을 쓰고 있는지... 답글을 쓰는 사람의 정보를 답글을 쓰는 뷰단으로 보내 줘야함다.
+	// 요 폼태그의 액션값을 지정하는 것은  스크립트에서 처리 하면 되겠지... 현재 이 글을 보고 있는 유저의 아이디.. 그리고 이 글의 번호만 보내 주면.. 끝..
+	// 아... 아이디는 구지 보낼 필요가 없겠는데... 로그인....하면.. 이민 세션 값에 저장이 되어 있을 테고.. 아이디 엑스만 보내면 되겠는데...
 	
 	
-	
-	
-	
-	$(document).ready(function() {
-	    //$('#summernote').summernote();
-	});
-	
-	function check(){
-	    if(!bbs.subject.value){
-	        alert("제목을 입력하세요");
-	        bbs.subject.focus();
-	        return false;
-	    }
-	    
-     if(!bbs.content.value){            
-        alert("글 내용을 입력하세요");
-        bbs.content.focus();
-        return false;
-    } 
-    
-    document.bbs.submit();
-}
-
-
 </SCRIPT>
 
 	
@@ -132,22 +76,24 @@ display : none;
         
            	 <!-- <div id="summernote">Hello Summernote</div> -->
             <!-- form 시작 ---------->
-            <form id="myform" action='boardWrite.do' name="bbs"  method="POST">
+           
         
                 <table width="95%" border="3" align="center">
+                
+                <c:set var="board" value='${requestScope.boarddetail}'></c:set>
                     <tr>
                         <td width="20%" align="center">제목</td>
-                        <td width="80%" align="left"><input type="text" name="subject" size="40"></td>
+                        <td width="80%" align="left"><input type="text" name="subject" size="40" value='${board.title}' readonly></td>
                     </tr>
                     <tr>
                         <td width="20%" align="center">글쓴이</td>
-                        <td width="80%" align="left"><input id="user" type="text" name="writer" size="40"   readonly></td>
+                        <td width="80%" align="left"><input id="user" type="text" name="writer" size="40" value='${board.id}' readonly></td>
                     </tr>
                     
                     
                     <tr>
                         <td width="20%" align="center">글내용</td>
-                        <td width="80%" align="left"><textarea id="summernote" rows="10" cols="60" name="content"></textarea></td>
+                        <td width="80%" align="left"><textarea id="summernote" rows="10" cols="60" name="content" readonly>${board.content} </textarea></td>
                     </tr>
                     
                     <tr id="file1">
@@ -165,12 +111,19 @@ display : none;
                     
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="button" value="글쓰기" onclick="check();" /> 
-                            <input type="reset"  value="다시쓰기" />
+                        <form id="reply" method="get" target="_blank">
+        				 <button type="submit">답글 쓰기</button>
+      					</form>
+      					
+      					<form action="https://www.w3docs.com/" method="get" target="_blank">
+        				 <button type="submit">목록</button>
+      					</form>
+                            
+                            
                         </td>
                     </tr>
                 </table>
-              </form>
+             
         </div>
     </div>
     </section>
