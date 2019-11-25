@@ -17,14 +17,14 @@ public class TradeDetailService implements Action{ //수여닝
 		ActionForward forward = null;
 		
 		try {
-			int idx  = Integer.parseInt((String) request.getParameter("idx"));
-			System.out.println("bcode가 여기까지 옴?" + idx);
+			int id  = Integer.parseInt((String) request.getParameter("id"));
+			System.out.println("bcode가 여기까지 옴?" + id);
 			BoardDao dao = new BoardDao();
-		    Board tradedetail = dao.detailBoard(idx);
+		    Board tradedetail = dao.detailBoard(id);
 		    request.setAttribute("tradedetail", tradedetail);
 		    
 		    forward = new ActionForward();
-		    forward.setPath("/tradelist.jsp");
+		    forward.setPath("/tradedetail.jsp");
 		    System.out.println("거래 상세 내역 들어옴?" + tradedetail);		
 			
 		  	}catch(Exception e){

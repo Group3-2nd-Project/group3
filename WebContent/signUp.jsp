@@ -1,3 +1,4 @@
+<!-- 수정 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 
@@ -33,15 +34,16 @@
    $(function(){
     
      var getUser = new RegExp("^[a-zA-Z0-9]{3,16}$");
-     var getpwd = new RegExp("^[a-zA-Z0-9]{8,16}$");
+     var getpwd = new RegExp("^[a-zA-Z0-9]{4,16}$");
      var getPhone = new RegExp("^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$");
  
      var idCheck = false;
      var pwdCheck = false;
      var pwd2Check = false;
      var phoneCheck = false;
-     
-     
+     var tos1Check = false; //약관1 
+     var tos2Check = false; //약관2
+     var issubmit = idCheck && pwdCheck && pwd2Check && phoneCheck && tos1Check && tos2Check;
      
      //ID 유효성 검증
      $('#id').on(
@@ -94,7 +96,7 @@
      $('#pwdcheck').on(
              {
                  keyup : function(){ 
-                        if($('#pwdcheck').val() != $('#pwdcheck').val()){
+                        if($('#pwd').val() != $('#pwdcheck').val()){
                             $('.ckpwdcheck').text('암호가 일치하지 않습니다');
                             $('#pwdcheck').css("border","2px solid #F7819F");
                              pwd2Check = false;
@@ -133,19 +135,50 @@
      });
     
     
-    $('input[type=submit]').click(function(){
+     if(SignUp.tos1.checked == false ){
+         tos1Check = false;
+     } else {
+        tos1Check = true;
+     }
         
-        if(idCheck && pwdCheck && pwd2Check && phoneCheck)
-        {    
-            return true;
-        }else {
-            alert('입력되지 않은 빈칸이있습니다. 확인해주세요.');
-            return false;
-        }
-    });
- 
- 
-});
+
+     if(SignUp.tos2.checked == false ){
+         tos2Check = false;
+     } else {
+        tos2Check = true;
+     }
+    
+     $('#join-submit').click(function(){
+        
+         if (!issubmit){
+             alert("입력이 되지 않았습니다.");    
+         }else{
+             issubmit = true;
+             alert("true");
+         }
+         
+       return issubmit;
+     });
+     console.log("SignUp.tos1.checked  " + SignUp.tos1.checked);
+     console.log("issubmit " + issubmit);
+     console.log("tos1Check " + tos1Check);
+     console.log("tos2Check " + tos2Check);
+/*  
+     $('input[type=submit]').click(function(){
+         
+         if(issubmit)
+         {    
+             return true;
+         }else {
+             alert('입력되지 않은 빈칸이있습니다. 확인해주세요.');
+             return false;
+         }
+     });
+ */
+   
+   
+   
+   });
 
 </script>
 
@@ -216,7 +249,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
    
 <jsp:include page="/common/top.jsp"></jsp:include>
- <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"> 
+ <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"></div> 
 
 <section>
 <article class="container" style=" height: 80%;">
@@ -226,34 +259,31 @@
    <!--    form roll="form" 에서 속성들 role : 폼 양식이 있는 곳을 알려주거나 변경된 경우 joinok.jsp  -->
    
    <div id="joinform"class="col-sm-12" style=" height: 80%;">
-      <form role="form" action="SignUp.do" method="post" name="SignUp" id="SignUp" enctype="multipart/form-data">
+      <form role="form" action="SingUpOk.do" method="post" name="SignUp" id="SignUp">
  
    <div id="form1">
          <h5><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;이용약관</h5>
 <br>
          
-         
          <div id="agree1">
          <jsp:include page="/join/joinAgree.html"></jsp:include>
          </div>
          <p style="text-align: left">
-         <input type="checkbox">
-         <label style="font-size: 17px">이용약관 동의 (필수)</label>
+         <input type="checkbox" id="tos1" name="tos1" id="tos1" value="Y">
+         <label style="font-size: 17px">이용약관 동의 (필수)</label>   <!-- terms of service = TOS -->
          </p>
       </div>         
          <br><br>
-         
    <div id="form2" class="col-sm-12" style=" height: 80%;">
          <h5><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;개인정보 수집 및 활용이용</h5>
          
       <br>
          
-         
          <div id="agree2">
          <jsp:include page="/join/joinAgree1.html"></jsp:include>
          </div>
          <p style="text-align: left">
-         <input type="checkbox">
+         <input type="checkbox" id="tos2" name="tos2" id="tos2" value="Y">
          <label style="font-size: 17px">개인정보 수집 및 활용이용에 관한 동의 (필수)</label>
          </p>
 </div> 

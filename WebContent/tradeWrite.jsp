@@ -15,7 +15,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Favicon -->
-<!--     <link rel="icon" href="img/core-img/favicon.ico"> -->
+    <link rel="icon" href="img/core-img/favicon.ico"> 
 
     <!-- Core Stylesheet -->
     <link href="style.css" rel="stylesheet">
@@ -68,9 +68,36 @@ article {
 }
 </style>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<script>
+function check(){
+  /*   if(!bbs.title.value){
+        alert("제목을 입력하세요");
+        bbs.title.focus();
+        return false;
+    }
+    if(!bbs.writer.value){
+        
+        alert("이름을 입력하세요");
+        bbs.writer.focus();
+        return false;
+    }
+
+    if(!bbs.content.value){            
+        alert("내용을 입력하세요");
+        bbs.content.focus();
+        return false;
+    }
+ 
+    document.bbs.submit();
+  */
+}
+
+
+</script>
 <body>
 
 <jsp:include page="/common/top.jsp"></jsp:include>
+
 <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)">
 
    <section>
@@ -90,7 +117,7 @@ article {
             <div class="row">
                <div class="col-md-2"></div>
                <div class="col-md-8">
-                  <form action="TradeWrite.do" method="post">
+                  <form action="TradeWrite.do" method="post" enctype="multipart/form-data">
                      <table class="table">
                       
                           <input type="hidden" class="form-control" name="bcode" value = "${param.bcode}">
@@ -98,30 +125,30 @@ article {
                            
                            <tr>
                            <td><h6>Writer</h6></td>
-                           <td><input type="text" class="form-control" name="writer"></td>
+                           <td><input type="text" class="form-control" id = "id" name="id" value = "${sessionScope.id}" readonly></td>
                            
                         </tr>
                         <tr>
                            <td><h6>Title</h6></td>
                            <td><input type="text" class="form-control" name="title"></td>
+                           
                         </tr>
 
                         <tr>
                            <td><h6>Content</h6></td>
-                           <td><textarea rows="200" cols="100" name="content" id="editor" class="form-control ckeditor" style ="height:500px; "></textarea></td>
+                           <td><textarea rows="200" cols="100" name="content" id="editor" class="form-control ckeditor" style ="height:500px;"></textarea></td>
                         </tr>
 
                         <tr>
 
                            <td><h6>File</h6></td>
-                           <td><input type="file" name="filename1"></td>
+                           <td><input type="file" name="filename"></td>
                         </tr>
                         <tr>
 
                            <td colspan="2" class="text-center">
-                              <button type="submit" id="join-submit" class="btn dorne-btn" style="width: 200px;">
-                                 <i class="far fa-check-circle"></i>&nbsp;&nbsp;판매 등록하기
-                              </button>
+                              <button type="submit" id="join-submit" onclick="click();" class="btn dorne-btn" style="width: 200px;">
+                                                              판매등록하기<i class="far fa-check-circle"></i></button>
                               <button type="reset" class="btn dorne-btn" style="width: 200px;">
                                  <i class="far fa-times-circle"></i>&nbsp;초기화
                               </button>

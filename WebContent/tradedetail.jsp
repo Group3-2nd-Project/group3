@@ -86,8 +86,8 @@ article {
          </div>
 
          <div id="writeForm" class="col-sm-12" style="height: 80%;">
-            <form role="form" action="TradeDetail.do" method="post" name="review" id="review" enctype="multipart/form-data"></form>
-
+            <!-- <form role="form" action="TradeDetail.do" method="post" name="review" id="review" enctype="multipart/form-data"></form>
+ -->
 
             <div class="row">
                <div class="col-md-2"></div>
@@ -95,29 +95,29 @@ article {
                   <form action="TradeDetail.do" method="post">
                      <table class="table">
                      
-                     <c:set var = "list" value="${requestScope.tradedetail}"></c:set>
+      
                       
-                          <input type="hidden" class="form-control" name="bcode">
-                          <input type="hidden" class="form-control" name="tcode">
+                          <input type="hidden" class="form-control" name="bcode" value = "${param.bcode}">
+                          <input type="hidden" class="form-control" name="tcode" value = "${param.tcode}">
                            
                            <tr>
                            <td><h6>Writer</h6></td>
-                           <td><input type="text" class="form-control" name="writer" value = "${list.writer}" readonly></td>
+                           <td><input type="text" class="form-control" name="writer" value = "${param.writer}" readonly></td>
                         </tr>
                         <tr>
                            <td><h6>Title</h6></td>
-                           <td><input type="text" class="form-control" name="title" value = "${list.title}" readonly></td>
+                           <td><input type="text" class="form-control" name="title" value = "${param.title}" readonly></td>
                         </tr>
 
                         <tr>
                            <td><h6>Content</h6></td>
-                           <td><textarea rows="200" cols="100" name="content" id="editor" value ="${list.content}" class="form-control ckeditor" style ="height:500px;" readonly></textarea></td>
+                           <td><textarea rows="200" cols="100" name="content" id="editor" value ="${param.content}" class="form-control ckeditor" style ="height:500px;" readonly></textarea></td>
                         </tr>
 
                         <tr>
 
                            <td><h6>File</h6></td>
-                           <td><input type="file" name="filename1" value = "${list.file}" readonly></td>
+                           <td><input type="file" name="filename1" value = "${param.file}" readonly></td>
                         </tr>
                         <tr>
 
