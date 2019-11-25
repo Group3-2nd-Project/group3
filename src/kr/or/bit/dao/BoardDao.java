@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -169,7 +170,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		
 		ArrayList<Board> boardlist =new ArrayList<>();
-		String sql = "select idx, id, bcode, tcode, title, readnum, writedate from board where bcode=? and cocode=0 order by ref desc , step asc";	
+		String sql = "select idx, id, bcode, tcode, title, readnum, writedate, ref, dept, step from board where bcode=? and cocode=0 order by ref desc , step asc";	
 	
 		try {
 			conn = ds.getConnection();
@@ -186,6 +187,9 @@ public class BoardDao {
 				boarddto.setTitle(rs.getString("title"));
 				boarddto.setReadnum(rs.getInt("readnum"));
 				boarddto.setWritedate(rs.getString("writedate"));
+				boarddto.setRef(rs.getInt("ref"));
+				boarddto.setDept(rs.getInt("dept"));
+				boarddto.setStep(rs.getInt("step"));
 				boardlist.add(boarddto);
 			}
 		}catch(Exception e) {
@@ -201,6 +205,144 @@ public class BoardDao {
 		}
 		return boardlist;
 	}
+	
+	
+	public ArrayList<Board> list(int cpage , int pagesize, int bcode){
+		/*
+		  [1][2][3][4][5][다음]
+		  [이전][6][7][8][9][10][다음]
+		  [이전][11][12]	
+		  
+		  [1] page 크기 > pagesize 정의
+		  totaldata > 54건
+		  pagesize = 5
+		    규칙 > totalpagecount=11 (전체 페이지 개수)
+		  
+		  int cpage >> currentpage(현재 페이지 번호) >> 1page  ,2page
+		  
+		   현재 데이터 100건
+		  cpage : 1 ,  pagesize : 5  > start(시작글번호) 1 ~ end(글번호) 5
+		  cpage : 2 ,  pagesize : 5  > start(시작글번호) 6 ~ end(글번호) 10
+		  cpage : 11 , pagesize : 5  > start(시작글번호) 51 ~ end(글번호) 55 
+		  -5개씩 묶어서 11번째 묶음을 보여주세요 
+		  
+		    * 아래 2개의 계층형 페이징처리 쿼리 테스트 하기 
+		    * SELECT * FROM ( SELECT ROWNUM rn , idx ,
+		    * writer , email, homepage, pwd , subject , content, writedate, readnum
+		    * , filename, filesize , refer , depth , step FROM ( SELECT * FROM
+		    * jspboard ORDER BY refer DESC , step ASC ) ) WHERE rn BETWEEN ? AND ?;
+		    * 
+		    * --------------------------------------------------------------------
+		    *  select * from ( select rownum rn , idx ,
+		    *  writer , email, homepage, pwd , subject , content, writedate, readnum
+		    * , filename, filesize , refer , depth , step from ( SELECT * FROM
+		    * jspboard ORDER BY refer DESC , step ASC ) where rownum <= 6 --endrow
+		    * ) where rn >= 4; --firstrow
+		  
+		   SELECT * 
+		   FROM 
+             ( SELECT ROWNUM rn , idx ,  writer , email, homepage, pwd , subject , content, writedate, readnum
+		                    , filename, filesize , refer , depth , step 
+               FROM 
+                      ( SELECT * FROM jspboard ORDER BY refer DESC , step ASC )
+              )
+		   WHERE rn BETWEEN 1 AND 5;
+		   
+		   
+		    select * 
+ 			from
+            ( select rownum rn , idx , writer , email, homepage, pwd , subject , content, writedate, readnum
+		             ,filename, filesize , refer , depth , step 
+              from 
+                   ( SELECT * FROM jspboard ORDER BY refer DESC , step ASC ) 
+              where rownum <= 10 --endrow
+		    ) 
+ 			where rn >= 6; --firstrow
+		*/
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		try {
+			conn = ds.getConnection();
+			String sql = "select * from " +
+			                           "(select rownum rn,idx,id,bcode,tcode, title, content, writedate, readnum" +
+				                       ",ref, dept, step, cocode" +
+			                           " from ( SELECT * FROM board where bcode=? and cocode=0 ORDER BY refer DESC , step ASC ) "+
+				                       " where rownum <= ?" +  //endrow
+				         ") where rn >= ?"; //startrow
+			pstmt = conn.prepareStatement(sql);
+			//공식같은 로직
+			int start = cpage * pagesize - (pagesize -1); //1 * 5 - (5 - 1) >> 1
+			int end = cpage * pagesize; // 1 * 5 >> 5
+			//
+			pstmt.setInt(1, bcode);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Board>();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setIdx(rs.getInt("idx"));
+				board.setTitle(rs.getString("subject"));
+				board.setId(rs.getString("writer"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setReadnum(rs.getInt("readnum"));
+				
+				//계층형
+				board.setRef(rs.getInt("ref"));
+				board.setStep(rs.getInt("step"));
+				board.setDept(rs.getInt("dept"));
+				
+				list.add(board);
+			}
+			
+		}catch (Exception e) {
+			System.out.println("오류 :" + e.getMessage());
+		}finally {
+			try {
+				pstmt.close();
+				rs.close();
+				conn.close();//반환
+			} catch (Exception e2) {
+				
+			}
+		}
+			
+		return list;
+	}
+	
+	public int totalBoardCount(int bcode) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int totalcount = 0;
+		try {
+			conn = ds.getConnection(); //dbcp 연결객체 얻기
+			String sql="select count(*) cnt from board where bcode=? and cocode=0";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bcode);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				totalcount = rs.getInt("cnt");
+			}
+		}catch (Exception e) {
+			
+		}finally {
+			try {
+				pstmt.close();
+				rs.close();
+				conn.close();//반환  connection pool 에 반환하기
+			}catch (Exception e) {
+				
+			}
+		}
+		return totalcount;
+	}
+
 	
 	
 	public Board detailBoard(int idx) {   //글 상세 보기
@@ -466,7 +608,7 @@ public class BoardDao {
 		
 		String sql_origin = "select ref, dept, step from board where idx=?";
 		String sql_update_old = "update board set step = step+1 where step > ? and ref =?";
-		String sql_insert = "insert into board(idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values(sequence.nextval,?,?,?,?,?,0,sysdate,?,?,?,0)";
+		String sql_insert = "insert into board(idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values(test1.nextval,?,?,?,?,?,0,sysdate,?,?,?,0)";
 		
 		try {
 			conn = ds.getConnection();

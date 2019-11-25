@@ -21,6 +21,7 @@ public class BoardListService implements Action {
 			      System.out.println("bcode 여기까지 올까??" + bcode);
   		  		  BoardDao dao = new BoardDao();
   		  		  ArrayList<Board> boardlist = dao.showBoard(bcode);
+  		  		 
   		  		  request.setAttribute("boardlist",boardlist);
 		  		  
   		  		  forward = new ActionForward();

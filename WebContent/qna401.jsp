@@ -411,7 +411,7 @@ console.log(boardlist);
 <jsp:include page="/common/top.jsp"></jsp:include>
 <body>
  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"> 
- <section  style = 'padding-top: 150px; padding-bottom:50px'>
+ <section  style = 'padding-top: 150px; padding-bottom:100px'>
 <div class="container">
 
  <div class="mail-box" >
@@ -595,7 +595,17 @@ console.log(boardlist);
                                   </td>
                                   <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
                                   <td class="view-message  dont-show">${blist.id}</td>
-                                  <td class="view-message "><a href="boardDetail.do?idx=${blist.idx}">${blist.title}</a></td>
+                                  
+                                  <td class="view-message ">
+                                  <c:forEach var="i" begin="1" end="${blist.dept}" step="1">
+									&nbsp;&nbsp;&nbsp;
+									</c:forEach>
+									<c:if test="${blist.dept > 0}">
+									<img src="img/re.gif" />
+									</c:if>
+                                 	 <a href="boardDetail.do?idx=${blist.idx}">${blist.title}</a>
+                                 	 </td>
+                                  
                                   <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
                                   <td class="view-message">${blist.writedate}</td>
                                   <td class="view-message  text-right">${blist.readnum}</td>
@@ -622,7 +632,7 @@ console.log(boardlist);
               </div>
 </div>
 </section>
-</div>
+
 </body>
 
 <jsp:include page="/common/bottom.jsp"></jsp:include>

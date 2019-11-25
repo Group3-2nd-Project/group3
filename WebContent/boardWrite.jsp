@@ -54,8 +54,7 @@
 			$('#notice1').css("display", "block");
 		}
 		
-		 ///var tableCode = <%=request.getParameter("bcode")%>;
-		///var tradeCode = <%=request.getParameter("tcode")%>; 
+		
 		
 		//console.log(tableCode);
 		console.log("이거 왜 안돼");
