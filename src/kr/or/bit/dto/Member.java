@@ -9,10 +9,7 @@ public class Member {	//회원
 	private int grade;
 	
 
-	@Override
-	public String toString() {
-		return "Member [id=" + id + ", pwd=" + pwd + ", name=" + name + ", hp=" + hp + ", grade=" + grade + "]";
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -45,7 +42,10 @@ public class Member {	//회원
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", pwd=" + pwd + ", name=" + name + ", hp=" + hp + ", grade=" + grade + "]";
+	}
 	
 	
 }

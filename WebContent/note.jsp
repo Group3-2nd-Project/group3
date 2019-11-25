@@ -1,9 +1,11 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+	<%@ taglib prefix="c" uri= "http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -22,23 +24,27 @@
     <link href="css/responsive/responsive.css" rel="stylesheet">
 
 
-	<script type="text/javascript" src="../ckeditor/ckeditor.js" ></script>
-	<link rel="Stylesheet" href="../style/default.css" />
+    <!-- <script type="text/javascript" src="../ckeditor/ckeditor.js" ></script>
+	<link rel="Stylesheet" href="../style/default.css" /> -->
 	
 	
 	<!-- include libraries(jQuery, bootstrap) -->
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+   <!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>  -->
 	
 	<!-- include summernote css/js -->
-	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+<!--     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script> 
+ -->
 
-
-
-	<SCRIPT type="text/javascript">
-	$(document).ready(function() {
+	<script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
+	 </HEAD>
+	 <BODY>
+	    <!-- 2. TEXT 편집 툴을 사용할 textarea -->
+	    
+	 
+<!-- 	/* $(function() {
 	    $('#summernote').summernote();
 	});
 	
@@ -54,21 +60,21 @@
 	        bbs.writer.focus();
 	        return false;
 	    }
-   /*  if(!bbs.content.value){            
+  if(!bbs.content.value){            
         alert("글 내용을 입력하세요");
         bbs.content.focus();
         return false;
-    } */
+    }
     if(!bbs.pwd.value){            
         alert("비밀번호를 입력하세요");
         bbs.pwd.focus();
         return false;
     }
     document.bbs.submit();
-}
+} */ -->
 
 
-</SCRIPT>
+
 </head>
 	 
 <jsp:include page="/common/top.jsp"></jsp:include>
@@ -103,7 +109,7 @@
                     </tr>
                     <tr>
                         <td width="20%" align="center">글내용</td>
-                        <td width="80%" align="left"><textarea id="summernote" rows="10" cols="60" name="content" class="ckeditor"></textarea></td>
+                        <td width="80%" align="left"><textarea id="editor" rows="10" cols="60" name="content" class="ckeditor"></textarea></td>
                     </tr>
                     <tr>
                         <td width="20%" align="center">비밀번호</td>
@@ -126,5 +132,12 @@
     </section>
 
 </body>
-<jsp:include page="/common/bottom.jsp"></jsp:include>
+   <script>
+	    // 3. CKEditor5를 생성할 textarea 지정
+	    ClassicEditor
+	        .create( document.querySelector( '#editor' ));
+	         
+	    </script>
+	
+<jsp:include page="common/bottom.jsp"></jsp:include>
 </html>

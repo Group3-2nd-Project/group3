@@ -24,7 +24,7 @@ $(document).ready(function(){
           $('select').niceSelect();
     };        
 
-    $('.img-pop-up').magnificPopup({
+   $('.img-pop-up').magnificPopup({
         type: 'image',
         gallery:{
         enabled:true

@@ -8,11 +8,7 @@ public class Reboard extends Board{	//답글게시판
 	private int dept;
 	private int step;
 	private int reboardcount;
-	@Override
-	public String toString() {
-		return "BoardForReboard [reboardidx=" + reboardidx + ", ref=" + ref + ", dept=" + dept + ", step=" + step
-				+ ", reboardcount=" + reboardcount + "]";
-	}
+
 	public int getReboardidx() {
 		return reboardidx;
 	}
@@ -44,7 +40,11 @@ public class Reboard extends Board{	//답글게시판
 		this.reboardcount = reboardcount;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "BoardForReboard [reboardidx=" + reboardidx + ", ref=" + ref + ", dept=" + dept + ", step=" + step
+				+ ", reboardcount=" + reboardcount + "]";
+	}
 	
 	
 	

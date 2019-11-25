@@ -5,7 +5,7 @@ public class Board {	//게시판
 	private int idx;
 	private String id;
 	private int bcode;
-	private int tcode;
+	private int tcode;//trade테이블 거래코드 
 	private String title;
 	private String content;
 	private int readnum;
@@ -15,6 +15,7 @@ public class Board {	//게시판
 	private int step;
 	private int cocode;
 	private int reboardcount;	//답글 수
+	
 	public int getIdx() {
 		return idx;
 	}

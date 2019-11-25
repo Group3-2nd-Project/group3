@@ -6,13 +6,7 @@ public class Board_Type {	//게시판 타입
 	private String btype_name;
 
 	
-	@Override
-	public String toString() {
-		return "Board_Type [btype_num=" + btype_num + ", btype_name=" + btype_name + "]";
-	}
-
-
-	public int getBtype_num() {
+    public int getBtype_num() {
 		return btype_num;
 	}
 
@@ -31,6 +25,11 @@ public class Board_Type {	//게시판 타입
 		this.btype_name = btype_name;
 	}
 	
+	@Override
+	public String toString() {
+		return "Board_Type [btype_num=" + btype_num + ", btype_name=" + btype_name + "]";
+	}
+
 	
 	
 }

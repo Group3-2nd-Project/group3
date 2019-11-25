@@ -42,6 +42,7 @@ insert all
  into membergrade(grade, gname) values(2, '관리자')
  select * from dual 
 
+create sequence test1;
 
 insert  into member(id,pwd,name,hp,grade) values('js kim','1004','jsk','1010254-4532',1) 
 

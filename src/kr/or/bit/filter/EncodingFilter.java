@@ -28,6 +28,7 @@ public class EncodingFilter implements Filter {
 		if(request.getCharacterEncoding()==null) {
 			request.setCharacterEncoding(this.encoding); //사실 이 한줄이면 끝
 		}
+		
 		chain.doFilter(request, response);
 	}
  

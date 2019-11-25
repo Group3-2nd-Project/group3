@@ -25,7 +25,7 @@ public class BoardDao {
 
 	}
 
-	public int boardInsert(Board board) {   //글쓰기Dao
+	public int boardInsert(Board board) {//글쓰기Dao
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		
@@ -92,7 +92,7 @@ public class BoardDao {
 		
 	}
 
-	public ArrayList<Board> showBoard(int bcode) {   //글목록 보기
+	public ArrayList<Board> showBoard(int bcode) {//글목록 보기
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -132,7 +132,7 @@ public class BoardDao {
 	}
 	
 	
-	public Board detailBoard(int idx) {   //글 상세 보기
+	public Board detailBoard(int idx) {//글 상세 보기 
 		getReadNum(idx);	//조회수 증가 함수
 		PreparedStatement pstmt =null;
 		Connection conn = null;
@@ -198,7 +198,7 @@ public class BoardDao {
 	}
 	
 	
-	public int editBoard(Board board) {   //글 수정
+	public int editBoard(Board board) {//글 수정
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "update board set title=?, content=? where idx=?";	
@@ -226,7 +226,7 @@ public class BoardDao {
 	}
 	
 	
-	public int deleteBoard(int idx) {   //글 삭제(=ccode 수정)
+	public int deleteBoard(int idx) {//글 삭제(=ccode 수정)
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "update board set cocode=? where idx=?";	
@@ -253,7 +253,7 @@ public class BoardDao {
 	}
 	
 	
-	public ArrayList<Board> searchBoard(int bcode, String keyword) {   //글 검색하기(제목으로 검색)
+	public ArrayList<Board> searchBoard(int bcode, String keyword) {//글 검색하기(제목으로 검색)
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -266,6 +266,8 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bcode);
 			pstmt.setString(2, keyword);
+			//list 어레이에 담는거 수정하기 
+			
 			rs = pstmt.executeQuery();
 			boardlist = new ArrayList<>();
 			if(rs.next()) {
@@ -294,7 +296,7 @@ public class BoardDao {
 	}
 	
 	
-	public int replyInsert(BoardForReply reply) {   //댓글쓰기Dao
+	public int replyInsert(BoardForReply reply) {//댓글쓰기Dao
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "insert into reply(replyidx, idx, replycontent, replyid, replydate, cocode) values(sequence.nextval,?,?,?,sysdate,0)";	//날짜 제외(DB에서 Timestamp로)
@@ -322,7 +324,7 @@ public class BoardDao {
 	}
 	
 	
-	public int deleteReply(int replyidx) {   //댓글 삭제(=cocode 수정)
+	public int deleteReply(int replyidx) {//댓글 삭제(=cocode 수정)
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "update reply set cocode=1 where replyidx=?";	
@@ -347,7 +349,7 @@ public class BoardDao {
 		return resultrow;
 	}
 	
-	public ArrayList<BoardForReply> showreply(int idx) {   //댓글목록 보기
+	public ArrayList<BoardForReply> showreply(int idx) {//댓글목록 보기
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -387,7 +389,7 @@ public class BoardDao {
 	
 	
 	
-	public int reboardInsert(Board board, int idx) {   //답글쓰기Dao
+	public int reboardInsert(Board board, int idx) {//답글쓰기Dao
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -440,7 +442,7 @@ public class BoardDao {
 	}
 	
 
-	public int fileInsert(File file) {   //파일 글쓰기Dao
+	public int fileInsert(File file) {//파일 글쓰기Dao
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "insert into file(fidx, idx, oriname, savename, fsize, cocode) values(sequence.nextval,?,?,?,?,0)";	//날짜 제외(DB에서 Timestamp로)
@@ -450,8 +452,8 @@ public class BoardDao {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, file.getIdx());
-			pstmt.setInt(2, file.getOriname());
-			pstmt.setInt(3, file.getSavename());
+			pstmt.setString(2, file.getOriname());
+			pstmt.setString(3, file.getSavename());
 			pstmt.setInt(4, file.getFsize());
 			
 			resultrow = pstmt.executeUpdate();
@@ -469,7 +471,7 @@ public class BoardDao {
 	}
 	
 	
-	public int deleteFile(int fidx) {   //댓글 삭제(=cocode 수정)
+	public int deleteFile(int fidx) {//댓글 삭제(=cocode 수정)
 		PreparedStatement pstmt =null;
 		Connection conn = null;
 		String sql = "update file set cocode=1 where fidx=?";	
@@ -495,5 +497,46 @@ public class BoardDao {
 	}
 	
 	
+	public int boardInsert(Board board, File file) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
+		String sql = "insert into board (idx, id, bcode, tcode, title, content, readnum, writedate, ref, dept, step, cocode) values (test1.nextval,?,?,?,?,?,0,sysdate,?,0,0,0)";
+		int resultrow = 0;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getId());
+			pstmt.setInt(2, board.getBcode());
+			pstmt.setInt(3, board.getTcode());
+			pstmt.setString(4, board.getTitle());
+			pstmt.setString(5, board.getContent());
+			int refermax = getMaxRefer();
+			int refer = refermax + 1;
+			pstmt.setInt(6, refer);
+			
+			resultrow = pstmt.executeUpdate();
+			
+			int resultForfile = fileInsert(file);
+			
+			if(resultForfile == 0) {
+				System.out.println("파일 저장 실패 ");
+			}
+			
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
 	
+	
+	return resultrow;
+	
+	}
 }

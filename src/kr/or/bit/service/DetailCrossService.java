@@ -25,8 +25,8 @@ public class DetailCrossService implements Action{
       
           try {
              
-         request.setCharacterEncoding("utf-8");
-         response.setContentType("text/html; charset=utf-8");
+           request.setCharacterEncoding("utf-8");
+           response.setContentType("text/html; charset=utf-8");
            String contentId = request.getParameter("contentId");
            String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=4Axvk6PyZ%2FHTR624%2B55Lt3tzBtDrMNWjR3vFCoC6bw8JgQgncE5vRstv58%2BxvNwYhj4Qh0jnrH9W2o1TwhKN0Q%3D%3D&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId="+contentId;
            System.out.println(addr);

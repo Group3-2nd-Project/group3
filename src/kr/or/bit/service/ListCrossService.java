@@ -49,6 +49,7 @@ public class ListCrossService implements Action {
       
               forward = new ActionForward();
               forward.setPath("/Campinglist_json.jsp");
+              
          } catch (Exception e) {
 
             e.printStackTrace();
@@ -58,9 +59,7 @@ public class ListCrossService implements Action {
                bos.close();
             } catch (IOException e) {
                e.printStackTrace();
-            }
-              
-            
+            }        
          }
          return forward;
           

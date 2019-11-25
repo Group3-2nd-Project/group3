@@ -5,15 +5,7 @@ public class Membergrade {	//회원 등급
 	
 	
 	private int grade;
-	private String gname;
-	
-	
-	
-	@Override
-	public String toString() {
-		return "Membergrade [grade=" + grade + ", gname=" + gname + "]";
-	}
-	
+	private String gname;	
 
 	public int getGrade() {
 		return grade;
@@ -28,7 +20,10 @@ public class Membergrade {	//회원 등급
 		this.gname = gname;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Membergrade [grade=" + grade + ", gname=" + gname + "]";
+	}
 	
 	
 	

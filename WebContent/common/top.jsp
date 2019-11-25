@@ -34,7 +34,7 @@
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Used Transaction<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="tradingpage.jsp">판매페이지</a>
+                                        <a class="dropdown-item" href="TradeList.do?bcode=102">판매페이지</a>
                                      
                                     </div>
                                 </li>
