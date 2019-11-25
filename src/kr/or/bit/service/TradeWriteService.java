@@ -60,7 +60,7 @@ public class TradeWriteService implements Action { //수여닝
 			}else {
 				ServletContext sc = request.getSession().getServletContext();
 				String dir = sc.getRealPath("upload");
-				System.out.println("파일 없는 경우 " + dir);
+				System.out.println("파일 있는 경우 " + dir);
 				int size = 1024*1024*10;
 				
 				MultipartRequest multi = new MultipartRequest(
@@ -69,10 +69,10 @@ public class TradeWriteService implements Action { //수여닝
 				String id = multi.getParameter("writer");
 				String bcode = multi.getParameter("bcode");
 				String tcode = multi.getParameter("tcode");
-				 String title = multi.getParameter("title"); 
-				 String content =multi.getParameter("content");
-					System.out.println("title 여기까지 옴?" + title);
-					System.out.println("content 여기까지 옴?" + content);
+				String title = multi.getParameter("title"); 
+				String content =multi.getParameter("content");
+			    System.out.println("title 여기까지 옴?" + title);
+			    System.out.println("content 여기까지 옴?" + content);
 				
 				
 				

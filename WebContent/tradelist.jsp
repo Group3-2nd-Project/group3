@@ -50,9 +50,7 @@ var tradelist = <%=request.getAttribute("tradelist") %>
 console.log(tradelist);
 
 </script>
-
 		<body>
-
 			<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"> 
 			<!-- Start post Area -->
 			<section class="post-area section-gap" style="padding-top:200px;">

@@ -15,7 +15,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+<!--     <link rel="icon" href="img/core-img/favicon.ico"> -->
 
     <!-- Core Stylesheet -->
     <link href="style.css" rel="stylesheet">
@@ -84,7 +84,7 @@ article {
          </div>
 
          <div id="writeForm" class="col-sm-12" style="height: 80%;">
-            <form role="form" action="TradeWrite.do" method="post" id="review"></form>
+            <!-- <form role="form" action="TradeWrite.do" method="post" id="review"></form> -->
 
 
             <div class="row">
@@ -93,8 +93,8 @@ article {
                   <form action="TradeWrite.do" method="post">
                      <table class="table">
                       
-                          <input type="hidden" class="form-control" name="bcode">
-                          <input type="hidden" class="form-control" name="tcode">
+                          <input type="hidden" class="form-control" name="bcode" value = "${param.bcode}">
+                          <input type="hidden" class="form-control" name="tcode" value = "${param.tcode}">
                            
                            <tr>
                            <td><h6>Writer</h6></td>
@@ -118,7 +118,7 @@ article {
                         <tr>
 
                            <td colspan="2" class="text-center">
-                              <button type="submit" id="join-submit" onclick="TradeDetail.do?bcode=102" class="btn dorne-btn" style="width: 200px;">
+                              <button type="submit" id="join-submit" class="btn dorne-btn" style="width: 200px;">
                                  <i class="far fa-check-circle"></i>&nbsp;&nbsp;판매 등록하기
                               </button>
                               <button type="reset" class="btn dorne-btn" style="width: 200px;">
