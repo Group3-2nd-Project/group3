@@ -99,6 +99,7 @@ article {
                            <tr>
                            <td><h6>Writer</h6></td>
                            <td><input type="text" class="form-control" name="writer"></td>
+                           
                         </tr>
                         <tr>
                            <td><h6>Title</h6></td>
