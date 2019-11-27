@@ -45,7 +45,6 @@
                            type: 'get',
                            dataType: 'json',
                            success: function(responsedata){
-                        	   console.log(responsedata);
                         	   var val = responsedata.response.body.items.item; //rdnmadr
                         	   var front = new Set();
                         	   var full = new Set();
@@ -57,7 +56,50 @@
                             		   $('#list'+index).append("<div class='col-sm-4' id=img"+index+"></div>")
                             		   $('#list'+index).append("<div class='col-sm-6' id=content"+index+"></div>")
                             		   $('#list'+index).append("<div class='col-sm-2' id=btt"+index+"></div>")
-                        			    $('#img'+index).append("<img id="+obj.contentid+" name="+obj.contentid+">")
+                            		   $.ajax({          
+                        			   url: 'ZzimListSearch.do',
+                        			   data : {contentId:obj.contentid},
+                                       type: 'get',
+                                       dataType: 'json',
+                                       success: function(responsedata){
+                                    	   if(responsedata.length==0){
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='offheart btn btn btn-outline-secondary' name=off id=heart"+obj.contentid+" background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }else{
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='onheart btn btn btn-outline-secondary' name=on id=heart"+obj.contentid+" background-color:white'><i class='fas fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }
+                                    	   $('#heart'+obj.contentid).click(function(){
+                                     		   var tem = $(this).attr('id');
+                                     		   var temp = $(this).attr('id').substr(5);
+                                     		   var nam = $(this).attr('name');
+                                                 	   if(nam=='off'){
+                                                 		   alert("찜이 추가 되었습니다");
+                                                 		   $.ajax({          
+                                                 			   url: 'ZzimListInsert.do',
+                                                 			   data : {contentId:temp},
+                                                                type: 'get',
+                                                                dataType: 'json',
+                                                                success: function(responsedata){
+                                                                }
+                                                                });
+                                                 		  $(this).children().attr('class', 'fas fa-heart fa-2x');
+                                                 		  $(this).attr('name', 'on');
+                                                            }else if(nam=='on'){
+                                                            	alert("찜이 삭제 되었습니다");
+                                                     	    	$.ajax({          
+                                                      			   url: 'ZzimListDelete.do',
+                                                      			   data : {contentId:temp},
+                                                                     type: 'get',
+                                                                     dataType: 'json',
+                                                                     success: function(responsedata){
+                                                                     }
+                                                                 });
+                                                     	    	$(this).children().attr('class', 'far fa-heart fa-2x');
+                                                     	    	$(this).attr('name', 'off');
+                                                            }
+                                     	   });
+                                       }
+                            		   });
+                        			   $('#img'+index).append("<img id="+obj.contentid+" name="+obj.contentid+">")
                         			    if(obj.firstimage==null){
                         		   			$('#'+obj.contentid).attr("src", "https://t1.daumcdn.net/cfile/tistory/991EC1495AB1EA9112");
                         		   			$('#'+obj.contentid).attr("width", "800px");
@@ -74,7 +116,6 @@
                                			}else{
                                				$('#content'+index).append("전화번호 : "+obj.tel+"<br>");
                                			}
-                               			$('#btt'+index).append("<br><div style='text-align:center; margin:2px'><button class=cheart id=heart"+obj.contentid+" style='border:none; background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i></button></div>")
                                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='detail btn btn btn-outline-secondary' id='"+obj.contentid+"' name='"+obj.contentid+"' value='상세보기' data-toggle='modal' data-target='#myModal"+obj.contentid+"'></div>")
                                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='kmap btn btn btn-outline-secondary' id='"+obj.mapx+"' name='"+obj.mapy+"' value='지도보기' data-toggle='modal' data-target='#mapModal"+obj.contentid+"'></div>")
                                			$('#btt'+index).append("<div class='modal' id=myModal"+obj.contentid+"><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>상세보기</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body' id='de"+obj.contentid+"'></div><div class='modal-footer'><button type='button' class='btn dorne-btn' data-dismiss='modal'>Close</button></div></div></div></div>");
@@ -119,7 +160,6 @@
                         	   $('.detail').click(function(){
                         		   var temp = $(this).attr('id');
                         		   $('#de'+temp).empty();
-                        		   console.log(temp);
                         		   $.ajax({          
                         			   url: 'CampingDetailCrossCK.do',
                         			   data : {contentId:temp},
@@ -131,28 +171,6 @@
                                    			    $('#de'+temp).append("주소 : "+val.addr1+"<br><br>");
                                    			    $('#de'+temp).append("홈페이지 : "+val.homepage+"<br><br>");
                                       			$('#de'+temp).append(val.overview+"<br><br>");
-                                       }
-                                   });
-                        	   });
-                        	   $('.cheart').click(function(){
-                        		   var tem = $(this).attr('id');
-                        		   var temp = $(this).attr('id').substr(5);
-                        		   $('#'+tem).empty();
-                        		   $('#'+tem).append("<i class='fas fa-heart fa-2x' style='color:red;'></i>");
-                        		   $.ajax({          
-                        			   url: 'ZzimListSearch.do',
-                        			   data : {contentId:temp},
-                                       type: 'get',
-                                       dataType: 'json',
-                                       success: function(responsedata){
-                                    	   //var val = responsedata.response.body.items.item; //rdnmadr
-                                    	   if(responsedata.length==0){
-                                    		   console.log("찜이 추가 되었습니다");
-                                    	   }else{
-                                    		   console.log("이미 찜목록에 있습니다");
-                                    	   }
-                                    		console.log(temp);
-                                        	console.log(responsedata);
                                        }
                                    });
                         	   });
@@ -239,6 +257,49 @@ $('#namebutton').click(function(){
             		   $('#list'+index).append("<div class='col-sm-4' id=img"+index+"></div>")
             		   $('#list'+index).append("<div class='col-sm-6' id=content"+index+"></div>")
             		   $('#list'+index).append("<div class='col-sm-2' id=btt"+index+"></div>")
+            		   $.ajax({          
+                        			   url: 'ZzimListSearch.do',
+                        			   data : {contentId:obj.contentid},
+                                       type: 'get',
+                                       dataType: 'json',
+                                       success: function(responsedata){
+                                    	   if(responsedata.length==0){
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='offheart btn btn btn-outline-secondary' name=off id=heart"+obj.contentid+" background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }else{
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='onheart btn btn btn-outline-secondary' name=on id=heart"+obj.contentid+" background-color:white'><i class='fas fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }
+                                    	   $('#heart'+obj.contentid).click(function(){
+                                     		   var tem = $(this).attr('id');
+                                     		   var temp = $(this).attr('id').substr(5);
+                                     		   var nam = $(this).attr('name');
+                                                 	   if(nam=='off'){
+                                                 		   alert("찜이 추가 되었습니다");
+                                                 		   $.ajax({          
+                                                 			   url: 'ZzimListInsert.do',
+                                                 			   data : {contentId:temp},
+                                                                type: 'get',
+                                                                dataType: 'json',
+                                                                success: function(responsedata){
+                                                                }
+                                                                });
+                                                 		  $(this).children().attr('class', 'fas fa-heart fa-2x');
+                                                 		  $(this).attr('name', 'on');
+                                                            }else if(nam=='on'){
+                                                            	alert("찜이 삭제 되었습니다");
+                                                     	    	$.ajax({          
+                                                      			   url: 'ZzimListDelete.do',
+                                                      			   data : {contentId:temp},
+                                                                     type: 'get',
+                                                                     dataType: 'json',
+                                                                     success: function(responsedata){
+                                                                     }
+                                                                 });
+                                                     	    	$(this).children().attr('class', 'far fa-heart fa-2x');
+                                                     	    	$(this).attr('name', 'off');
+                                                            }
+                                     	   });
+                                       }
+                            		   });
         			   $('#img'+index).append("<img id="+obj.contentid+" name="+obj.contentid+">");
         			    if(obj.firstimage==null){
         		   			$('#'+obj.contentid).attr("src", "https://t1.daumcdn.net/cfile/tistory/991EC1495AB1EA9112");
@@ -256,7 +317,6 @@ $('#namebutton').click(function(){
                			}else{
                				$('#content'+index).append("전화번호 : "+obj.tel+"<br>");
                			}
-               			$('#btt'+index).append("<br><div style='text-align:center; margin:2px'><button class=cheart id=heart"+obj.contentid+" style='border:none; background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i></button></div>")
                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='detail btn btn btn-outline-secondary' id='"+obj.contentid+"' name='"+obj.contentid+"' value='상세보기' data-toggle='modal' data-target='#myModal"+obj.contentid+"'></div>")
                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='kmap btn btn btn-outline-secondary' id='"+obj.mapx+"' name='"+obj.mapy+"' value='지도보기' data-toggle='modal' data-target='#mapModal"+obj.contentid+"'></div>")
                			$('#btt'+index).append("<div class='modal' id=myModal"+obj.contentid+"><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>상세보기</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body' id='de"+obj.contentid+"'></div><div class='modal-footer'><button type='button' class='btn dorne-btn' data-dismiss='modal'>Close</button></div></div></div></div>");
@@ -282,7 +342,6 @@ $('#namebutton').click(function(){
         	   $('.detail').click(function(){
         		   var temp = $(this).attr('id');
         		   $('#de'+temp).empty();
-        		   console.log(temp);
         		   $.ajax({          
         			   url: 'CampingDetailCrossCK.do',
         			   data : {contentId:temp},
@@ -296,11 +355,6 @@ $('#namebutton').click(function(){
                       			$('#de'+temp).append(val.overview+"<br><br>");
                        }
                    });
-        	   });
-        	   $('.cheart').click(function(){
-        		   var temp = $(this).attr('id');
-        		   $('#'+temp).empty();
-        		   $('#'+temp).append("<i class='fas fa-heart fa-2x' style='color:red;'></i>");
         	   });
            }
        });
@@ -324,6 +378,49 @@ $('#namebutton').click(function(){
             		   $('#list'+index).append("<div class='col-sm-4' id=img"+index+"></div>")
             		   $('#list'+index).append("<div class='col-sm-6' id=content"+index+"></div>")
             		   $('#list'+index).append("<div class='col-sm-2' id=btt"+index+"></div>")
+            		   $.ajax({          
+                        			   url: 'ZzimListSearch.do',
+                        			   data : {contentId:obj.contentid},
+                                       type: 'get',
+                                       dataType: 'json',
+                                       success: function(responsedata){
+                                    	   if(responsedata.length==0){
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='offheart btn btn btn-outline-secondary' name=off id=heart"+obj.contentid+" background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }else{
+                                    		   $('#btt'+index).prepend("<br><div style='text-align:center; margin:2px'><button class='onheart btn btn btn-outline-secondary' name=on id=heart"+obj.contentid+" background-color:white'><i class='fas fa-heart fa-2x' style='color:red;'></i>찜하기</button></div>")
+                                    	   }
+                                    	   $('#heart'+obj.contentid).click(function(){
+                                     		   var tem = $(this).attr('id');
+                                     		   var temp = $(this).attr('id').substr(5);
+                                     		   var nam = $(this).attr('name');
+                                                 	   if(nam=='off'){
+                                                 		   alert("찜이 추가 되었습니다");
+                                                 		   $.ajax({          
+                                                 			   url: 'ZzimListInsert.do',
+                                                 			   data : {contentId:temp},
+                                                                type: 'get',
+                                                                dataType: 'json',
+                                                                success: function(responsedata){
+                                                                }
+                                                                });
+                                                 		  $(this).children().attr('class', 'fas fa-heart fa-2x');
+                                                 		  $(this).attr('name', 'on');
+                                                            }else if(nam=='on'){
+                                                            	alert("찜이 삭제 되었습니다");
+                                                     	    	$.ajax({          
+                                                      			   url: 'ZzimListDelete.do',
+                                                      			   data : {contentId:temp},
+                                                                     type: 'get',
+                                                                     dataType: 'json',
+                                                                     success: function(responsedata){
+                                                                     }
+                                                                 });
+                                                     	    	$(this).children().attr('class', 'far fa-heart fa-2x');
+                                                     	    	$(this).attr('name', 'off');
+                                                            }
+                                     	   });
+                                       }
+                            		   });
         			    $('#img'+index).append("<img id="+obj.contentid+" name="+obj.contentid+">")
         			    if(obj.firstimage==null){
         		   			$('#'+obj.contentid).attr("src", "https://t1.daumcdn.net/cfile/tistory/991EC1495AB1EA9112");
@@ -341,7 +438,6 @@ $('#namebutton').click(function(){
                			}else{
                				$('#content'+index).append("전화번호 : "+obj.tel+"<br>");
                			}
-               			$('#btt'+index).append("<br><div style='text-align:center; margin:2px'><button class=cheart id=heart"+obj.contentid+" style='border:none; background-color:white'><i class='far fa-heart fa-2x' style='color:red;'></i></button></div>")
                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='detail btn btn btn-outline-secondary' id='"+obj.contentid+"' name='"+obj.contentid+"' value='상세보기' data-toggle='modal' data-target='#myModal"+obj.contentid+"'></div>")
                			$('#btt'+index).append("<div style='text-align:center; margin:2px'><input type='button' class='kmap btn btn btn-outline-secondary' id='"+obj.mapx+"' name='"+obj.mapy+"' value='지도보기' data-toggle='modal' data-target='#mapModal"+obj.contentid+"'></div>")
                			$('#btt'+index).append("<div class='modal' id=myModal"+obj.contentid+"><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>상세보기</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body' id='de"+obj.contentid+"'></div><div class='modal-footer'><button type='button' class='btn dorne-btn' data-dismiss='modal'>Close</button></div></div></div></div>");
@@ -385,7 +481,6 @@ $('#namebutton').click(function(){
         	   $('.detail').click(function(){
         		   var temp = $(this).attr('id');
         		   $('#de'+temp).empty();
-        		   console.log(temp);
         		   $.ajax({          
         			   url: 'CampingDetailCrossCK.do',
         			   data : {contentId:temp},
@@ -399,11 +494,6 @@ $('#namebutton').click(function(){
                       			$('#de'+temp).append(val.overview+"<br><br>");
                        }
                    });
-        	   });
-        	   $('.cheart').click(function(){
-        		   var temp = $(this).attr('id');
-        		   $('#'+temp).empty();
-        		   $('#'+temp).append("<i class='fas fa-heart fa-2x' style='color:red;'></i>");
         	   });
            }
        });

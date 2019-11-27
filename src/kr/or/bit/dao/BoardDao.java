@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import kr.or.bit.dto.Board;
 import kr.or.bit.dto.BoardForReply;
 import kr.or.bit.dto.File;
-import kr.or.bit.utils.DB_Close;
 
 
 public class BoardDao {	

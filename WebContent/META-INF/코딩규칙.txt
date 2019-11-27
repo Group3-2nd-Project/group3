@@ -1,4 +1,4 @@
-코딩 규칙
+코딩 규칙 d
 
 1. 패키지 명(kr.co.kr뒤에 붙임)
 ex)  kr.or.bit.Action

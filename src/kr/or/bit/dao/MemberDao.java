@@ -12,8 +12,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import kr.or.bit.dto.Member;
-import kr.or.bit.utils.ConnectionHelper;
-import kr.or.bit.utils.DB_Close;
 
 
 public class MemberDao {
@@ -158,7 +156,41 @@ public class MemberDao {
 			return resultrow;
 	}
 	
-	
+	public Member myInfoSearch(String id) {		//회원리스트 불러오기
+		Member member = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		member = new Member();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select id, pwd, name, hp, grade from member where id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();	
+			if(rs.next()) {
+				member = new Member();
+				member.setId(rs.getString("id"));
+				member.setPwd(rs.getString("pwd"));
+				member.setName(rs.getString("name"));
+				member.setHp(rs.getString("hp"));
+				member.setGrade(rs.getInt("grade")); 
+			} 
+							
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					pstmt.close();
+					conn.close();//반환
+					rs.close();
+				}catch (Exception e) {
+				}
+			}
+			return member;
+	}
 	public int memberEdit(Member member) {		//회원 수정 (이름,hp,비밀번호)
 		Connection conn = null;
 		PreparedStatement pstmt = null;

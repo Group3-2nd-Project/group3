@@ -2,18 +2,16 @@ package kr.or.bit.service;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.io.CachedOutputStream;
 
 import kr.or.bit.action.Action;
 import kr.or.bit.action.ActionForward;
-
-import org.apache.cxf.helpers.IOUtils;
-import org.apache.cxf.io.CachedOutputStream;
 
 public class DetailCrossService implements Action{
 

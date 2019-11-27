@@ -3,7 +3,6 @@ package kr.or.bit.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;

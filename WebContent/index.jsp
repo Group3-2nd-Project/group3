@@ -46,13 +46,11 @@
         	 $.each(val,function(index, obj) {
         		  var temp = ''+obj.readcount+'';
         		  var option = {v:obj.readcount, f:temp};
-        		  console.log(option);
         		  var option2 = obj.title;
         		  arr[index] = [option2, option];
         		  
         	  });
         	 arr1[0]=arr;
-        	 console.log(arr1[0]);
         	 data.addRows(arr1[0]);
         var table = new google.visualization.Table(document.getElementById('table_div'));
 
@@ -135,11 +133,6 @@
 </style>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="dorne-load"></div>
-    </div>
-
     <!-- ***** Search Form Area ***** -->
     <div class="dorne-search-form d-flex align-items-center">
         <div class="container">
@@ -174,7 +167,7 @@
                     <div class="hero-search-form">
                         <!-- Tabs -->
                         <div class="nav nav-tabs" id="heroTab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true" style ="background-color:#6b8e23;">Places</a>
+                            <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true" style ="background-color:#6b8e23; cursor: default;">Places</a>
                           <!--   <a class="nav-item nav-link" id="nav-events-tab" data-toggle="tab" href="#nav-events" role="tab" aria-controls="nav-events" aria-selected="false">Events</a> -->
                         </div>
                         <!-- Tabs Content -->
