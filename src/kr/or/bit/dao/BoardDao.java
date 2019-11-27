@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -219,7 +220,7 @@ public class BoardDao {
       }
    
    
-   public Board detailBoard(int idx) {   //글 상세 보기
+   public Board detailBoard(int idx, int tcode) {   //글 상세 보기, tcode 파라 미터 추가했어요 !!! 수연이가 
       getReadNum(idx);   //조회수 증가 함수
       PreparedStatement pstmt =null;
       Connection conn = null;
@@ -258,7 +259,7 @@ public class BoardDao {
       return boarddto;
    }
    
-   public File detailFile(int fidx) {//파일 상세 보기 수연
+   public File detailFile(int fidx, int tcode) {//파일 상세 보기 수연 tcode 파라 미터 추가했어요 !!! 수연이가 
 	      getReadNum(fidx);   //조회수 증가 함수
 	      PreparedStatement pstmt =null;
 	      Connection conn = null;
@@ -324,18 +325,19 @@ public class BoardDao {
    }
    
    
-   public int editBoard(Board board) {   //글 수정
+   public int editBoard(Board board) {   //글 수정  //수연이가 오늘 tcode추가했어요~ tcode판매중, 판매완료때문에
       PreparedStatement pstmt =null;
       Connection conn = null;
-      String sql = "update board set title=?, content=? where idx=?";   
+      String sql = "update board set tcode=?, title=?, content=? where idx=?";   
       int resultrow = 0;
       
       try {
          conn = ds.getConnection();
          pstmt = conn.prepareStatement(sql);
-         pstmt.setString(1, board.getTitle());
-         pstmt.setString(2, board.getContent());
-         pstmt.setInt(3, board.getIdx());
+         pstmt.setInt(1, board.getTcode());
+         pstmt.setString(2, board.getTitle());
+         pstmt.setString(3, board.getContent());
+         pstmt.setInt(4, board.getIdx());
          resultrow = pstmt.executeUpdate();
          
       }catch(Exception e) {
@@ -351,20 +353,21 @@ public class BoardDao {
       return resultrow;
    }
    
-   public int editFile(File file) {   //파일글 수정 수연
-	      PreparedStatement pstmt =null;
+   public int editFile(File file, String fidx) {   //파일글 수정 수연
+	      PreparedStatement pstmt = null;
 	      Connection conn = null;
-	      String sql = "update fileupload set oriname=?, savename=?, fsize=?, cocode=?  where fidx=?";   
+	      String sql = "update fileupload set fidx=?, oriname=?, savename=?, fsize=?, cocode=?  where fidx=?";   
 	      int resultrow = 0;
 	      
 	      try {
 	         conn = ds.getConnection();
 	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, file.getOriname());
-	         pstmt.setString(2, file.getSavename());
-	         pstmt.setInt(3, file.getFsize());
-	         pstmt.setInt(4, file.getCocode());
-	         pstmt.setInt(5, file.getFidx());
+	         pstmt.setInt(1, file.getFidx());
+	         pstmt.setString(2, file.getOriname());
+	         pstmt.setString(3, file.getSavename());
+	         pstmt.setInt(4, file.getFsize());
+	         pstmt.setInt(5, file.getCocode());
+	         pstmt.setInt(6, file.getFidx());
 	         resultrow = pstmt.executeUpdate();
 	         
 	      }catch(Exception e) {
@@ -476,7 +479,7 @@ public class BoardDao {
    public int replyInsert(BoardForReply reply) { //댓글쓰기Dao
       PreparedStatement pstmt =null;
       Connection conn = null;
-      String sql = "insert into reply(replyidx, idx, replycontent, replyid, replydate, cocode) values(sequence.nextval,?,?,?,sysdate,0)";   //날짜 제외(DB에서 Timestamp로)
+      String sql = "insert into reply(replyidx, idx, replycontent, replyid, replydate, cocode) values(replyseq.nextval,?,?,?,sysdate,0)";   //날짜 제외(DB에서 Timestamp로)
       
       int resultrow = 0;      
       try {
@@ -618,10 +621,245 @@ public class BoardDao {
       return resultrow;
    }
    
+   public File detailFileBoard(int idx) {   //파일게시판 글 상세 보기  
+       getReadNum(idx);   //조회수 증가 함수
+       PreparedStatement pstmt =null;
+       Connection conn = null;
+       ResultSet rs = null;
+       File file = null;
+       String sql = "select e.idx, e.id, e.bcode, e.tcode, e.title, e.content, e.readnum, e.writedate, f.fidx, f.savename, f.cocode from board e join fileupload f on e.idx = f.idx where e.idx=?";   
+   
+       try {
+          conn = ds.getConnection();
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setInt(1, idx);
+          rs = pstmt.executeQuery();
+          while(rs.next()) {
+            file = new File();
+             file.setIdx(rs.getInt("idx"));
+             file.setId(rs.getString("id"));
+             file.setBcode(rs.getInt("bcode"));
+             file.setTcode(rs.getInt("tcode"));
+             file.setTitle(rs.getString("title"));
+             file.setContent(rs.getString("content"));
+             file.setReadnum(rs.getInt("readnum"));
+             file.setWritedate(rs.getString("writedate"));               
+             file.setFidx(rs.getInt("fidx"));               
+             file.setSavename(rs.getString("savename"));
+             file.setCocode(rs.getInt("cocode"));
+             
+          }
+       }catch(Exception e) {
+          e.printStackTrace();
+       }finally {
+          try {
+             pstmt.close();
+             rs.close();
+             conn.close();//반환
+          }catch (Exception e) {
+             
+          }
+       }
+       System.out.println("디티오 오니?" + file);
 
-   
+       return file;
+    }
 
-   
-   
-   
+   public int totalBoardCount(int bcode) { //토탈 카운트 얻기 
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       ResultSet rs = null;
+       int totalcount = 0;
+       try {
+          conn = ds.getConnection(); //dbcp 연결객체 얻기
+          String sql="select count(*) cnt from board where bcode=? and cocode=0";
+          
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setInt(1, bcode);
+          
+          rs = pstmt.executeQuery();
+          if(rs.next()) {
+             totalcount = rs.getInt("cnt");
+          }
+       }catch (Exception e) {
+          
+       }finally {
+          try {
+             pstmt.close();
+             rs.close();
+             conn.close();//반환  connection pool 에 반환하기
+          }catch (Exception e) {
+             
+          }
+       }
+       return totalcount;
+    }
+ 
+ 
+ public ArrayList<Board> list(int cpage , int pagesize, int bcode){   //페이징처리 함수   (진성오빠)
+       /*
+         [1][2][3][4][5][다음]
+         [이전][6][7][8][9][10][다음]
+         [이전][11][12]   
+         
+         [1] page 크기 > pagesize 정의
+         totaldata > 54건
+         pagesize = 5
+           규칙 > totalpagecount=11 (전체 페이지 개수)
+         
+         int cpage >> currentpage(현재 페이지 번호) >> 1page  ,2page
+         
+          현재 데이터 100건
+         cpage : 1 ,  pagesize : 5  > start(시작글번호) 1 ~ end(글번호) 5
+         cpage : 2 ,  pagesize : 5  > start(시작글번호) 6 ~ end(글번호) 10
+         cpage : 11 , pagesize : 5  > start(시작글번호) 51 ~ end(글번호) 55 
+         -5개씩 묶어서 11번째 묶음을 보여주세요 
+         
+           * 아래 2개의 계층형 페이징처리 쿼리 테스트 하기 
+           * SELECT * FROM ( SELECT ROWNUM rn , idx ,
+           * writer , email, homepage, pwd , subject , content, writedate, readnum
+           * , filename, filesize , refer , depth , step FROM ( SELECT * FROM
+           * jspboard ORDER BY refer DESC , step ASC ) ) WHERE rn BETWEEN ? AND ?;
+           * 
+           * --------------------------------------------------------------------
+           *  select * from ( select rownum rn , idx ,
+           *  writer , email, homepage, pwd , subject , content, writedate, readnum
+           * , filename, filesize , refer , depth , step from ( SELECT * FROM
+           * jspboard ORDER BY refer DESC , step ASC ) where rownum <= 6 --endrow
+           * ) where rn >= 4; --firstrow
+         
+          SELECT * 
+          FROM 
+              ( SELECT ROWNUM rn , idx ,  writer , email, homepage, pwd , subject , content, writedate, readnum
+                           , filename, filesize , refer , depth , step 
+                FROM 
+                       ( SELECT * FROM jspboard ORDER BY refer DESC , step ASC )
+               )
+          WHERE rn BETWEEN 1 AND 5;
+          
+          
+           select * 
+           from
+             ( select rownum rn , idx , writer , email, homepage, pwd , subject , content, writedate, readnum
+                    ,filename, filesize , refer , depth , step 
+               from 
+                    ( SELECT * FROM jspboard ORDER BY refer DESC , step ASC ) 
+               where rownum <= 10 --endrow
+           ) 
+           where rn >= 6; --firstrow
+       */
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       ResultSet rs = null;
+       ArrayList<Board> list = null;
+       try {
+          conn = ds.getConnection();
+          String sql = "select * from " +
+                                     "(select rownum rn,idx,id,bcode,tcode, title, content, writedate, readnum" +
+                                    ",ref, dept, step, cocode" +
+                                     " from ( SELECT * FROM board where bcode=? and cocode=0 ORDER BY ref DESC , step ASC ) "+
+                                    " where rownum <= ?" +  //endrow
+                      ") where rn >= ?"; //startrow
+          pstmt = conn.prepareStatement(sql);
+          //공식같은 로직
+          int start = cpage * pagesize - (pagesize -1); //1 * 5 - (5 - 1) >> 1
+          int end = cpage * pagesize; // 1 * 5 >> 5
+          //
+          pstmt.setInt(1, bcode);
+          pstmt.setInt(2, end);
+          pstmt.setInt(3, start);
+          
+          rs = pstmt.executeQuery();
+          list = new ArrayList<Board>();
+          while(rs.next()) {
+             Board board = new Board();
+             board.setIdx(rs.getInt("idx"));
+             board.setTitle(rs.getString("title"));
+             board.setId(rs.getString("id"));
+             board.setWritedate(rs.getString("writedate"));
+             board.setReadnum(rs.getInt("readnum"));
+             
+             //계층형
+             board.setRef(rs.getInt("ref"));
+             board.setStep(rs.getInt("step"));
+             board.setDept(rs.getInt("dept"));
+             
+             list.add(board);
+          }
+       }catch (Exception e) {
+          System.out.println("오류 :" + e.getMessage());
+       }finally {
+          try {
+             pstmt.close();
+             rs.close();
+             conn.close();//반환
+          } catch (Exception e2) {
+          }
+       }
+       return list;
+    }
+ 
+ 
+ 
+ 
+ public List<File> ReivewFilelist(int cpage , int pagesize, int bcode){   //페이징처리 함수   (인영)
+       System.out.println("현재페이지" + cpage + "페이지사이즈" + pagesize);
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       ResultSet rs = null;
+       ArrayList<File> list = null;
+       try {
+          conn = ds.getConnection();
+          String sql = "select * from (select rownum rn, a.idx, a.id, a.bcode, a.tcode, a.title, a.content, a.writedate, a.readnum, a.fidx, a.savename, a.cocode" +
+                     " from (select e.idx as idx, e.id as id, e.bcode as bcode, e.tcode as tcode, e.title as title, e.content as content, e.readnum as readnum, e.writedate as writedate, f.fidx as fidx, f.oriname as oriname, f.savename as savename, f.fsize as fsize, f.cocode as cocode from fileupload f join board e on f.idx = e.idx where e.bcode=? and f.cocode=0 order by e.ref desc) a" + 
+                     " where rownum <= ?)" + 
+                     " where rn >= ?";
+          pstmt = conn.prepareStatement(sql);
+          //공식같은 로직
+          int start = cpage * pagesize - (pagesize -1); //1 * 5 - (5 - 1) >> 1
+          int end = cpage * pagesize; // 1 * 5 >> 5
+          //
+          pstmt.setInt(1, bcode);
+          pstmt.setInt(2, end);
+          pstmt.setInt(3, start);
+          
+          rs = pstmt.executeQuery();
+          list = new ArrayList<File>();
+          while(rs.next()) {
+            File file = new File();
+                file.setIdx(rs.getInt("idx"));
+                file.setId(rs.getString("id"));
+                file.setTitle(rs.getString("title"));
+                file.setContent(rs.getString("content"));
+                file.setReadnum(rs.getInt("readnum"));
+                file.setWritedate(rs.getString("writedate"));               
+                file.setFidx(rs.getInt("fidx"));               
+                file.setSavename(rs.getString("savename"));
+                System.out.println("savename 나오니" + rs.getString("savename"));
+                file.setCocode(rs.getInt("cocode"));
+                file.setTcode(rs.getInt("tcode"));
+                System.out.println("tcode 나오는지 확인 " + rs.getString("tcode"));
+             
+                list.add(file);
+             //System.out.println("list 나오니?" + list);
+          }
+       }catch (Exception e) {
+          System.out.println("오류 :" + e.getMessage());
+       }finally {
+          try {
+             pstmt.close();
+             rs.close();
+             conn.close();//반환
+          } catch (Exception e2) {
+          }
+       }
+       return list;
+    }
+
+ 
+ 
 }
+
+   
+   
+   

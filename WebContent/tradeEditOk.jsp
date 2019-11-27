@@ -156,15 +156,15 @@
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;
                                                          장소를 여기에 적을거예요.
                            </p>
-                           <p class="address" style="text-align: left">
+                           <p class="address" style="text-align: center">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
                               ${param.id}
                            </p>
-                           <p class="address" style="text-align: left"><!-- 작성일 -->
+                           <p class="address" style="text-align: center"><!-- 작성일 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-calendar-check"></i>&nbsp;&nbsp;
                               ${param.writedate}
                            </p>
-                              <p class="address" style="text-align: left"><!-- 조회수 -->
+                              <p class="address" style="text-align: center"><!-- 조회수 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
                               ${param.readnum}
                            </p>
@@ -174,14 +174,12 @@
             <a href = "TradeEdit.do?bcode=102&tcode=0&idx=${param.idx}&fidx=${param.fidx}" style ="color:#fff;" class="btn mini black">Edit</a></button>
                         <button type="submit" id="deletewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
             <a href = "TradeDelete.do?bcode=102&tcode=0&idx=${param.idx}&fidx=${param.fidx}"   style = "color:#fff;" class="btn mini black">Delete</a></button>
-             <!-- <button type="button" id = "modal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal">Detail View</button>  -->
-                       <!--    <button class="btn btn-default" data-target="#layerpop" data-toggle="modal">모달출력버튼</button><br/>
-				<div class="modal fade" id="layerpop" ></div> -->
+  
                         </div>
                      </div>
                   </div>
                </div>
-         
+
          </div>
       </section>
       </form>

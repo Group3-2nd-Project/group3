@@ -58,7 +58,6 @@
 
 </head>
 
-
 <jsp:include page="/common/top.jsp"></jsp:include>
 <body>
 
@@ -72,18 +71,18 @@
 
       <section class="post-area section-gap" style="padding-top: 10px;">
 
-    <!--      <div class="section-heading text-center animated fadeInDown">
+         <div class="section-heading text-center animated fadeInDown">
             <h2 class="h-bold">
-               <i class="fas fa-campground"></i>&nbsp;&nbsp;Trade Detail
+               <i class="fas fa-campground"></i>&nbsp;&nbsp;Review Detail
             </h2>
-         </div> -->
+         </div>
 
          <div style="text-align: center;">
-            <!-- <a href="ShowReviewWrite.do?bcode=102&tcode=0" class="btn mini blue">
+            <a href="ShowReviewWrite.do?bcode=202&tcode=0" class="btn mini blue">
 
             </a>
- -->
-            <c:set var="detail" value="${requestScope.detailFileBoard}" />
+
+            <c:set var="detail" value="${requestScope.reviewdetail}" />
 
 
             <section class="blog-posts-area section-gap">
@@ -93,12 +92,12 @@
 
                         <div class="single-post">
                         <div style="text-align:left">
-                        <button type="button" class="btn"  value="List" style="margin:2px" onclick="location.href='TradeList.do?bcode=102&tcode=0&cp=${requestScope.cp}&ps=${requestScope.ps}'">
-                        <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;List</button>
+                        <button type="button" class="btn"  value="List" style="margin:2px" onclick="location.href='ReviewList.do?bcode=202&tcode=0&cp=${requestScope.cp}&ps=${requestScope.ps}'"><i class="fas fa-undo-alt"></i>&nbsp;&nbsp;List</button>
                         </div>
                            <ul class="tags">
 
-                              <li><i class="fas fa-angle-right"></i>&nbsp;&nbsp;아이디 |${detail.id}&nbsp;&nbsp;</li>
+                              <li><i class="fas fa-angle-right"></i>&nbsp;&nbsp;아이디 |
+                                 ${detail.id}&nbsp;&nbsp;</li>
                               <li>작성일 | ${detail.writedate}&nbsp;&nbsp;</li>
                               <li>조회수 | ${detail.readnum}&nbsp;&nbsp;</li>
                            </ul>
@@ -106,7 +105,7 @@
                            <hr>
                            <h1>
                               <!-- 제목부분 -->
-                              제목:  ${detail.title} 
+                              제목입니다. ${detail.title} 
                            </h1>
                            <img class="img-fluid" src="upload/${detail.savename}"
                               alt="후기사진입니다" style="width: 50%">
@@ -117,7 +116,7 @@
                               <br>
                               <p>
                                  <!-- 글내용 -->
-                                 내용:  ${detail.content}
+                                 글 내용부분 ${detail.content}
                               </p>
                            </div>
 
@@ -133,12 +132,11 @@
 
                                     <!-- 한개는 comment form으로 사용 -->
                                     <form name="reply"
-                                       action="TradeReplyWrite.do?bcode=102&tcode=0" method="get">
+                                       action="ReviewReplyAdd.do?bcode=202&tcode=0" method="get">
                                        <div class="comment-list">
                                           <div class="single-comment justify-content-between d-flex">
                                              <div class="user justify-content-between d-flex">
-                                                <div class="thumb" style="width:50px; height:20px;">
-                                                
+                                                <div class="thumb">
                                                    <i class="fab fa-replyd fa-5x"></i>
 
                                                 </div>
@@ -146,7 +144,7 @@
                                           
                                                    ID : ${sessionScope.id} <br>
                                                    <textarea id="replycontent" name="replycontent"
-                                                      rows="3" cols="120" style=" resize:none;"></textarea>
+                                                      rows="3" cols="100" style="resize: none;"></textarea>
                                                 </div>
                                              </div>
                                              <input type="hidden" id="idx" name="idx"
@@ -174,19 +172,15 @@
 
 
                                        var param1 = {
-                                              "idx": ${detail.idx},
-                                              
-                                              "bcode": ${detail.bcode},
-                                              
-                                              "tcode": ${detail.tcode}
-                                              
-                                              
+                                              "idx":${detail.idx},
+                                              "bcode":${detail.bcode},
+                                              "tcode":${detail.tcode}
                                                 };
                                        
                                         
                                           function getReplyList() {
                                               $.ajax({
-                                                url:"TradeReplyList.do",
+                                                url:"ShowReviewReply.do",
                                                 dataType:"JSON",
                                                 data: param1,
                                                 type:"get",
@@ -259,14 +253,14 @@
                                           //console.log("들어오니? 댓글아3"+ ${detail.tcode});
                                           
                                                 var param = {
-                                                             "idx":${detail.idx},
+                                                            "idx":${detail.idx},
                                                             "replycontent":$('#replycontent').val(),
                                                             "bcode":${detail.bcode},
                                                             "tcode":${detail.tcode}
                                                           };
                                                 
                                                 $.ajax({
-                                                   url:"TradeReplyWrite.do",
+                                                   url:"ReviewReplyAdd.do",
                                                    data:param,
                                                    success: function(data){
                                                       console.log("댓글 추가 data : " +data);
@@ -306,7 +300,7 @@
       </section>
 
 
-    <!-- End footer Area -->
+      <!-- End footer Area -->
 
       <!--       <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
       <script

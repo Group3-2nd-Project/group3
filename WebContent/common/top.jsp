@@ -25,7 +25,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                                        <a class="dropdown-item" href="ReviewList.do?bcode=202&tcode=0">캠핑장 후기</a>
+                                        <a class="dropdown-item" href="ReviewList.do?bcode=202">캠핑장 후기</a>
                                     
                                     </div>
                                 </li>

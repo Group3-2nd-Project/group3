@@ -148,8 +148,23 @@ function check(){
                         <tr>
 
                            <td><h6>File</h6></td>
-                           <td><input type="file" name="filename" value ="${edit2.oriname}"></td>
+                     
+                           <td>  <img src ="upload/${edit2.oriname}" alt =""/>
+                           <input type="file" name="filename" value ="${edit2.savename}"> </td>
+                           
                            <input type = "hidden" name = "savename" value = "${edit2.savename}">
+                           <input type = "hidden" name ="oriname" value ="${edit2.oriname}">
+                        </tr>
+                           <tr>
+                           <td><h6>Trading status</h6></td>
+                    
+                           <td><input type="radio" class="form-control" name="tcode" id = "tcode" value = "1" checked> 판매중 <br>
+                       
+                       
+                               <input type="radio" class="form-control" name="tcode" id= "tcode"  value = "2"  >판매완료 <br>
+                           </td>
+                    
+                           
                         </tr>
                         
                     

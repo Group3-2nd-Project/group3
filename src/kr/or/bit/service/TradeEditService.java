@@ -26,16 +26,16 @@ public class TradeEditService implements Action { //수여닝
 		System.out.println("에딧뷰단");
 		
 		try {
-			
+			int tcode = Integer.parseInt((String)request.getParameter("tcode")); //tcode오늘 추가요 
 			int bcode = Integer.parseInt((String) request.getParameter("bcode"));
 			int idx = Integer.parseInt((String) request.getParameter("idx"));
 			int fidx = Integer.parseInt((String) request.getParameter("fidx"));
 			
-			System.out.println("에딧뷰단 bcode + idx 들어오나?" + bcode + idx + fidx);
+			System.out.println("에딧뷰단tcode도? bcode + idx 들어오나?" + tcode+ bcode + idx + fidx);
 			
 			BoardDao dao = new BoardDao();
-			Board detailBoard  = dao.detailBoard(idx);
-			File detailFile = dao.detailFile(fidx);
+			Board detailBoard  = dao.detailBoard(idx , tcode);
+			File detailFile = dao.detailFile(fidx, tcode);
 			request.setAttribute("detailBoard", detailBoard);
 			request.setAttribute("detailFile", detailFile);
 			

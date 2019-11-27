@@ -78,12 +78,12 @@
 
          <div class="section-heading text-center animated fadeInDown">
             <h2 class="h-bold">
-               <i class="far fa-list-alt"></i>&nbsp;&nbsp;Trade List
+               <i class="far fa-list-alt"></i>&nbsp;&nbsp;Review List
             </h2>
          </div>
 
          <div style="text-align: center;">
-            <a href="tradeWrite.jsp?bcode=102&tcode=1" class="btn mini blue">
+            <a href="ShowReviewWrite.do?bcode=202&tcode=0" class="btn mini blue">
                <button type="submit" id="reviewbtn" class="btn dorne-btn"
                   style="width: 200px;" onclick="check()">
                   <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;WRITE
@@ -94,7 +94,7 @@
                     <button type="submit" id="button" name="button" class="btn dorne-btn" style ="width: 200px; background-color:#6b8e23;"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
 
 
-     <!--        <div class="single-widget search-widget">
+            <div class="single-widget search-widget">
                <form class="example" action="#" style="margin: auto; max-width: 500px">
                
                                 
@@ -103,7 +103,7 @@
                      <i class="fa fa-search" style="color: #6b8e23"></i>
                   </button>
                </form>
-            </div> -->
+            </div>
             <div class="container">
                <div class="row">
                   <div class="col-sm ">PageSize설정:</div>
@@ -121,7 +121,7 @@
                         </c:forEach>
                      </select>
                   </div>
-                  <div class="col-sm ">&nbsp;&nbsp;&nbsp;&nbsp;총 게시물수 :${totalcount-1}</div>
+                  <div class="col-sm ">&nbsp;&nbsp;&nbsp;&nbsp;총 게시물수 : ${totalcount}</div>
                </div>
                
             </div>
@@ -131,7 +131,7 @@
                   <div class="col-sm ">
                      <!--이전 링크 -->
                      <c:if test="${cp>1}">
-                        <a href="TradeList.do?cp=${cp-1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-left"></i></a>
+                        <a href="ReviewList.do?cp=${cp-1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-left"></i></a>
                         <!--페이지 리스트 구현  -->
                      </c:if>
                      <c:forEach var="i" begin="1" end="${pagecount}" step="1">
@@ -140,19 +140,19 @@
                               <a><u><font color='red'>${i}</font></u></a>
                            </c:when>
                            <c:otherwise>
-                              <a href="TradeList.do?cp=${i}&ps=${ps}&bcode=102">&nbsp;${i}&nbsp;</a>
+                              <a href="ReviewList.do?cp=${i}&ps=${ps}&bcode=202">&nbsp;${i}&nbsp;</a>
                            </c:otherwise>
                         </c:choose>
                      </c:forEach>
                      <!--다음 링크 -->
                      <c:if test="${cp<pagecount}">
-                        <a href="TradeList.do?cp=${cp+1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-right"></i></a>
+                        <a href="ReviewList.do?cp=${cp+1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-right"></i></a>
                      </c:if>
                   </div>
                </div>
             </div>
 
-<!-- 
+
 <div class="news_sch_wrap" style> 
 
 <p> 
@@ -160,77 +160,72 @@
 <input type="text" name="sch_bar" id="sch_bar" placeholder="검색어를 입력해 주세요."> 
 <span ><a href="" class="newBoardSearchBtn"><i class="fa fa-search" style="color: #6b8e23"></i></a></span>
 </p>
-</div> -->
+</div>
 
 
-            <c:forEach var="list" items="${requestScope.boardfile}" varStatus="status">
-            <input type="hidden"  name="idx" value="${list.idx}">
+            <c:forEach var="list" items="${requestScope.reviewlist}" varStatus="status">
                <div class="container">
-
                   <div class="row justify-content-center d-flex"></div>
                   <div class="col-lg-12 post-list">
 
-                     <br>
-
                      <div class="single-post d-flex flex-row">
                         <div class="thumb">
-                        
-                        <img src="upload/${list.savename}" name="oriname" alt="후기사진입니다." style="width: 400px">
-                     
+                           <img src="upload/${list.savename}" alt="후기사진입니다."
+                              style="width: 80%; height: 60%">
                         </div>
-                        <div class="details">
+                        <div class="details" style="margin-top: 1%">
                            <div class="title d-flex flex-row justify-content-between">
-                              <div class="titles"><!-- 제목 -->
-                              <br>
-                                 <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
-                                 <h4 style ="text-align: center">&nbsp;&nbsp; ${list.title}</h4></a> 
-                                  
-                                  
+                              <div class="titles">
+                                 <!-- 제목 -->
+                                 <a href="ShowrReviewDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
+                                    <h4>&nbsp;&nbsp;${list.title}</h4>
+                                 </a>
                               </div>
                            </div>
-                           <p style="text-align: left"> <!-- 글내용 -->
-                              &nbsp;&nbsp;&nbsp;&nbsp; ${list.content}  
+                           <!-- 글내용 -->
+                           <p style="text-align: left">
+                              <c:choose>
+
+                                 <c:when
+                                    test="&nbsp;&nbsp;&nbsp;${list.content != null && fn:length(list.content) > 15}"> ${fn:substring(list.content,0,15)}....</c:when>
+                                 <c:otherwise>
+                                 &nbsp;&nbsp;&nbsp;${list.content}
+                              </c:otherwise>
+                              </c:choose>
                            </p>
-                           <p class="address">
+                           <%--                            <p style="text-align: left">&nbsp;&nbsp; ${list.content}</p>--%>
+                           <p class="address" style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;
-                                                         장소를 여기에 적을거예요.
+                              장소를 여기에 적을거예요.
                            </p>
-                           <p class="address" style="text-align: center">
+                           <p class="address" style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
                               ${list.id}
                            </p>
-                           <p class="address" style="text-align: center"><!-- 작성일 -->
+                           <p class="address" style="text-align: left">
+                              <!-- 작성일 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-calendar-check"></i>&nbsp;&nbsp;
                               ${list.writedate}
                            </p>
-                              <p class="address" style="text-align: center"><!-- 조회수 -->
+                           <p class="address" style="text-align: left">
+                              <!-- 조회수 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
                               ${list.readnum}
                            </p>
-                           <p>${status.count}</p>
-                      
-                           <button type="submit" id="editwbtn" class="btn dorne-btn" style="width: 200px;  onclick="check()">
-            <a href = "TradeEdit.do?bcode=102&tcode=1&idx=${list.idx}&fidx=${list.fidx}" style ="color:#fff;" class="btn mini black">Edit</a></button>
-                        <button type="submit" id="deletewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
-            <a href = "TradeDelete.do?bcode=102&tcode=0&idx=${list.idx}&fidx=${list.fidx}"   style = "color:#fff;" class="btn mini black">Delete</a></button>
-          				<button type="submit" id="tradingbtn" class="btn dorne-btn" style="width: 200px;  onclick="check()">
-            <a href = "#" style ="color:#fff;" class="btn mini black">Trading</a></button>
+
                         </div>
                      </div>
+
                   </div>
+
                </div>
             </c:forEach>
-     
-  
 
-	 
-	    </div>
+         </div>
       </section>
-      
- 
-      
 
-     <!-- End footer Area -->
+
+<!-- End footer Area -->
 
  <!--       <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
    <!--     <script
@@ -254,4 +249,3 @@
 </body>
 
 </html>
-

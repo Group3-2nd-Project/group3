@@ -11,7 +11,7 @@ import kr.or.bit.dao.BoardDao;
 import kr.or.bit.dto.Board;
 import kr.or.bit.dto.File;
 
-public class TradeDetailService implements Action{
+public class ReviewDetailService implements Action{
 
    @Override
    public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
@@ -24,9 +24,9 @@ public class TradeDetailService implements Action{
          int cp = Integer.parseInt(request.getParameter("cp"));
          //System.out.println("idx 목록에서 가져오니?" + idx);
          BoardDao dao = new BoardDao();
-         File detailFileBoard= dao.detailFileBoard(idx);
+         File reviewdetail= dao.detailFileBoard(idx);
          //System.out.println("리뷰 디테일 서비스에서 나오니?" + reviewdetail);
-         request.setAttribute("detailFileBoard", detailFileBoard);
+         request.setAttribute("reviewdetail", reviewdetail);
          request.setAttribute("idx", idx);
          request.setAttribute("ps", ps);
          request.setAttribute("cp", cp);
@@ -34,7 +34,7 @@ public class TradeDetailService implements Action{
 
          //System.out.println(reviewdetail);
              forward = new ActionForward();
-             forward.setPath("/tradedetail.jsp");
+             forward.setPath("/review_detail.jsp");
       } catch (Exception e) {
          
          e.printStackTrace();

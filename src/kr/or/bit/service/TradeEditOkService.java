@@ -73,13 +73,16 @@ public class TradeEditOkService implements Action { //수여닝
 				System.out.println("board 값들 다 들어오나???");
 				
 				File file = new File();
+				file.setFidx(Integer.parseInt(fidx));
 				file.setOriname(orifilename);
 			    file.setSavename(sfilename);
 			    System.out.println("파일도 읽어오나?");
+			    System.out.println("oriname null?" + orifilename);
 			    
 			    BoardDao boarddao = new BoardDao();
 				result = boarddao.editBoard(board);
-				resultrow = boarddao.editFile(file);
+				System.out.println("dao board" +board);
+				resultrow = boarddao.editFile(file ,fidx);
 	
 				System.out.println("board 인서트" + board);
 				System.out.println("file 인서트" + file);
@@ -88,7 +91,7 @@ public class TradeEditOkService implements Action { //수여닝
 				
 				System.out.println("보드 인서트가 잘 되나??? + 에딧 오케이 단");
 				forward = new ActionForward();
-		        forward.setPath("/tradeEditOk.jsp?bcode=" + bcode);
+		        forward.setPath("/TradeList.do?bcode=" + bcode);
 				
 	
 		}catch (Exception e) {

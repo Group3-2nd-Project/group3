@@ -25,6 +25,7 @@ public class TradeWriteService implements Action { //수여닝
 		ActionForward forward = null; 
 
 		int result= 0;
+		int resultrow= 0;
 		
 		try {
 			   System.out.println("여기 왜 안탐?");
@@ -54,8 +55,8 @@ public class TradeWriteService implements Action { //수여닝
 				Enumeration filename = multi.getFileNames();
 				
 				String files = (String)filename.nextElement();
-				String sfilename = multi.getFilesystemName(files);
-				String orifilename = (String)multi.getFilesystemName(files);
+				String oriname = multi.getFilesystemName(files); //수정함
+				String savename = (String)multi.getFilesystemName(files);
 				
 				Board board = new Board();
 				board.setId(id);
@@ -66,16 +67,16 @@ public class TradeWriteService implements Action { //수여닝
 				System.out.println("board 값들 다 들어오나???" );
 				
 				File file = new File();
-				file.setOriname(orifilename);
-			    file.setSavename(sfilename);
+				file.setOriname(oriname);//수정함
+			    file.setSavename(savename);
 			    System.out.println("파일도 읽어오나?");
 			    
 			    BoardDao boarddao = new BoardDao();
 				result = boarddao.boardInsert(board);
-				result = boarddao.fileInsert(file);
+				resultrow = boarddao.fileInsert(file);
 				System.out.println("파일 인서트가 잘 되나???");
 				forward = new ActionForward();
-				forward.setPath("/TradeList.do?bcode=" + bcode);				
+				forward.setPath("/TradeList.do?bcode=" + bcode + "&tcode=0");				
 		        
 				
 	
