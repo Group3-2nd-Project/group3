@@ -258,6 +258,45 @@ public class BoardDao {
       return boarddto;
    }
    
+   public File detailFile(int fidx) {//파일 상세 보기 수연
+	      getReadNum(fidx);   //조회수 증가 함수
+	      PreparedStatement pstmt =null;
+	      Connection conn = null;
+	      ResultSet rs = null;
+	      
+	      File filedto = null;
+	      String sql = "select fidx, idx, oriname, savename, fsize, cocode from fileupload where fidx=?";   
+	   
+	      try {
+	         conn = ds.getConnection();
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, fidx);
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	        	filedto = new File();
+	        	filedto.setFidx(rs.getInt("fidx"));
+	        	filedto.setIdx(rs.getInt("idx"));
+	        	filedto.setOriname(rs.getString("oriname"));
+	        	filedto.setSavename(rs.getString("savename"));
+	        	filedto.setFsize(rs.getInt("fsize"));
+	        	filedto.setCocode(rs.getInt("cocode"));
+	
+	         }
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }finally {
+	         try {
+	            pstmt.close();
+	            rs.close();
+	            conn.close();//반환
+	         }catch (Exception e) {
+	            
+	         }
+	      }
+	      return filedto;
+	   }
+	   
 
    //게시글 조회수 증가 
    public int getReadNum(int idx) {
@@ -312,8 +351,36 @@ public class BoardDao {
       return resultrow;
    }
    
+   public int editFile(File file) {   //파일글 수정 수연
+	      PreparedStatement pstmt =null;
+	      Connection conn = null;
+	      String sql = "update fileupload set oriname=?, savename=?, fsize=?, cocode=?  where fidx=?";   
+	      int resultrow = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, file.getOriname());
+	         pstmt.setString(2, file.getSavename());
+	         pstmt.setInt(3, file.getFsize());
+	         pstmt.setInt(4, file.getCocode());
+	         pstmt.setInt(5, file.getFidx());
+	         resultrow = pstmt.executeUpdate();
+	         
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }finally {
+	         try {
+	            pstmt.close();
+	            conn.close();//반환
+	         }catch (Exception e) {
+	            
+	         }
+	      }
+	      return resultrow;
+	   }
    
-   public int deleteBoard(int idx) {   //글 삭제(=ccode 수정)
+   public int deleteBoard(int idx) {   //글 삭제(=cocode 수정)
       PreparedStatement pstmt =null;
       Connection conn = null;
       String sql = "update board set cocode=? where idx=?";   
@@ -339,8 +406,33 @@ public class BoardDao {
       return resultrow;
    }
    
+   public int deleteFile(int fidx) {   //파일 삭제(=cocode 수정)
+	      PreparedStatement pstmt =null;
+	      Connection conn = null;
+	      String sql = "update fileupload set cocode=1 where fidx=?";   
+	      int resultrow = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, fidx);
+	         resultrow = pstmt.executeUpdate();
+	         
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }finally {
+	         try {
+	            pstmt.close();
+	            conn.close();//반환
+	         }catch (Exception e) {
+	            
+	         }
+	      }
+	      return resultrow;
+	   }
    
-   public ArrayList<Board> searchBoard(int bcode, String keyword) {   //글 검색하기(제목으로 검색)
+   public ArrayList<Board> searchBoard(int bcode, String keyword) {//글 검색하기(제목으로 검색)
+	   
       PreparedStatement pstmt =null;
       Connection conn = null;
       ResultSet rs = null;
@@ -381,7 +473,7 @@ public class BoardDao {
    }
    
    
-   public int replyInsert(BoardForReply reply) {   //댓글쓰기Dao
+   public int replyInsert(BoardForReply reply) { //댓글쓰기Dao
       PreparedStatement pstmt =null;
       Connection conn = null;
       String sql = "insert into reply(replyidx, idx, replycontent, replyid, replydate, cocode) values(sequence.nextval,?,?,?,sysdate,0)";   //날짜 제외(DB에서 Timestamp로)
@@ -528,30 +620,7 @@ public class BoardDao {
    
 
    
-   public int deleteFile(int fidx) {   //댓글 삭제(=cocode 수정)
-      PreparedStatement pstmt =null;
-      Connection conn = null;
-      String sql = "update fileupload set cocode=1 where fidx=?";   
-      int resultrow = 0;
-      
-      try {
-         conn = ds.getConnection();
-         pstmt = conn.prepareStatement(sql);
-         pstmt.setInt(1, fidx);
-         resultrow = pstmt.executeUpdate();
-         
-      }catch(Exception e) {
-         e.printStackTrace();
-      }finally {
-         try {
-            pstmt.close();
-            conn.close();//반환
-         }catch (Exception e) {
-            
-         }
-      }
-      return resultrow;
-   }
+
    
    
    

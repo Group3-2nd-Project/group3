@@ -1,6 +1,6 @@
 package kr.or.bit.dto;
 
-public class File extends Board { //파일게시판
+public class File extends Board { //파일게시판 (fileupload 테이블명)
 	private int fidx; //자료실식별번호
 	private int idx;
 	private String oriname;

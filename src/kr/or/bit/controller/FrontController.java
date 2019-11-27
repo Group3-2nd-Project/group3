@@ -17,7 +17,10 @@ import kr.or.bit.service.ListCrossService;
 import kr.or.bit.service.LoginService;
 import kr.or.bit.service.LogoutService;
 import kr.or.bit.service.SignUpService;
+import kr.or.bit.service.TradeDeleteService;
 import kr.or.bit.service.TradeDetailService;
+import kr.or.bit.service.TradeEditOkService;
+import kr.or.bit.service.TradeEditService;
 import kr.or.bit.service.TradeListService;
 import kr.or.bit.service.TradeWriteService;
 
@@ -60,22 +63,38 @@ public class FrontController extends HttpServlet {
           action = new DetailCrossService();
           forward = action.execute(request, response);
           System.out.println("캠핑API 서비스 갔다왔어요. 지금은 CONTROLLER ");
+          
        }else if(url_Command.equals("/TradeList.do")) { //중고거래 판매 게시글 목록 보기 뚜여닝~^^
            action = new TradeListService();
            forward = action.execute(request, response);
            System.out.println("TradeList 서비스 다녀왔어요 ");  
+           
        }else if(url_Command.equals("/TradeWrite.do")) { //중고거래 판매 게시글 쓰기 ok 뚜여닝~^^
            action = new TradeWriteService();
            forward = action.execute(request, response);
            System.out.println("TradeWrite 서비스 다녀왔어요 "); 
+           
        }else if(url_Command.equals("/TradeDetail.do")) { //중고거래 판매 게시글 디테일 모달 뚜여닝~^^
            action = new TradeDetailService();
            forward = action.execute(request, response);
-           System.out.println("TradeDetail 서비스 다녀왔어요");       
-       }else if(url_Command.equals("/TradeWriteOk.do")) { //중고거래 판매 게시글 디테일 모달 뚜여닝~^^
-           action = new TradeDetailService();
+           System.out.println("TradeDetail 서비스 다녀왔어요");   
+           
+       }else if(url_Command.equals("/TradeEdit.do")) { //중고거래 판매 게시글 디테일 모달 뚜여닝~^^
+           action = new TradeEditService();
            forward = action.execute(request, response);
-           System.out.println("TradeWriteOk 서비스 다녀왔어요");           
+           System.out.println("TradeEdit 서비스 다녀왔어요"); 
+           
+       }else if(url_Command.equals("/TradeEditOk.do")) { //중고거래 판매 게시글 디테일 모달 뚜여닝~^^
+           action = new TradeEditOkService();
+           forward = action.execute(request, response);
+           System.out.println("TradeEditOk 서비스 다녀왔어요"); 
+           
+       }else if (url_Command.equals("/TradeDelete.do")) { //중고거래 판매 게시글 디테일 모달 뚜여닝~^^
+           action = new TradeDeleteService();
+           forward = action.execute(request, response);
+           System.out.println("TradeDelete 서비스 다녀왔어요");    
+       
+           
        }else if(url_Command.equals("/SignUp.do")) { //양찬식 함수에 else if문 추가
            forward = new ActionForward();
            forward.setPath("/signUp.jsp");

@@ -17,7 +17,7 @@ import kr.or.bit.dto.Board;
 import kr.or.bit.dto.File;
 
 
-public class TradeWriteService implements Action { //수여닝
+public class TradeEditOkService implements Action { //수여닝
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,9 +25,11 @@ public class TradeWriteService implements Action { //수여닝
 		ActionForward forward = null; 
 
 		int result= 0;
+		int resultrow =0;
+		
 		
 		try {
-			   System.out.println("여기 왜 안탐?");
+			   System.out.println("에딧 오케이~");
 		     	request.setCharacterEncoding("UTF-8");
 		
 				ServletContext sc = request.getSession().getServletContext();
@@ -42,14 +44,18 @@ public class TradeWriteService implements Action { //수여닝
 				"UTF-8", 
 				new DefaultFileRenamePolicy());
 				
+				String idx = multi.getParameter("idx");
+				String fidx = multi.getParameter("fidx");
 				String id = multi.getParameter("id");
 				String bcode = multi.getParameter("bcode");
 				String tcode = multi.getParameter("tcode");
 				String title = multi.getParameter("title"); 
 				String content =multi.getParameter("content");
+				System.out.println("idx 옴?"  + idx);
 			    System.out.println("title 여기까지 옴?" + title);
 			    System.out.println("content 여기까지 옴?" + content);
 			    System.out.println("id 는? 들어오냐?" + id);
+			    System.out.println("fidx 는 왜 안 들어오지?"  +fidx);
 		
 				Enumeration filename = multi.getFileNames();
 				
@@ -58,12 +64,13 @@ public class TradeWriteService implements Action { //수여닝
 				String orifilename = (String)multi.getFilesystemName(files);
 				
 				Board board = new Board();
+				board.setIdx(Integer.parseInt(idx));
 				board.setId(id);
 				board.setBcode(Integer.parseInt(bcode));
 				board.setTcode(Integer.parseInt(tcode));
 				board.setTitle(title);
 				board.setContent(content);
-				System.out.println("board 값들 다 들어오나???" );
+				System.out.println("board 값들 다 들어오나???");
 				
 				File file = new File();
 				file.setOriname(orifilename);
@@ -71,12 +78,17 @@ public class TradeWriteService implements Action { //수여닝
 			    System.out.println("파일도 읽어오나?");
 			    
 			    BoardDao boarddao = new BoardDao();
-				result = boarddao.boardInsert(board);
-				result = boarddao.fileInsert(file);
-				System.out.println("파일 인서트가 잘 되나???");
+				result = boarddao.editBoard(board);
+				resultrow = boarddao.editFile(file);
+	
+				System.out.println("board 인서트" + board);
+				System.out.println("file 인서트" + file);
+				System.out.println("result값은 뭐지?" + result);
+				System.out.println("resultrow값은?" + resultrow);
+				
+				System.out.println("보드 인서트가 잘 되나??? + 에딧 오케이 단");
 				forward = new ActionForward();
-				forward.setPath("/TradeList.do?bcode=" + bcode);				
-		        
+		        forward.setPath("/tradeEditOk.jsp?bcode=" + bcode);
 				
 	
 		}catch (Exception e) {

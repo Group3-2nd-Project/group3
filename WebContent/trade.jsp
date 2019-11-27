@@ -1,4 +1,4 @@
-<%-- <%@page import="kr.or.bit.dto.Board"%>
+<%@page import="kr.or.bit.dto.Board"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -111,9 +111,12 @@
             
             <button type="submit" id="reviewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
             <a href = "tradeWrite.jsp?bcode=102&tcode=0" class="btn mini black">Write</a></button>
-            
+        
 
-            <c:forEach var="detail" items="${requestScope.tradedetail}" varStatus="status">
+            
+             <input type="hidden"  name="idx" value="${param.idx}">
+             <input type="hidden"  name="fidx" value="${param.fidx}">
+             <input type="hidden"  name="bcode" value="${param.bcode}">
                <div class="container">
 
                   <div class="row justify-content-center d-flex"></div>
@@ -124,17 +127,17 @@
                      <div class="single-post d-flex flex-row">
                         <div class="thumb">
                         
-                        <img src="upload/${detail.savename}" alt="후기사진입니다." style="width: 400px">
+                        <img src="upload/${delete.savename}" alt="후기사진입니다." style="width: 400px">
                         </div>
                         <div class="details">
                            <div class="title d-flex flex-row justify-content-between">
                               <div class="titles"><!-- 제목 -->
                               <br>
-                                 <a href="single.html"><h4>&nbsp;&nbsp; ${detail.title}</h4></a> 
+                                 <a href="single.html"><h4>&nbsp;&nbsp; ${param.title}</h4></a> 
                               </div>
                            </div>
                            <p style="text-align: left"> <!-- 글내용 -->
-                              &nbsp;&nbsp;&nbsp;&nbsp; ${detail.content}  
+                              &nbsp;&nbsp;&nbsp;&nbsp; ${param.content}  
                            </p>
                            <p class="address">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;
@@ -142,15 +145,15 @@
                            </p>
                            <p class="address" style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
-                              ${detail.id}
+                              ${param.id}
                            </p>
                            <p class="address" style="text-align: left"><!-- 작성일 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-calendar-check"></i>&nbsp;&nbsp;
-                              ${detail.writedate}
+                              ${param.writedate}
                            </p>
                               <p class="address" style="text-align: left"><!-- 조회수 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
-                              ${detail.readnum}
+                              ${param.readnum}
                            </p>
                            <p>${status.count}</p>
     <button type="button" id = "modal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal">Detail View</button> 
@@ -160,7 +163,6 @@
                      </div>
                   </div>
                </div>
-            </c:forEach>
          </div>
       </section>
 
@@ -190,4 +192,3 @@
 
 </html>
 
- --%>

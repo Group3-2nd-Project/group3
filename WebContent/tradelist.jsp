@@ -45,21 +45,26 @@
 <link rel="stylesheet" href="css/linearicons.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
+<link rel="stylesheet" href="css/magnific-popup.css"> 
 <link rel="stylesheet" href="css/nice-select.css">
 <link rel="stylesheet" href="css/animate.min.css">
 <link rel="stylesheet" href="css/owl.carousel.css">
 <link rel="stylesheet" href="css/main.css">
 
 <!-- jquery 추가함 iy -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <style type ="text/css">
+
+  
+  </style>
 <script>
 
 	$(document).ready(function() {
-	    $('.modal').show();
+	    $('#modal').show();
 	});
 
 	
@@ -100,7 +105,7 @@
    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)">
       <!-- Start post Area -->
 
-
+     
 
       <section class="post-area section-gap" style="padding-top: 200px;">
 
@@ -111,12 +116,14 @@
          </div>
 
          <div style="text-align: center;">
+         
             
             <button type="submit" id="reviewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
-            <a href = "tradeWrite.jsp?bcode=102&tcode=0" class="btn mini black">Write</a></button>
+            <a href = "tradeWrite.jsp?bcode=102&tcode=0" class="btn mini black" style = "color:#fff;">Write</a></button>
             
 
             <c:forEach var="list" items="${requestScope.boardfile}" varStatus="status">
+            <input type="hidden"  name="idx" value="${list.idx}">
                <div class="container">
 
                   <div class="row justify-content-center d-flex"></div>
@@ -135,7 +142,6 @@
                               <br>
                                  <a href="single.html"><h4>&nbsp;&nbsp; ${list.title}</h4></a> 
                               </div>
-
                            </div>
                            <p style="text-align: left"> <!-- 글내용 -->
                               &nbsp;&nbsp;&nbsp;&nbsp; ${list.content}  
@@ -157,31 +163,30 @@
                               ${list.readnum}
                            </p>
                            <p>${status.count}</p>
-
-
-
-
-
-             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="modal">Detail View</button>
-
+                      
+                           <button type="submit" id="editwbtn" class="btn dorne-btn" style="width: 200px;  onclick="check()">
+            <a href = "TradeEdit.do?bcode=102&tcode=0&idx=${list.idx}&fidx=${list.fidx}" style ="color:#fff;" class="btn mini black">Edit</a></button>
+                        <button type="submit" id="deletewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
+            <a href = "TradeDelete.do?bcode=102&tcode=0&idx=${list.idx}&fidx=${list.fidx}"   style = "color:#fff;" class="btn mini black">Delete</a></button>
+             <!-- <button type="button" id = "modal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal">Detail View</button>  -->
+                       <!--    <button class="btn btn-default" data-target="#layerpop" data-toggle="modal">모달출력버튼</button><br/>
+				<div class="modal fade" id="layerpop" ></div> -->
                         </div>
                      </div>
-
                   </div>
-
                </div>
             </c:forEach>
+     
          </div>
       </section>
 
+     <!-- End footer Area -->
 
-      <!-- End footer Area -->
-
-       <script src="js/vendor/jquery-2.2.4.min.js"></script>
-       <script
+ <!--       <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
+   <!--     <script
          src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-         crossorigin="anonymous"></script>
+         crossorigin="anonymous"></script> -->
       <script src="js/vendor/bootstrap.min.js"></script>
       <!--    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script> -->
       <script src="js/easing.min.js"></script>

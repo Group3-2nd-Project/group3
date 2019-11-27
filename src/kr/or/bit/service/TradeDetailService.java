@@ -17,10 +17,10 @@ public class TradeDetailService implements Action{ //수여닝
 		ActionForward forward = null;
 		
 		try {
-			int id  = Integer.parseInt((String) request.getParameter("id"));
-			System.out.println("bcode가 여기까지 옴?" + id);
+			int idx  = Integer.parseInt((String) request.getParameter("idx"));
+			System.out.println("idx로 글 상세보기" + idx);
 			BoardDao dao = new BoardDao();
-		    Board tradedetail = dao.detailBoard(id);
+		    Board tradedetail = dao.detailBoard(idx);
 		    request.setAttribute("tradedetail", tradedetail);
 		    
 		    forward = new ActionForward();

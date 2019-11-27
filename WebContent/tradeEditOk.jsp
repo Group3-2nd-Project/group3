@@ -1,4 +1,4 @@
-<%-- <%@page import="kr.or.bit.dto.Board"%>
+<%@page import="kr.or.bit.dto.Board"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -45,7 +45,7 @@
 <link rel="stylesheet" href="css/linearicons.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
+<link rel="stylesheet" href="css/magnific-popup.css"> 
 <link rel="stylesheet" href="css/nice-select.css">
 <link rel="stylesheet" href="css/animate.min.css">
 <link rel="stylesheet" href="css/owl.carousel.css">
@@ -61,7 +61,15 @@
 
   
   </style>
+<script>
 
+	$(document).ready(function() {
+	    $('#modal').show();
+	});
+
+	
+
+</script>
 </head>
 
 <jsp:include page="/common/top.jsp"></jsp:include>
@@ -97,7 +105,7 @@
    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)">
       <!-- Start post Area -->
 
-
+           <form action="TradeEditOk.do" method="post" enctype="multipart/form-data">
 
       <section class="post-area section-gap" style="padding-top: 200px;">
 
@@ -108,12 +116,21 @@
          </div>
 
          <div style="text-align: center;">
+         
             
             <button type="submit" id="reviewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
-            <a href = "tradeWrite.jsp?bcode=102&tcode=0" class="btn mini black">Write</a></button>
+            <a href = "tradeWrite.jsp?bcode=102&tcode=0" class="btn mini black" style = "color:#fff;">Write</a></button>
             
 
-            <c:forEach var="detail" items="${requestScope.tradedetail}" varStatus="status">
+     <%--        <c:forEach var="edit" items="${requestScope.detailBoard}" varStatus="status">
+             <c:forEach var="edit2" items="${requestScope.detailFile}" varStatus="status"> --%>
+            <input type="hidden" name="idx" value="${param.idx}">
+            <input type="hidden" name="bcode" value="${param.bcode}">
+            <input type="hidden" name="tcode" value="${param.tcode}">
+            <input type="hidden" name="fidx" value="${param.fidx}">
+            
+            
+            
                <div class="container">
 
                   <div class="row justify-content-center d-flex"></div>
@@ -122,19 +139,18 @@
                      <br>
 
                      <div class="single-post d-flex flex-row">
-                        <div class="thumb">
-                        
-                        <img src="upload/${detail.savename}" alt="후기사진입니다." style="width: 400px">
+                        <div class="oriname" name ="oriname">
+                           <img name = "oriname" src="upload/${param.oriname}" alt="후기사진입니다." style="width: 400px">
                         </div>
                         <div class="details">
                            <div class="title d-flex flex-row justify-content-between">
                               <div class="titles"><!-- 제목 -->
                               <br>
-                                 <a href="single.html"><h4>&nbsp;&nbsp; ${detail.title}</h4></a> 
+                                 <a href="single.html"><h4>&nbsp;&nbsp;${param.title}</h4></a> 
                               </div>
                            </div>
-                           <p style="text-align: left"> <!-- 글내용 -->
-                              &nbsp;&nbsp;&nbsp;&nbsp; ${detail.content}  
+                           <p style="text-align: left" name="content"> <!-- 글내용 -->
+                              &nbsp;&nbsp;&nbsp;&nbsp;${param.content}  
                            </p>
                            <p class="address">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;
@@ -142,30 +158,35 @@
                            </p>
                            <p class="address" style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
-                              ${detail.id}
+                              ${param.id}
                            </p>
                            <p class="address" style="text-align: left"><!-- 작성일 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-calendar-check"></i>&nbsp;&nbsp;
-                              ${detail.writedate}
+                              ${param.writedate}
                            </p>
                               <p class="address" style="text-align: left"><!-- 조회수 -->
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
-                              ${detail.readnum}
+                              ${param.readnum}
                            </p>
                            <p>${status.count}</p>
-    <button type="button" id = "modal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal">Detail View</button> 
-     
-				
+                      
+                           <button type="submit" id="editwbtn" class="btn dorne-btn" style="width: 200px;  onclick="check()">
+            <a href = "TradeEdit.do?bcode=102&tcode=0&idx=${param.idx}&fidx=${param.fidx}" style ="color:#fff;" class="btn mini black">Edit</a></button>
+                        <button type="submit" id="deletewbtn" class="btn dorne-btn" style="width: 200px;" onclick="check()">
+            <a href = "TradeDelete.do?bcode=102&tcode=0&idx=${param.idx}&fidx=${param.fidx}"   style = "color:#fff;" class="btn mini black">Delete</a></button>
+             <!-- <button type="button" id = "modal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal">Detail View</button>  -->
+                       <!--    <button class="btn btn-default" data-target="#layerpop" data-toggle="modal">모달출력버튼</button><br/>
+				<div class="modal fade" id="layerpop" ></div> -->
                         </div>
                      </div>
                   </div>
                </div>
-            </c:forEach>
+         
          </div>
       </section>
+      </form>
 
-
-      <!-- End footer Area -->
+     <!-- End footer Area -->
 
  <!--       <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
    <!--     <script
@@ -190,4 +211,3 @@
 
 </html>
 
- --%>
