@@ -34,7 +34,7 @@ public class BoardWriteService implements Action {
 		
 		
 		
-		System.out.println("보드라이트 서비스 초입.. 여기까지 도 왜 안와??");
+		System.out.println("------------------보드라이트 서비스 초입.. 여기까지 도 왜 안와??-------------------------------");
 		 Board board = new Board();
 		 File file = new File();
 		  ActionForward	forward = null;
@@ -48,30 +48,43 @@ public class BoardWriteService implements Action {
 			  request.setCharacterEncoding("UTF-8");
 			  
 			  String mybcode = request.getParameter("bcode");
-			  String writer  = request.getParameter("writer");
-			  int idx = Integer.parseInt(request.getParameter("idx"));
-			  
-			  System.out.println("글쓴이..." + writer);
-			  System.out.println(request.getParameter("bcode"));
 			  System.out.println("bcode는 여기까지 잘 왔을까??" + mybcode);
+			  
+			  String writer  = request.getParameter("id");
+			  System.out.println("글쓴이..." + writer);
+			  
+			  
+			  
+			  
+		      int cp = Integer.parseInt((String) request.getParameter("cp"));
+		      System.out.println("current page 여기까지 올까??" + cp);
+		      int ps = Integer.parseInt((String) request.getParameter("ps"));
+		      System.out.println("page Size 여기까지 올까??" + ps);
+		      int zcode = Integer.parseInt((String) request.getParameter("zcode"));
+		      System.out.println("zcode 여기까지 올까??" + zcode);
+		      int idx = Integer.parseInt(request.getParameter("idx"));
 			  System.out.println("답글의 원본글 번호 여기까지 왔을까?"+idx);
+			  
+			  
+			  
+			  
 			  
 			  BoardDao boarddao = new BoardDao(); 
 			  
 			  if(idx != 0) {
-				  board.setId(request.getParameter("writer"));
+				  board.setId(request.getParameter("id"));
 					 board.setBcode(Integer.parseInt(request.getParameter("bcode")));
 					 board.setTcode(Integer.parseInt(request.getParameter("tcode")));
-					 board.setTitle(request.getParameter("subject")); 
+					 board.setTitle(request.getParameter("title")); 
 					 board.setContent(request.getParameter("content")); 
 					 
 					 result = boarddao.reboardInsert(board,idx);
 			  }else if(mybcode.equals("401") || mybcode.equals("303")) {
 				  System.out.println("파일이 없을 경우 여기 와야함");
-				  board.setId(request.getParameter("writer"));
+				  board.setId(request.getParameter("id"));
 					 board.setBcode(Integer.parseInt(request.getParameter("bcode")));
 					 board.setTcode(Integer.parseInt(request.getParameter("tcode")));
-					 board.setTitle(request.getParameter("subject")); 
+					 board.setTitle(request.getParameter("title")); 
 					 board.setContent(request.getParameter("content")); 
 					 
 					 result = boarddao.boardInsert(board);
@@ -91,10 +104,10 @@ public class BoardWriteService implements Action {
 						new DefaultFileRenamePolicy()
 						);
 
-				String id = multi.getParameter("writer");
+				String id = multi.getParameter("id");
 				String bcode  = multi.getParameter("bcode");
 				String tcode = multi.getParameter("tcode");
-				String title = multi.getParameter("subject");
+				String title = multi.getParameter("title");
 				String content = multi.getParameter("content");
 				
 
@@ -129,6 +142,9 @@ public class BoardWriteService implements Action {
 			 
 			  	  
                  request.setAttribute("bcode", mybcode);
+                 request.setAttribute("cp", cp);
+                 request.setAttribute("ps", ps);
+                 request.setAttribute("zcode", zcode);
 			  	  
 		  }catch (Exception e) {
 			e.printStackTrace();

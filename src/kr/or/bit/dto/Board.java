@@ -15,8 +15,31 @@ public class Board {	//게시판
 	private int step;
 	private int cocode;
 	private int reboardcount;	//답글 수
+	private int ps;
+	private int cp;
+	private int zcode;
 	
 	
+	
+	
+	public int getPs() {
+		return ps;
+	}
+	public void setPs(int ps) {
+		this.ps = ps;
+	}
+	public int getCp() {
+		return cp;
+	}
+	public void setCp(int cp) {
+		this.cp = cp;
+	}
+	public int getZcode() {
+		return zcode;
+	}
+	public void setZcode(int zcode) {
+		this.zcode = zcode;
+	}
 	public int getIdx() {
 		return idx;
 	}
@@ -99,8 +122,12 @@ public class Board {	//게시판
 	public String toString() {
 		return "Board [idx=" + idx + ", id=" + id + ", bcode=" + bcode + ", tcode=" + tcode + ", title=" + title
 				+ ", content=" + content + ", readnum=" + readnum + ", writedate=" + writedate + ", ref=" + ref
-				+ ", dept=" + dept + ", step=" + step + ", cocode=" + cocode + ", reboardcount=" + reboardcount + "]";
+				+ ", dept=" + dept + ", step=" + step + ", cocode=" + cocode + ", reboardcount=" + reboardcount
+				+ ", ps=" + ps + ", cp=" + cp + ", zcode=" + zcode + "]";
 	}
+	
+	
+	
 	
 	
 	

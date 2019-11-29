@@ -113,11 +113,21 @@ display : none;
                         <input type="hidden" name='idx' value='${board.idx }' />
                         <input type="hidden" name="bcode" value='${board.bcode}'>
                         <input type="hidden" name="tcode" value='${board.tcode}'>
+                        <input type="hidden" name="cp" value='${board.cp}'>
+                        <input type="hidden" name="ps" value='${board.ps}'>
+                        <input type="hidden" name="zcode" value='0'>
+                       
         				 <button type="submit">답글 쓰기</button>
       					</form>
       					
+      					
+      					
+      					
       					<form action="boardList.do" method="get" target="_blank">
-      					<input type="hidden" name="bcode" value='${board.bcode}'>
+      					<input type="hidden" name='cp' value='${param.cp }' />
+      					<input type="hidden" name='ps' value='${param.ps }' />
+                        <input type="hidden" name="bcode" value='${board.bcode}'>
+                        <input type="hidden" name="zcode" value='0'>
         				 <button type="submit">목록</button>
       					</form>
                             

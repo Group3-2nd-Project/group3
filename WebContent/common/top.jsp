@@ -44,8 +44,9 @@
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Service Center<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="boardList.do?bcode=401">Notice</a>
-                                        <a class="dropdown-item" href="boardList.do?bcode=401">Q&A</a>
+                                        <a class="dropdown-item" href="boardList.do?bcode=303&cp=1&ps=10&zcode=0">Notice</a>
+                                        <a class="dropdown-item" href="boardList.do?bcode=401&cp=1&ps=10&zcode=0
+                                        ">Q&A</a>
                                     </div>
                                 </li>
                                 

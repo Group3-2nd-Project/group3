@@ -268,7 +268,7 @@ public class BoardDao {
 			String sql = "select * from " +
 			                           "(select rownum rn,idx,id,bcode,tcode, title, content, writedate, readnum" +
 				                       ",ref, dept, step, cocode" +
-			                           " from ( SELECT * FROM board where bcode=? and cocode=0 ORDER BY refer DESC , step ASC ) "+
+			                           " from ( SELECT * FROM board where bcode=? ORDER BY ref DESC , step ASC ) "+
 				                       " where rownum <= ?" +  //endrow
 				         ") where rn >= ?"; //startrow
 			pstmt = conn.prepareStatement(sql);
@@ -285,15 +285,19 @@ public class BoardDao {
 			while(rs.next()) {
 				Board board = new Board();
 				board.setIdx(rs.getInt("idx"));
-				board.setTitle(rs.getString("subject"));
-				board.setId(rs.getString("writer"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
 				board.setWritedate(rs.getString("writedate"));
 				board.setReadnum(rs.getInt("readnum"));
+				board.setCocode(rs.getInt("cocode"));
+				board.setBcode(rs.getInt("bcode"));
 				
 				//계층형
 				board.setRef(rs.getInt("ref"));
 				board.setStep(rs.getInt("step"));
-				board.setDept(rs.getInt("dept"));
+				board.setDept(rs.getInt("dept"));				
+				board.setCp(cpage);
+				board.setPs(pagesize);
 				
 				list.add(board);
 			}
@@ -313,6 +317,68 @@ public class BoardDao {
 		return list;
 	}
 	
+	//서치기능을 위한 리스트 함수
+	public ArrayList<Board> list(int cpage , int pagesize, int bcode, String searchword){
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		try {
+			conn = ds.getConnection();
+			String sql = "select * from " +
+			                           "(select rownum rn,idx,id,bcode,tcode, title, content, writedate, readnum" +
+				                       ",ref, dept, step, cocode" +
+			                           " from ( SELECT * FROM board where bcode=? and cocode=0 and (title like '%"+ searchword + "%' or content like '%"+searchword+"%') ORDER BY ref DESC , step ASC ) "+
+				                       " where rownum <= ?" +  //endrow
+				         ") where rn >= ?"; //startrow
+			pstmt = conn.prepareStatement(sql);
+			//공식같은 로직
+			int start = cpage * pagesize - (pagesize -1); //1 * 5 - (5 - 1) >> 1
+			int end = cpage * pagesize; // 1 * 5 >> 5
+			//
+			pstmt.setInt(1, bcode);			
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Board>();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setIdx(rs.getInt("idx"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setReadnum(rs.getInt("readnum"));
+				board.setCocode(rs.getInt("cocode"));
+				board.setBcode(rs.getInt("bcode"));
+				
+				//계층형
+				board.setRef(rs.getInt("ref"));
+				board.setStep(rs.getInt("step"));
+				board.setDept(rs.getInt("dept"));				
+				board.setCp(cpage);
+				board.setPs(pagesize);
+				
+				list.add(board);
+			}
+			
+		}catch (Exception e) {
+			System.out.println("오류 :" + e.getMessage());
+		}finally {
+			try {
+				pstmt.close();
+				rs.close();
+				conn.close();//반환
+			} catch (Exception e2) {
+				
+			}
+		}
+			
+		return list;
+	}
+	
+	
 	public int totalBoardCount(int bcode) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -320,7 +386,7 @@ public class BoardDao {
 		int totalcount = 0;
 		try {
 			conn = ds.getConnection(); //dbcp 연결객체 얻기
-			String sql="select count(*) cnt from board where bcode=? and cocode=0";
+			String sql="select count(*) cnt from board where bcode=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bcode);

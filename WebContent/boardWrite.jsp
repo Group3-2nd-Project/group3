@@ -1,6 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <% session.setAttribute("id", "csy"); %>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,15 +57,7 @@
 		
 		
 		
-		//console.log(tableCode);
-		console.log("이거 왜 안돼");
 		
-		//$('#myform').attr("action","boardList.do?bcode="+tableCode); //
-		
-		//$('#bcode').val(tableCode);
-		//$('#tcode').val(tradeCode);
-		
-		//console.log($('#bcode').val());
 		
 		
 		if(tableCode == 102) {
@@ -131,7 +124,7 @@ display : none;
         
            	 <!-- <div id="summernote">Hello Summernote</div> -->
             <!-- form 시작 ---------->
-            <form id="myform" action='boardWrite.do' name="bbs"  method="POST">
+            <form id="myform" action='boardWrite.do?' name="bbs"  method="POST">
         
                 <table width="95%" border="3" align="center">
                     <tr>
@@ -151,17 +144,32 @@ display : none;
                     
                     <tr id="file1">
                         <td width="20%" align="center">첨부파일</td>
-                        <td width="80%" align="left"><input type="file" name="filename"></td>                       
+                        <td width="80%" align="left"><input type="file" name="filename"></td>   
+                        <td>
+                        <input id="bcode" type="hidden" name="bcode" value='${requestScope.bcode }'>                        
+                        <input id="tcode" type="hidden" name="tcode" value='${requestScope.tcode }'>
+                        
+                        
+                        <c:choose>
+                        <c:when test="${requestScope.idx != null }">
+                        <input  type="hidden" name="idx" value='${requestScope.idx }'>
+                        </c:when>
+                        <c:otherwise>
+                        <input  type="hidden" name="idx" value='0'>
+                        </c:otherwise>
+                        </c:choose>
+                                               
+                         
+                        <input id="bcode" type="hidden" name="ps" value='${requestScope.ps }'>                        
+                        <input id="tcode" type="hidden" name="cp" value='${requestScope.cp }'>                       
+                        <input id="tcode" type="hidden" name="zcode" value='0'> 
+                        </td>
+                                            
                     </tr>
                     
-                    <tr id="dataForM">
-                        <td width="20%" align="center">게시판코드</td>
-                        <td width="80%" align="left"><input id="bcode" type="text" name="bcode" value='${param.bcode }'></td>
-                        <td width="20%" align="center">거래코드</td>
-                        <td width="80%" align="left"><input id="tcode" type="text" name="tcode" value='${param.tcode }'></td>
-                        <td width="20%" align="center">답글 쓸 때 원본글 번호</td>
-                        <td width="80%" align="left"><input id="tcode" type="text" name="idx" value='${param.idx }'></td>                       
-                    </tr>
+                   
+                                            
+                    
                     
                     <tr>
                         <td colspan="2" align="center">
