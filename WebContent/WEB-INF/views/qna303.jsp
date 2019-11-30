@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -562,6 +563,7 @@ function showlist() {
 					$.each(responsedata,function(index, obj){
 				
 				
+
 						mytable+= "<tr class='unread'>"+                          
 		                   "<td class='view-message  dont-show'>";
 		                   mytable+= obj.id;
@@ -590,6 +592,7 @@ function showlist() {
 		                   }
 		                   
 		                   mytable += " </tr>";
+
 					});
 					$('#mytable').append(mytable);
 				
@@ -667,6 +670,7 @@ function downpage() {
 						$.each(responsedata,function(index, obj){
 					
 					
+
 							mytable+= "<tr class='unread'>"+                          
 			                   "<td class='view-message  dont-show'>";
 			                   mytable+= obj.id;
@@ -695,6 +699,7 @@ function downpage() {
 			                   }
 			                   
 			                   mytable += " </tr>";
+
 						});
 						$('#mytable').append(mytable);
 					
@@ -773,6 +778,7 @@ function uppage() {
 						$.each(responsedata,function(index, obj){
 					
 					
+
 							mytable+= "<tr class='unread'>"+                          
 			                   "<td class='view-message  dont-show'>";
 			                   mytable+= obj.id;
@@ -801,6 +807,7 @@ function uppage() {
 			                   }
 			                   
 			                   mytable += " </tr>";
+
 						});
 						$('#mytable').append(mytable);
 					
@@ -866,6 +873,7 @@ function search() {
 						$.each(responsedata,function(index, obj){
 					
 					
+
 							mytable+= "<tr class='unread'>"+                          
 			                   "<td class='view-message  dont-show'>";
 			                   mytable+= obj.id;
@@ -894,6 +902,7 @@ function search() {
 			                   }
 			                   
 			                   mytable += " </tr>";
+
 						});
 						$('#mytable').append(mytable);
 					
@@ -950,6 +959,7 @@ $(function(){
 					<aside class="lg-side">
 						<div class="inbox-head">
 							<h3 style = "color: #125448;">Notice Board</h3>
+
 							<form  class="pull-right position" onSubmit="JavaScript:search()">
                         <div class="input-append">
                            <input type="text" id="searchword" class="sr-input" placeholder="게시판 검색">
@@ -958,6 +968,7 @@ $(function(){
                            </button>
                         </div>
                      </form>
+
 						</div>
 						<div class="inbox-body">
 							<div class="mail-option">
@@ -1095,9 +1106,11 @@ $(function(){
 													</c:otherwise>
 												</c:choose></td>
 
+
 											
 											<td class="view-message">${blist.writedate}</td>
 											<td class="view-message ">${blist.readnum}</td>
+
 
 											<c:choose>
 											<c:when test="${blist.id == sessionScope.id}">

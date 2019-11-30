@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -538,8 +539,7 @@ function showlist() {
                //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
                var mytable;
                $.each(responsedata,function(index, obj){
-            
-            
+
             	   mytable+= "<tr class='unread'>"+                          
                    "<td class='view-message  dont-show'>";
                    mytable+= obj.id;
@@ -568,6 +568,7 @@ function showlist() {
                    }
                    
                    mytable += " </tr>";
+
                });
                $('#mytable').append(mytable);
             
@@ -644,7 +645,7 @@ function downpage() {
                   var mytable;
                   $.each(responsedata,function(index, obj){
                
-               
+
                 	  mytable+= "<tr class='unread'>"+                          
                       "<td class='view-message  dont-show'>";
                       mytable+= obj.id;
@@ -673,6 +674,7 @@ function downpage() {
                       }
                       
                       mytable += " </tr>";
+
                   });
                   $('#mytable').append(mytable);
                
@@ -749,8 +751,7 @@ function uppage() {
                   var mytable;
                   var dele
                   $.each(responsedata,function(index, obj){
-               
-               
+
                 	  mytable+= "<tr class='unread'>"+                          
                       "<td class='view-message  dont-show'>";
                       mytable+= obj.id;
@@ -779,6 +780,7 @@ function uppage() {
                       }
                       
                       mytable += " </tr>";
+
                   });
                   $('#mytable').append(mytable);
                
@@ -925,9 +927,11 @@ function search() {
                            }else{
                               mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
                            }
+
                            mytable += "</td>";                         
                            mytable += "<td class='view-message'>" + obj.writedate + "</td>";
                            mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+
                            if(obj.cocode ==1){
                               mytable += "<td class='view-message'></td>";
                          mytable += "<td class='view-message'></td>";
@@ -1205,9 +1209,11 @@ function writeOk() {
                                        </c:otherwise>
                                     </c:choose></td>
 
+
                                  
                                  <td class="view-message">${blist.writedate}</td>
                                  <td class="view-message">${blist.readnum}</td>
+
                                  <c:choose>
                                  <c:when test="${blist.id == sessionScope.id}">
                                  <c:choose>
