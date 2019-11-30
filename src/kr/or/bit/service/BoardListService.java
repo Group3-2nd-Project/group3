@@ -39,12 +39,13 @@ public class BoardListService implements Action {
   		  			
   		  			  
   		  			boardlist = dao.list(cp, ps, bcode,sw);
+  		  			
   		  		  }else {
   		  			boardlist = dao.list2(cp, ps, bcode);
   		  		  }
   		  		  
-  		  		  
-  		  		  int tbc = dao.totalBoardCount(bcode);
+  		  		  //해당 게시판 액티브한 글의 수... 를 카운트하기 위한... 변수 그룻
+  		  		  int tbc; 
   		  		 
   		  		forward = new ActionForward();
   		  		
@@ -57,11 +58,11 @@ public class BoardListService implements Action {
   		  		
   		  		  if(zcode ==0) {
   		  			request.setAttribute("boardlist",boardlist );
-  		  			System.out.println("11111"+tbc);
+  		  			
   		  			System.out.println("11111"+cp);
   		  			System.out.println("11111"+ps);
   		  			System.out.println("2222"+bcode);
-    		  		  request.setAttribute("totalboardcount", tbc);
+    		  		 
     		  		  request.setAttribute("cp", cp);
     		  		  request.setAttribute("ps", ps);
     		  		  request.setAttribute("bcode", bcode);
@@ -71,8 +72,18 @@ public class BoardListService implements Action {
   		  			  request.setAttribute("boardlist", jsonarray);
   		  			forward.setPath("/WEB-INF/views/qna"+bcode+"ajax.jsp");
   		  		  }else if(zcode ==2) {
+  		  			 if(sw != null) {
+  	  		  			
+  	  		  			  
+  		  				tbc = dao.totalBoardCount(bcode, sw);
+  	  		  			
+  	  		  		  }else {
+  	  		  		     tbc = dao.totalBoardCount(bcode);
+  	  		  		  }
+  		  			  
   		  			request.setAttribute("totalboardcount", tbc);
   		  			forward.setPath("/WEB-INF/views/qna"+bcode+"ajax2.jsp");
+  		  		    System.out.println("토탈보드카운트는??" + tbc);
   		  		  }
   		  		  
   		  		  
@@ -80,7 +91,7 @@ public class BoardListService implements Action {
 		  		  
   		  		  
   			  	  
-  			  	  System.out.println("토탈보드카운트는??" + tbc);
+  			  	  
   			  	  System.out.println("디비에서 게시판 목록 뽑아오는 서비스 함수.. 과연 데이타는 여기까지 왔을까.. " + boardlist);
   			  	  System.out.println("보드리스트의 사이즈는?? " +boardlist.size());
 	

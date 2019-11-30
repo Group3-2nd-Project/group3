@@ -76,7 +76,7 @@
 
 			<div class="section-heading text-center animated fadeInDown">
 				<h2 class="h-bold">
-					<i class="fas fa-campground"></i>&nbsp;&nbsp;Review Detail
+					<i class="fas fa-campground"></i>&nbsp;&nbsp;Board Detail
 				</h2>
 			</div>
 
@@ -85,7 +85,7 @@
 
 				</a>
 
-				<c:set var="detail" value="${requestScope.reviewdetail}" />
+				<c:set var="detail" value='${requestScope.boarddetail}'></c:set>
 				
 <script type="text/javascript">
 
@@ -104,6 +104,16 @@ $(function(){
 		$('#deletebtn').remove();
 
 	}
+	
+if((${sessionScope.grade}  == 2) && ${detail.bcode} == 401){
+		
+		
+		console.log("세션에 저장된 회원등급보기" +${sessionScope.grade});
+		
+			$('#replyButton').show();
+		}else{
+			$('#replyButton').hide();
+		}
 });
 
 </script>
@@ -117,18 +127,17 @@ $(function(){
 									<div style="text-align: left">
 									
 									
-										<button type="button" class="btn" value="List" style="margin: 2px" onclick="location.href='ReviewList.do?bcode=202&tcode=0&cp=${requestScope.cp}&ps=${requestScope.ps}'">
+										<button type="button" class="btn" value="List" style="margin: 2px" onclick="location.href='boardList.do?bcode=${detail.bcode }&tcode=0&cp=${detail.cp }&ps=${detail.ps}&zcode=0'">
 											<i class="fas fa-undo-alt"></i>&nbsp;&nbsp;List
 										</button>
+										<div id="btns"></div>
 									
 								
-										<button type="button" id="editbtn" class="btn" value="Edit" style="margin: 2px" onclick="location.href='ReviewEdit.do?bcode=202&tcode=0&cp=${requestScope.cp}&ps=${requestScope.ps}&idx=${requestScope.idx}&fidx=${detail.fidx}'">
+										<button type="button" id="editbtn" class="btn" value="Edit" style="margin: 2px" onclick="location.href='boardDetail.do?bcode=${detail.bcode }&tcode=0&cp=${detail.cp}&ps=${detail.ps}&idx=${detail.idx}&edit=1&id=${sessionScope.id}&zcode=0'">
 											<i class="far fa-edit"></i>&nbsp;&nbsp;Edit
 										</button>
 									
-										<button type="button" id="deletebtn" class="btn" value="List" style="margin: 2px" onclick="location.href='ReviewDelete.do?bcode=202&tcode=0&cp=${requestScope.cp}&ps=${requestScope.ps}&idx=${requestScope.idx}&fidx=${detail.fidx}'">
-											<i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Delete
-										</button> 
+										
 									
 									</div>
 									<ul class="tags">
@@ -144,8 +153,7 @@ $(function(){
 										<!-- 제목부분 -->
 										${detail.title}
 									</h1>
-									<img class="img-fluid" src="upload/${detail.savename}"
-										alt="후기사진입니다" style="width: 50%">
+									
 
 
 
@@ -156,54 +164,23 @@ $(function(){
 											${detail.content}
 										</p>
 									</div>
+									<div class="content-wrap">
+									<form id="reply" action="gotoWrite.do" method="get" target="_blank">
+                        <input type="hidden" name='idx' value='${detail.idx }' />
+                        <input type="hidden" id = "myBcode" name="bcode" value='${detail.bcode}'>
+                        <input type="hidden" name="tcode" value='${detail.tcode}'>
+                        <input type="hidden" name="cp" value='${detail.cp}'>
+                        <input type="hidden" name="ps" value='${detail.ps}'>
+                        <input type="hidden" name="zcode" value='0'>
+                       
+        				 <button id="replyButton" type=submit  class="btn dorne-btn" style="width: 200px;"  >
+                                 <i class="far fa-check-circle"></i>&nbsp;&nbsp;답글쓰기
+                              </button>
+      					</form>
+									</div>
 
 
-
-									<!-- Start comment -->
-									<section class="comment-sec-area pt-40 pb-40">
-										<div class="container">
-											<div class="row flex-column" style="text-align: left">
-												<h5 class="text-uppercase pb-40">
-													<span class="lnr lnr-bubble"></span> Comments
-												</h5>
-
-												<!-- 한개는 comment form으로 사용 -->
-												<form name="reply"
-													action="ReviewReplyAdd.do?bcode=202&tcode=0" method="get">
-													<div class="comment-list">
-														<div class="single-comment justify-content-between d-flex">
-															<div class="user justify-content-between d-flex">
-																<div class="thumb" >
-																	<i class="fab fa-replyd fa-5x"></i>
-
-																</div>
-																<div class="desc" style="text-align: left">
-
-																	ID : ${sessionScope.id} <br>
-																	<textarea id="replycontent" name="replycontent"
-																		rows="3" cols="100" style="resize: none;"></textarea>
-																</div>
-															</div>
-															<input type="hidden" id="idx" name="idx" value="${detail.idx}" /> 
-															<input type="hidden" id="id" name="id" value="${sessionScope.id}" /> 
-															<input type="button" id="reviewbtn" name="reviewbtn" class="btn-reply text-uppercase" value="reply" onclick="addreply()">
-
-														</div>
-													</div>
-												</form>
-												<c:set var="sid" value="${sessionScope.id}" />
-												<div class="comment-list" id="replylist"></div>
-
-
-
-											
-
-													
-
-											</div>
-										</div>
-									</section>
-									<!-- End comment-sec Area -->
+								
 								</div>
 							</div>
 

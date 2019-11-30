@@ -18,10 +18,17 @@ public class Board {	//게시판
 	private int ps;
 	private int cp;
 	private int zcode;
+	private int tbc;
 	
 	
 	
 	
+	public int getTbc() {
+		return tbc;
+	}
+	public void setTbc(int tbc) {
+		this.tbc = tbc;
+	}
 	public int getPs() {
 		return ps;
 	}
@@ -118,13 +125,20 @@ public class Board {	//게시판
 	public void setReboardcount(int reboardcount) {
 		this.reboardcount = reboardcount;
 	}
+	
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Board [idx=" + idx + ", id=" + id + ", bcode=" + bcode + ", tcode=" + tcode + ", title=" + title
 				+ ", content=" + content + ", readnum=" + readnum + ", writedate=" + writedate + ", ref=" + ref
 				+ ", dept=" + dept + ", step=" + step + ", cocode=" + cocode + ", reboardcount=" + reboardcount
-				+ ", ps=" + ps + ", cp=" + cp + ", zcode=" + zcode + "]";
+				+ ", ps=" + ps + ", cp=" + cp + ", zcode=" + zcode + ", tbc=" + tbc + "]";
 	}
+	
+	
+	
 	
 	
 	

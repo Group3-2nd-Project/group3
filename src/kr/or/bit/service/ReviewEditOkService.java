@@ -71,12 +71,20 @@ public class ReviewEditOkService implements Action{
 	            File file = new File();
 	            file.setFidx(fidx);
 	            file.setOriname(orifilename);
-	            file.setSavename(sfilename);
-
-	             BoardDao boarddao = new BoardDao();
+	            //file.setSavename(sfilename);
+	            BoardDao boarddao = new BoardDao();
+			       if(sfilename != null) {
+			            String filePath = sfilename;
+			            filePath=filePath.trim();                        
+			             file.setSavename(sfilename);
+			             resultrow = boarddao.editFile(file, fidx,0);
+			         }else {             
+			             resultrow = boarddao.editFile(file, fidx,1);
+			             
+			         }
 	             
 	             result = boarddao.editBoard(board);
-	             resultrow = boarddao.editFile(file, fidx);
+	             //resultrow = boarddao.editFile(file, fidx);
 					System.out.println("file 인서트_iy" + file);
 					System.out.println("result값은 뭐지?_iy" + result);
 					System.out.println("resultrow값은?_iy" + resultrow);

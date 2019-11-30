@@ -264,9 +264,5 @@ article {
    </body>
    <jsp:include page="/common/bottom.jsp"></jsp:include>
    
-       <script>
-    ClassicEditor
-        .create( document.querySelector( '#content' ) );
        
-    </script>
 </html>

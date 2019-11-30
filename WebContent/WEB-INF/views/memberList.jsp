@@ -126,10 +126,10 @@ button{
                   /* str += "<td colspan='2'><a href='MemberEdit.do?id=" */
                   str += "<td colspan='2' align='center'><a href='MemberEdit.do?id="
                   str += responsedata.id +"'"; 
-                  str += "class='btn btn-success'; style='height: 35; width:60; background-color:#6B8E23'>수정 </a>&nbsp;&nbsp";
+                  str += "class='btn'; style='height: 35; width:60; background-color:#125448; color: white'>수정 </a>&nbsp;&nbsp";
                   str += "<a href='MemberDelete.do?id="
                   str += responsedata.id+"'"; 
-                  str += "class='btn btn-success'; style='height: 35; width:60; background-color:#6B8E23'>삭제</a>";
+                  str += "class='btn'; style='height: 35; width:60; background-color:#125448; color: white'>삭제</a>";
                   str += "</td></tr>";
                   console.log(str);
                     $('#tbody').append(str);
@@ -174,10 +174,10 @@ button{
                            str += "<td align='center'>" + obj.grade + "</td>";
                            str += "<td colspan='2' align='center'><a href='MemberEdit.do?id="
                            str += obj.id +"'"; 
-                           str += "class='btn btn-success'; style='height: 35; width:60; background-color:#6B8E23'>수정 </a>&nbsp;&nbsp";
+                           str += "class='btn'; style='height: 35; width:60; background-color:#125448; color: white'>수정 </a>&nbsp;&nbsp";
                            str += "<a href='EmpDelete.do?id="
                            str += obj.id +"'"; 
-                           str += "class='btn btn-success'; style='height: 35; width:60; background-color:#6B8E23'>삭제</a>";
+                           str += "class='btn'; style='height: 35; width:60; background-color:#125448; color: white'>삭제</a>";
                            str += "</td></tr>";
                            
                              $('#tbody').append(str);
@@ -212,13 +212,12 @@ button{
    ID : 
    
     <input type="text" size="20" id="id" name="id" style="height: 33; width:185">
-    <input class="btn btn-success" type="button" value="검색" id="idsearch" style="height: 35; width:60; background-color:#6B8E23;">
+    <input class="btn" type="button" value="검색" id="idsearch" style="height: 35; width:60; background-color:#125448; color: white">
     <!--  <input type="button" value="검색" id="idsearch" class="btn dorne-btn"> --> 
      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         이름 : 
       <input type="text" size="20" id="name" name="name" style="height: 33; width:185">
-      <input class="btn btn-success" type="button" value="검색" id="namesearch" style="height: 35; width:60; background-color:#6B8E23;">
-     
+      <input class="btn" type="button" value="검색" id="namesearch" style="height: 35; width:60; background-color:#125448; color: white">
      <br>
 <br>
 <br>
@@ -246,8 +245,8 @@ button{
          <td align="center">${list.hp}</td>
          <td align="center">${list.grade}</td>
          <td colspan="2" align="center">     
-   <a href="MemberEdit.do?id=${list.id}" class="btn btn-success" style="height: 35; width:60; background-color:#6B8E23;">수정 </a>&nbsp;&nbsp;
-        <a href="MemberDelete.do?id=${list.id}" class="btn btn-success" style="height: 35; width:60; background-color:#6B8E23;">삭제</a>
+   <a href="MemberEdit.do?id=${list.id}" class="btn" style="height: 35; width:60; background-color:#125448; color:white">수정 </a>&nbsp;&nbsp;
+        <a href="MemberDelete.do?id=${list.id}" class="btn" style="height: 35; width:60; background-color:#125448; color:white">삭제</a>
          </td>
          </tr>
          

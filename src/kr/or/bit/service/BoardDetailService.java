@@ -46,7 +46,7 @@ public class BoardDetailService implements Action {
   		  		  if(edit == 1) {
   		  			forward.setPath("/WEB-INF/views/boardedit2.jsp");
   		  		  }else {
-  		  			forward.setPath("/WEB-INF/views/boardDetail2.jsp");
+  		  			forward.setPath("/WEB-INF/views/boardDetail3.jsp");
   		  		  }
   			  	  
   			  	  System.out.println("디비에서 유저가 선택한 글 상세 뽑아오는 서비스 함수.. 과연 데이타는 여기까지 왔을까.. " + boarddetail);

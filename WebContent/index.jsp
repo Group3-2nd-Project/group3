@@ -88,12 +88,18 @@ $(function(){
             data.addRows(arr1[0]);
         var table = new google.visualization.Table(document.getElementById('table_div'));
 
-        table.draw(data, {showRowNumber: true, width: '500px', height: '600px',sortAscending:false, sortColumn:1});
-        $('th').eq(0).html("순위");
-        $('th').attr('style','height:50px');
-        $('td').attr('style', 'text-align:center');
-        $('th').attr('class', '');
-        //$('table').attr('class','table');
+        table.draw(data, {showRowNumber: true, width: '500px', height: '100%',sortAscending:false, sortColumn:1});
+        $('.google-visualization-table-tr-head').eq(0).html("");
+        $('.google-visualization-table-tr-head').attr('style','height:50px;background-color: rgba(0,0,0,0.6); color: white;');
+        $('.google-visualization-table-tr-head').append("<th>순위</th>");
+        $('.google-visualization-table-tr-head').append("<th>캠핑장명</th>");
+        $('.google-visualization-table-tr-head').append("<th>조회수</th>");
+        $('.google-visualization-table-tr-odd').attr('style', 'text-align:center;background-color: rgba(0,0,0,0.6); color: white;');
+        $('.google-visualization-table-tr-even').attr('style', 'text-align:center;background-color: rgba(0,0,0,0.6); color: white;');
+        $('.google-visualization-table-td').attr('style', 'text-align:center;background-color: rgba(0,0,0,0.6); color: white;');
+        //$('.google-visualization-table-tr-head').attr('class', '');
+        $('.google-visualization-table-table').attr('class','table');
+        $('.google-visualization-table-table').attr('style','border-collapse:collapse');
         for(var i=11; i<=60;i++){
            $('tr').eq(i).hide();
         }
@@ -102,7 +108,39 @@ $(function(){
        
       }
     </script>
-
+<script type="text/javascript">
+               $(function() {
+            		   $.ajax({          
+            			   url: 'CampinglistCrossCK.do',
+                           type: 'get',
+                           dataType: 'json',
+                           success: function(responsedata){
+                        	   var val = responsedata.response.body.items.item; //rdnmadr
+                        	   var front = new Set();
+                        	   var full = new Set();
+                        	   $.each(val,function(index, obj) {
+                        		   front.add(obj.addr1.split(" ")[0]);
+                        		   full.add(obj.addr1.split(" ")[0]+" "+obj.addr1.split(" ")[1]);
+                        		   });
+                        	   var frontArr = [...front];
+                        	   var fullArr = [...full];
+                        	   for(var i=0; i<frontArr.length;i++){
+                        		   $('#sigun').append("<option id='"+frontArr[i]+"' value='"+frontArr[i]+"'>"+frontArr[i]+"</option>");
+                        	   }
+                        	   $('#sigun').change(function() {
+                        		   $('#si').empty();
+                    			   for(var i=0;i<fullArr.length;i++){
+                    				   if($('#sigun').val()==fullArr[i].split(" ")[0]){
+                    					   $('#si').append("<option value='"+fullArr[i].split(" ")[1]+"'>"+fullArr[i].split(" ")[1]+"</option>");
+                    				   }
+                    			   }
+                        	   });
+                        		   
+                        	   
+                           }
+                       });
+               });      
+           </script>
 </head>
 <style>
 .feature-content {
@@ -313,32 +351,32 @@ h2 {
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading text-center" style="margin-bottom: 2%">
-                        <h4>Contents</h4>
+                        <h1 style="color:white"><b>Contents</b></h1>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.2s">
-                    <h4 style="text-align: center; color: white">캠핑장 조회순위</h4>
+                <div class="col-12 col-lg-5">
+                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 style="text-align: center; color: white"><b>캠핑장 조회순위</b></h4>
                         <div id="table_div"></div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.4s">
-                    <h4 style="text-align: center; color: white">공지사항</h4>
-                        <table class="table" id="notice" style="background-color: white">
+                <div class="col-12 col-lg-7">
+                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.2s">
+                    <h4 style="text-align: center; color: white"><b>공지사항</b></h4>
+                        <table class="table" id="notice" style="background-color: rgba(0,0,0,0.7); color: white; font-size: 15px">
                         	<tr style="text-align: center;">
-                        	<th>제목</th>
-                        	<th>글쓴이</th>
-                        	<th>작성일</th>
+                        	<th><b>제목</b></th>
+                        	<th><b>글쓴이</b></th>
+                        	<th><b>작성일</b></th>
                         	</tr>
                         </table>
                     </div>
-                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.6s">
-                    <h4 style="text-align: center; color: white">오늘의 날씨</h4>
-                       <table id=wtable class='table' style="background-color: white;">
+                    <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 style="text-align: center; color: white"><b>오늘의 날씨</b></h4>
+                       <table id=wtable class='table' style="background-color: rgba(0,0,0,0.7); color: white; height: 190px">
                        <tr id=wcity>
                        </tr>
                        <tr id=wtem>
@@ -376,10 +414,11 @@ h2 {
         	  console.log("햐햐햐햫햐"+data);
         	  $.each(data, function(index, obj){
         		  console.log(obj);
+        		  var writedate = obj.writedate;
         		  $('#notice').append("<tr id='no"+index+"'></tr>");
-        		  $('#no'+index).append("<td><a href='boardDetail.do?idx="+obj.idx+"&bcode=303&ps=5&cp=1&zcode=1&edit=0'>"+obj.title+"</a></td>");
-        		  $('#no'+index).append("<td>"+obj.id+"</td>");
-        		  $('#no'+index).append("<td>"+obj.writedate+"</td>");
+        		  $('#no'+index).append("<td><a href='boardDetail.do?idx="+obj.idx+"&bcode=303&ps=5&cp=1&zcode=1&edit=0' style='color:white;'>"+obj.title+"</a></td>");
+        		  $('#no'+index).append("<td style='text-align:center'>"+obj.id+"</td>");
+        		  $('#no'+index).append("<td style='text-align:center'>"+writedate.substr(0, 10)+"</td>");
         	  });
           }
           });
@@ -404,7 +443,7 @@ h2 {
                        +'<div class="feature-content d-flex align-items-center justify-content-between">'
                        +'<div class="feature-title"><a href="ShowReviewDetail.do?idx='+object.idx+'" onclick="return writeOk()"><h5>'+object.id+'님의 캠핑장 후기</h5></a>'
                        +'<p>'+object.writedate+'</p></div><div class="feature-favourite"><a href="#">'
-                       +'<i class="fa fa-heart-o" aria-hidden="true"></i></a></div></div></div></div>';
+                       +'</a></div></div></div></div>';
                       console.log(page);
                       $('#review').append(page);
             });

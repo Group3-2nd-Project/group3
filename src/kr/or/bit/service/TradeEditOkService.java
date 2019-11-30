@@ -82,7 +82,15 @@ public class TradeEditOkService implements Action { //수여닝
 			    BoardDao boarddao = new BoardDao();
 				result = boarddao.editBoard(board);
 				System.out.println("dao board" +board);
-				resultrow = boarddao.editFile(file ,fidx);
+			       if(sfilename != null) {
+			            String filePath = sfilename;
+			            filePath=filePath.trim();                        
+			             file.setSavename(sfilename);
+			             resultrow = boarddao.editFile(file, fidx,0);
+			         }else {             
+			             resultrow = boarddao.editFile(file, fidx,1);
+			             
+			         }
 	
 				//System.out.println("board 인서트" + board);
 				System.out.println("file 인서트" + file);

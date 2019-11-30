@@ -195,10 +195,7 @@ function check(){
                            <td colspan="2" class="text-center">
                               <button type="submit" id="join-submit" onclick="click();" class="btn dorne-btn" style="width: 200px;">
                                                                수정하기<i class="far fa-check-circle"></i></button>
-                              <button type="reset" class="btn dorne-btn" style="width: 200px;">
-                                 <i class="far fa-times-circle"></i>&nbsp;초기화
-                              </button>
-                              <button type="button" class="btn dorne-btn">전체 판매글 보기</button>
+                                 <a href="ReviewList.do?bcode=102&tcode=0"><button type="button" class="btn dorne-btn">목록으로</button></a>
                            </td>
                         </tr>
                     </form>

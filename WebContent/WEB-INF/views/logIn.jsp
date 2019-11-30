@@ -41,17 +41,16 @@ section{
 }
 
 #loginboxdiv {
-	position: relative;
+	text-align:center;
 	margin: 5px;
 	padding: 1px;
 	height: 350px;
 }
 
 #loginboxinnerbox {
-	position: absolute;
-	left: 40%;
+	display:inline-block;
 	top: 10px;
-	width: 300px;
+	width: 50%;
 	margin: 2px;
 }
 
@@ -75,22 +74,25 @@ button{
      text-color: white;
      hover : #deb887;
    }
+#container{
+   min-width: 600px;
+   }
 </style>
 </head>
 <body>
- <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"> 
+ <div class="breadcumb-area bg-img bg-overlay" id='container' style="background-image: url(img/bg-img/hero.jpg)"> 
  <section  style="padding-top: 200px;">
 	<div class="" id="mydiv">
 
 		<div class="animatedParent" id="myString">
 			<div class="section-heading text-center animated fadeInDown">
-				<h2 class="h-bold">Login Page</h2>
 			</div>
 		</div>
 		<div class="" id="loginboxdiv">
 			<div class="login-box well" id="loginboxinnerbox">
+				<h2 class="h-bold">Login Page</h2>
 				<form action="LoginOk.do" name="loginForm" id="loginForm"
-					role="form" method="post">
+					role="form" method="post" style="width: 50%; margin-left: 25%">
 
 					<div class="form-group">
 						<label for="id">ID</label> 
@@ -103,9 +105,8 @@ button{
 					<hr>
 					
 					<div>
-						<button type="submit" class="btn dorne-btn" style ="width: 50px;">로그인</button>
-                        <button class="btn dorne-btn" style ="width: 50px;">메인으로</button>
-			
+						<input type="submit" class="btn dorne-btn" style ="width: 50px;" value="로그인">
+                        <input type="button" id='comeback' class="btn dorne-btn" style ="width: 50px;" value="돌아가기">
 				   </div>
 					
 				</form>
@@ -118,4 +119,9 @@ button{
 	<jsp:include page="/common/bottom.jsp"></jsp:include>
 	</div>
 </body>
+<script type="text/javascript">
+$('#comeback').click(function(){
+	history.back();
+})
+</script>
 </html>

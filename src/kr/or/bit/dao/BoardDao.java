@@ -303,22 +303,36 @@ public class BoardDao {
  
    
    
-   public int editFile(File file, int fidx) {   //파일글 수정 수연
+   public int editFile(File file, int fidx, int a) {   //파일글 수정 수연
        PreparedStatement pstmt = null;
        Connection conn = null;
        String sql = "update fileupload set fidx=?, oriname=?, savename=?, fsize=?, cocode=?  where fidx=?";   
+       String sql2 = "update fileupload set fidx=?, oriname=?, fsize=?, cocode=?  where fidx=?";   
        int resultrow = 0;
        
        try {
-          conn = ds.getConnection();
-          pstmt = conn.prepareStatement(sql);
-          pstmt.setInt(1, fidx);
-          pstmt.setString(2, file.getOriname());
-          pstmt.setString(3, file.getSavename());
-          pstmt.setInt(4, file.getFsize());
-          pstmt.setInt(5, file.getCocode());
-          pstmt.setInt(6, file.getFidx());
-          resultrow = pstmt.executeUpdate();
+    	   if(a==0) {
+    		   conn = ds.getConnection();
+    	          pstmt = conn.prepareStatement(sql);
+    	          pstmt.setInt(1, fidx);
+    	          pstmt.setString(2, file.getOriname());
+    	          pstmt.setString(3, file.getSavename());
+    	          pstmt.setInt(4, file.getFsize());
+    	          pstmt.setInt(5, file.getCocode());
+    	          pstmt.setInt(6, file.getFidx());
+    	          resultrow = pstmt.executeUpdate(); 
+    	   }else if(a==1) {
+    		   conn = ds.getConnection();
+    	          pstmt = conn.prepareStatement(sql2);
+    	          pstmt.setInt(1, fidx);
+    	          pstmt.setString(2, file.getOriname());
+    	          pstmt.setString(3, file.getSavename());
+    	          pstmt.setInt(4, file.getFsize());
+    	          pstmt.setInt(5, file.getCocode());
+    	          pstmt.setInt(6, file.getFidx());
+    	          resultrow = pstmt.executeUpdate();
+    	   }
+          
           
        }catch(Exception e) {
           e.printStackTrace();
@@ -727,6 +741,36 @@ public class BoardDao {
 	      try {
 	         conn = ds.getConnection(); //dbcp 연결객체 얻기
 	         String sql="select count(*) cnt from board where bcode=? and cocode=0";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, bcode);
+	         
+	         rs = pstmt.executeQuery();
+	         if(rs.next()) {
+	            totalcount = rs.getInt("cnt");
+	         }
+	      }catch (Exception e) {
+	         
+	      }finally {
+	         try {
+	            pstmt.close();
+	            rs.close();
+	            conn.close();//반환  connection pool 에 반환하기
+	         }catch (Exception e) {
+	            
+	         }
+	      }
+	      return totalcount;
+	   }
+   
+   public int totalBoardCount(int bcode, String sw) { //토탈 카운트 얻기 
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      int totalcount = 0;
+	      try {
+	         conn = ds.getConnection(); //dbcp 연결객체 얻기
+	         String sql="select count(*) cnt from board where bcode=? and cocode=0 and (title like '%"+sw+"%' or content like '%"+sw+"%')";
 	         
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setInt(1, bcode);
