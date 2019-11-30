@@ -497,7 +497,7 @@ tr {
 
 $(function () {   
    myTotal();
-	   if(${sessionScope.grade}!=2){
+	   if('${sessionScope.grade}'!='2'){
 		   $('#colin').hide();
 	   }
 });
