@@ -207,20 +207,9 @@ function writeOk() {
                                  <h4>&nbsp;&nbsp; ${list.title}</h4>
                                  </a> 
                                  </div>
-                              <div class="titles" style = "margin-left: 300px;">
-                              <br>
-                                 <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
-                                 <c:choose>
-                                 <c:when test="${list.tcode==1}">
-                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매중<i class="fas fa-cart-plus fa-3x" style ="color:#125448;"></i></h4></a>
-                                 </c:when>
-                                 <c:otherwise>
-                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매완료<i class="fas fa-shopping-cart fa-3x" style ="color:#125448;"></i></h4></a>
-                                 </c:otherwise>
-                                 </c:choose>
-                     
-                              </div>
+                         
                            </div>
+                               
                            <p class="address"  style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
                               ${list.id}
@@ -234,6 +223,19 @@ function writeOk() {
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
                               ${list.readnum}
                            </p>
+                            <div class="titles" style = "margin-left:580px;">
+                              <br>
+                                 <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
+                                 <c:choose>
+                                 <c:when test="${list.tcode==1}">
+                                    <h4 id ="tcode">&nbsp;&nbsp;판매중<i class="fas fa-cart-plus fa-2x" style ="color:#FA8072;"></i></h4></a>
+                                 </c:when>
+                                 <c:otherwise>
+                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매완료<i class="fas fa-shopping-cart fa-2x" style ="color:#125448;"></i></h4></a>
+                                 </c:otherwise>
+                                 </c:choose>
+                     
+                              </div>
                         </div>
                      </div>
                   </div>

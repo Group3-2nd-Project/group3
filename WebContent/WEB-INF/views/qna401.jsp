@@ -481,6 +481,12 @@ ul {
 	padding: 0px;
 	margin: 0px;
 }
+
+tr {
+ border:0;	
+
+ }
+
 </style>
 <script type="text/javascript">
 
