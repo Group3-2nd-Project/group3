@@ -104,18 +104,19 @@ $(function(){
 		$('#deletebtn').remove();
 
 	}
-	
-if((${sessionScope.grade}  == 2) && ${detail.bcode} == 401){
+if('${sessionScope.id}'==''){
+	$('#replyButton').hide();
+
+if('${sessionScope.grade}'  == '2' && '${detail.bcode}' == '401'){
 		
 		
-		console.log("세션에 저장된 회원등급보기" +${sessionScope.grade});
 		
 			$('#replyButton').show();
 		}else{
 			$('#replyButton').hide();
 		}
+}	
 });
-
 </script>
 
 				<section class="blog-posts-area section-gap">
@@ -130,12 +131,12 @@ if((${sessionScope.grade}  == 2) && ${detail.bcode} == 401){
 										<button type="button" class="btn" value="List" style="margin: 2px" onclick="location.href='boardList.do?bcode=${detail.bcode }&tcode=0&cp=${detail.cp }&ps=${detail.ps}&zcode=0'">
 											<i class="fas fa-undo-alt"></i>&nbsp;&nbsp;List
 										</button>
-										<div id="btns"></div>
-									
-								
 										<button type="button" id="editbtn" class="btn" value="Edit" style="margin: 2px" onclick="location.href='boardDetail.do?bcode=${detail.bcode }&tcode=0&cp=${detail.cp}&ps=${detail.ps}&idx=${detail.idx}&edit=1&id=${sessionScope.id}&zcode=0'">
 											<i class="far fa-edit"></i>&nbsp;&nbsp;Edit
 										</button>
+										<button type="button" id="deletebtn" class="btn" value="List" style="margin: 2px" onclick="location.href='boardDelete.do?bcode=${detail.bcode }&tcode=0&idx=${detail.idx }&cp=${detail.cp}&ps=${detail.ps}&zcode=0&id=${sessionScope.id}'">
+											<i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Delete
+										</button> 
 									
 										
 									

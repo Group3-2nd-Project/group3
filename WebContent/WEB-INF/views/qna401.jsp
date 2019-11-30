@@ -1182,8 +1182,8 @@ function writeOk() {
                               <th class="view-message">작성일
                               </td>
                               <th class="view-message">조회수</th>
-                              <th class="view-message">수정</th>
-                              <th class="view-message">삭제</th>
+                              <th class="view-message"></th>
+                              <th class="view-message"></th>
 
                            </tr>
 

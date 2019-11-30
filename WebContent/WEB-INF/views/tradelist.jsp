@@ -228,8 +228,7 @@ function writeOk() {
                               &nbsp;&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;&nbsp;
                               ${list.readnum}
                            </p>
-                            <div class="titles" style = "margin-left:580px;">
-                              <br>
+                            <div class="titles">
                                  <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
                                  <c:choose>
                                  <c:when test="${list.tcode==1}">
