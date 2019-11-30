@@ -482,44 +482,17 @@ ul {
 	padding: 0px;
 	margin: 0px;
 }
+
+tr {
+ border:0;	
+
+ }
+
+
 </style>
 <script type="text/javascript">
 
-function myTotal() {
-   var pagesize = $('#pagesize :selected').val();
-   var currentpage = Math.ceil($('#indexend').text() / pagesize);
-   
-   console.log("온로드 하면 실행 되는 함수 토탈 카운트를 위해" + pagesize);
-   console.log(currentpage);
-   
-   var page_data;
-   var searchword = $('#searchword').val();
-   console.log(searchword);
-   if(searchword == ""){
-      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 401, "zcode" : 2}
-   }else{
-      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 401, "zcode" : 2, "sw" : searchword}
-   }
-   var mytbc;
-   $.ajax({
-            url:"boardList.do",
-            data:page_data,
-            type:"POST",       //httpReq.open("post")
-            dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-            
-            success :function(responsedata){
-               console.log(responsedata);
-               $('#tbc').text(responsedata);
-   
-      
-            },
-            error:function(xhr){
-               alert("토탈 카운트 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-            }
-   
-         });   
-   
-}
+
 
 
 $(function () {   
@@ -568,42 +541,36 @@ function showlist() {
                //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
                var mytable;
                $.each(responsedata,function(index, obj){
-            
-            
-                  mytable+= "<tr class='unread'>"+
-                        "<td class='inbox-small-cells'>"+
-                        "<input type='checkbox' class='mail-checkbox'>"+
-                        "</td>"+
-                        "<td class='inbox-small-cells'><i class='fa fa-star'></i></td>"+
-                        "<td class='view-message  dont-show'>";
-                        mytable+= obj.id;
-                        mytable+= "</td>"; 
-                        mytable += "<td class='view-message'>";
-                        for(var i=1; i<= obj.dept; i++){
-                           mytable +="&nbsp;&nbsp;&nbsp";
-                        }
-                        if(obj.dept > 0){
-                           mytable += "<img src='img/re.gif' />";
-                        }
-                        if(obj.cocode == 1) {
-                           mytable += "<b>**삭제된 글입니다**</b>"
-                        }else{
-                           mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-                        }
-                        
-                        mytable += "</td>";
-                        mytable += "<td class='view-message  inbox-small-cells'><i class='fa fa-paperclip'></i></td>";
-                        mytable += "<td class='view-message'>" + obj.writedate.substr(0,10) + "</td>";
-                        mytable += "<td class='view-message  text-right'>" +   obj.readnum + "</td>";
-                        if(obj.cocode ==1){
-                           mytable += "<td class='view-message  text-right'></td>";
-                      mytable += "<td class='view-message  text-right'></td>";
-                        }else{
-                           mytable += "<td class='view-message  text-right'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-                            mytable += "<td class='view-message  text-right'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-                        }
-                        
-                        mytable += " </tr>";
+
+            	   mytable+= "<tr class='unread'>"+                          
+                   "<td class='view-message  dont-show'>";
+                   mytable+= obj.id;
+                   mytable+= "</td>"; 
+                   mytable += "<td class='view-message'>";
+                   for(var i=1; i<= obj.dept; i++){
+                      mytable +="&nbsp;&nbsp;&nbsp";
+                   }
+                   if(obj.dept > 0){
+                      mytable += "<img src='img/re.gif' />";
+                   }
+                   if(obj.cocode == 1) {
+                      mytable += "<b>**삭제된 글입니다**</b>"
+                   }else{
+                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                   }
+                   mytable += "</td>";                         
+                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                   if(obj.cocode ==1){
+                      mytable += "<td class='view-message'></td>";
+                 mytable += "<td class='view-message'></td>";
+                   }else{
+                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                   }
+                   
+                   mytable += " </tr>";
+
                });
                $('#mytable').append(mytable);
             
@@ -680,39 +647,36 @@ function downpage() {
                   var mytable;
                   $.each(responsedata,function(index, obj){
                
-               
-                     mytable+= "<tr class='unread'>"+
-                           "<td class='inbox-small-cells'>"+
-                           "<input type='checkbox' class='mail-checkbox'>"+
-                           "</td>"+
-                           "<td class='inbox-small-cells'><i class='fa fa-star'></i></td>"+
-                           "<td class='view-message  dont-show'>";
-                           mytable+= obj.id;
-                           mytable+= "</td>"; 
-                           mytable += "<td class='view-message'>";
-                           for(var i=1; i<= obj.dept; i++){
-                              mytable +="&nbsp;&nbsp;&nbsp";
-                           }
-                           if(obj.dept > 0){
-                              mytable += "<img src='img/re.gif' />";
-                           }
-                           if(obj.cocode == 1) {
-                              mytable += "<b>**삭제된 글입니다**</b>"
-                           }else{
-                              mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-                           }
-                           mytable += "</td>";
-                           mytable += "<td class='view-message  inbox-small-cells'><i class='fa fa-paperclip'></i></td>";
-                           mytable += "<td class='view-message'>" + obj.writedate.substr(0,10) + "</td>";
-                           mytable += "<td class='view-message  text-right'>" +   obj.readnum + "</td>";
-                           if(obj.cocode ==1){
-                              mytable += "<td class='view-message  text-right'></td>";
-                         mytable += "<td class='view-message  text-right'></td>";
-                           }else{
-                              mytable += "<td class='view-message  text-right'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-                               mytable += "<td class='view-message  text-right'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-                           }
-                           mytable += " </tr>";
+
+                	  mytable+= "<tr class='unread'>"+                          
+                      "<td class='view-message  dont-show'>";
+                      mytable+= obj.id;
+                      mytable+= "</td>"; 
+                      mytable += "<td class='view-message'>";
+                      for(var i=1; i<= obj.dept; i++){
+                         mytable +="&nbsp;&nbsp;&nbsp";
+                      }
+                      if(obj.dept > 0){
+                         mytable += "<img src='img/re.gif' />";
+                      }
+                      if(obj.cocode == 1) {
+                         mytable += "<b>**삭제된 글입니다**</b>"
+                      }else{
+                         mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                      }
+                      mytable += "</td>";                         
+                      mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                      mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                      if(obj.cocode ==1){
+                         mytable += "<td class='view-message'></td>";
+                    mytable += "<td class='view-message'></td>";
+                      }else{
+                         mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                          mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                      }
+                      
+                      mytable += " </tr>";
+
                   });
                   $('#mytable').append(mytable);
                
@@ -789,41 +753,36 @@ function uppage() {
                   var mytable;
                   var dele
                   $.each(responsedata,function(index, obj){
-               
-               
-                     mytable+= "<tr class='unread'>"+
-                           "<td class='inbox-small-cells'>"+
-                           "<input type='checkbox' class='mail-checkbox'>"+
-                           "</td>"+
-                           "<td class='inbox-small-cells'><i class='fa fa-star'></i></td>"+
-                           "<td class='view-message  dont-show'>";
-                           mytable+= obj.id;
-                           mytable+= "</td>"; 
-                           mytable += "<td class='view-message'>";
-                           for(var i=1; i<= obj.dept; i++){
-                              mytable +="&nbsp;&nbsp;&nbsp";
-                           }
-                           if(obj.dept > 0){
-                              mytable += "<img src='img/re.gif' />";
-                           }
-                           if(obj.cocode == 1) {
-                              mytable += "<b>**삭제된 글입니다**</b>"
-                           }else{
-                              mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-                           }
-                           mytable += "</td>";
-                           mytable += "<td class='view-message  inbox-small-cells'><i class='fa fa-paperclip'></i></td>";
-                           mytable += "<td class='view-message'>" + obj.writedate.substr(0,10) + "</td>";
-                           mytable += "<td class='view-message  text-right'>" +   obj.readnum + "</td>";
-                           if(obj.cocode ==1){
-                              mytable += "<td class='view-message  text-right'></td>";
-                         mytable += "<td class='view-message  text-right'></td>";
-                           }else{
-                              mytable += "<td class='view-message  text-right'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-                               mytable += "<td class='view-message  text-right'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-                           }
-                           
-                           mytable += " </tr>";
+
+                	  mytable+= "<tr class='unread'>"+                          
+                      "<td class='view-message  dont-show'>";
+                      mytable+= obj.id;
+                      mytable+= "</td>"; 
+                      mytable += "<td class='view-message'>";
+                      for(var i=1; i<= obj.dept; i++){
+                         mytable +="&nbsp;&nbsp;&nbsp";
+                      }
+                      if(obj.dept > 0){
+                         mytable += "<img src='img/re.gif' />";
+                      }
+                      if(obj.cocode == 1) {
+                         mytable += "<b>**삭제된 글입니다**</b>"
+                      }else{
+                         mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                      }
+                      mytable += "</td>";                         
+                      mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                      mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                      if(obj.cocode ==1){
+                         mytable += "<td class='view-message'></td>";
+                    mytable += "<td class='view-message'></td>";
+                      }else{
+                         mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                          mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                      }
+                      
+                      mytable += " </tr>";
+
                   });
                   $('#mytable').append(mytable);
                
@@ -859,13 +818,79 @@ function message() {
    return "Are you fucking sure? There is no way back!!!!";
 }
 
+
+function myTotal() {
+	   var pagesize = $('#pagesize :selected').val();
+	   var currentpage = Math.ceil($('#indexend').text() / pagesize);
+	   
+	   console.log("온로드 하면 실행 되는 함수 토탈 카운트를 위해" + pagesize);
+	   console.log(currentpage);
+	   
+	  
+	   
+	   
+	   var page_data;
+	   var searchword = $('#searchword').val();
+	   console.log("토탈 카운트 하는 함수에서 보이는 서치워드는??" +searchword);
+	   
+	   
+	   if(searchword == ""){
+	      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 401, "zcode" : 2}
+	   }else{
+	      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 401, "zcode" : 2, "sw" : searchword}
+	   }
+	   
+	   console.log(page_data);
+	   
+	   var mytbc;
+	   $.ajax({
+	            url:"boardList.do",
+	            data:page_data,
+	            type:"POST",       //httpReq.open("post")
+	            dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+	            
+	            success :function(responsedata){
+	               console.log("토탈보드 카운트 비동기 처리후 보드 카운트 수는???" +responsedata);
+	               $('#tbc').text(responsedata);
+	               
+	   			   mytbc = responsedata;
+	      
+	            },
+	            error:function(xhr){
+	               alert("토탈 카운트 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+	            }
+	   
+	         });   
+	   
+	   
+	   return mytbc
+	}
+
+
 function search() {
    event.preventDefault();
    var searchword = $('#searchword').val();
    console.log(searchword);
+   
+   
+   
+   
    var pagesize = $('#pagesize :selected').val();
    var currentpage = 1;
-   var tbc = $('#tbc').text();
+   
+   
+   //서치 할 때 페이지 처리를 위해 페이지 설정
+   
+   /* var tbc = myTotal();
+   console.log("서치했을 때 보드 카운트 수" + tbc);
+   $('#indexstart').text("1");
+   if(tbc < pagesize){
+	   $('#indexend').text(tbc);
+   }else{
+	   $('#indexend').text(pagesize);
+   }
+   console.log("서치할 때 인덱스 앤드 설정" +$('#indexend').text()); */
+   
    
    
    if(searchword != null){
@@ -888,11 +913,7 @@ function search() {
                   $.each(responsedata,function(index, obj){
                
                
-                     mytable+= "<tr class='unread'>"+
-                           "<td class='inbox-small-cells'>"+
-                           "<input type='checkbox' class='mail-checkbox'>"+
-                           "</td>"+
-                           "<td class='inbox-small-cells'><i class='fa fa-star'></i></td>"+
+                     mytable+= "<tr class='unread'>"+                          
                            "<td class='view-message  dont-show'>";
                            mytable+= obj.id;
                            mytable+= "</td>"; 
@@ -908,16 +929,17 @@ function search() {
                            }else{
                               mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
                            }
-                           mytable += "</td>";
-                           mytable += "<td class='view-message  inbox-small-cells'><i class='fa fa-paperclip'></i></td>";
-                           mytable += "<td class='view-message'>" + obj.writedate.substr(0,10) + "</td>";
-                           mytable += "<td class='view-message  text-right'>" +   obj.readnum + "</td>";
+
+                           mytable += "</td>";                         
+                           mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                           mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+
                            if(obj.cocode ==1){
-                              mytable += "<td class='view-message  text-right'></td>";
-                         mytable += "<td class='view-message  text-right'></td>";
+                              mytable += "<td class='view-message'></td>";
+                         mytable += "<td class='view-message'></td>";
                            }else{
-                              mytable += "<td class='view-message  text-right'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-                               mytable += "<td class='view-message  text-right'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                              mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                               mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
                            }
                            
                            mytable += " </tr>";
@@ -1152,26 +1174,22 @@ function writeOk() {
                      <table class="table table-inbox table-hover">
                         <tbody id="mytable">
                            <tr class="unread">
-                              <th class="inbox-small-cells"><input type="checkbox"
-                                 class="mail-checkbox"></th>
-                              <th class="inbox-small-cells"><i class="fa fa-star"></i></th>
+                              
                               <th class="view-message dont-show">글쓴이</th>
                               <th class="view-message">제목
                               </td>
-                              <th class="view-message inbox-small-cells"></th>
+                             
                               <th class="view-message">작성일
                               </td>
                               <th class="view-message">조회수</th>
-                              <th class="view-message  text-right">수정</th>
-                              <th class="view-message  text-right">삭제</th>
+                              <th class="view-message">수정</th>
+                              <th class="view-message">삭제</th>
 
                            </tr>
 
                            <c:forEach var="blist" items='${requestScope.boardlist}'>
                               <tr class="unread">
-                                 <td class="inbox-small-cells"><input type="checkbox"
-                                    class="mail-checkbox"></td>
-                                 <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                 
                                  <td class="view-message  dont-show">${blist.id}</td>
 
 
@@ -1193,11 +1211,11 @@ function writeOk() {
                                        </c:otherwise>
                                     </c:choose></td>
 
-                                 <td class="view-message  inbox-small-cells"><i
-                                    class="fa fa-paperclip"></i></td>
-                                    <c:set var="writedate" value="${blist.writedate}" />
-											<td class="view-message">${fn:substring(writedate, 0, 10)}</td>
-                                 <td class="view-message  text-right">${blist.readnum}</td>
+
+                                 
+                                 <td class="view-message">${blist.writedate}</td>
+                                 <td class="view-message">${blist.readnum}</td>
+
                                  <c:choose>
                                  <c:when test="${blist.id == sessionScope.id}">
                                  <c:choose>
@@ -1207,10 +1225,10 @@ function writeOk() {
                                           <td class="view-message  text-right"></td>
                                        </c:when>
                                        <c:otherwise>
-                                          <td class="view-message  text-right"><a
+                                          <td class="view-message"><a
                                              href="boardDetail.do?bcode=401&edit=1&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
                                              class="btn mini blue">수정</a></td>
-                                          <td class="view-message  text-right"><a
+                                          <td class="view-message"><a
                                              href="boardDelete.do?bcode=401&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
                                              class="btn mini blue" onclick="return confirm(message())">삭제</a>
                                           </td>

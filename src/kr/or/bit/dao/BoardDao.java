@@ -763,6 +763,36 @@ public class BoardDao {
 	      return totalcount;
 	   }
    
+   public int totalBoardCount(int bcode, String sw) { //토탈 카운트 얻기 
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      int totalcount = 0;
+	      try {
+	         conn = ds.getConnection(); //dbcp 연결객체 얻기
+	         String sql="select count(*) cnt from board where bcode=? and cocode=0 and (title like '%"+sw+"%' or content like '%"+sw+"%')";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, bcode);
+	         
+	         rs = pstmt.executeQuery();
+	         if(rs.next()) {
+	            totalcount = rs.getInt("cnt");
+	         }
+	      }catch (Exception e) {
+	         
+	      }finally {
+	         try {
+	            pstmt.close();
+	            rs.close();
+	            conn.close();//반환  connection pool 에 반환하기
+	         }catch (Exception e) {
+	            
+	         }
+	      }
+	      return totalcount;
+	   }
+   
    
    public ArrayList<Board> list(int cpage , int pagesize, int bcode){   //페이징처리 함수   (진성오빠)
 
