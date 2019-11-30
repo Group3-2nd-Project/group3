@@ -134,11 +134,10 @@ function writeOk() {
 <br>
 <hr>
 
-            
-            <div class="container" style="margin-bottom: 5%">
+        <div style="margin-left: 20%; margin-right: 20%">    
+            <div class="container">
                <div class="row">
-                  <div class="col-sm ">PageSize설정 : </div>
-                  <div class="col-sm">
+                  <div class="col-sm-4">
                   <form name="list">
                   <input type="hidden" name="cp" value="1">
                   <input type="hidden" name="bcode" value="102">
@@ -156,15 +155,7 @@ function writeOk() {
                      </select>
                      </form>
                   </div>
-                  <div class="col-sm ">&nbsp;&nbsp;&nbsp;&nbsp;총 게시물수 : ${totalcount}</div>
-               </div>
-            </div>
-            
-            
-            
-            <div class="container">
-               <div class="row">
-                  <div class="col-sm ">
+                  <div class="col-sm-4">
                      <!--이전 링크 -->
                      <c:if test="${cp>1}">
                         <a href="TradeList.do?cp=${cp-1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-left" ></i></a>
@@ -185,8 +176,11 @@ function writeOk() {
                         <a href="TradeList.do?cp=${cp+1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-right" ></i></a>
                      </c:if>
                   </div>
+                  <div class="col-sm-4" style="text-align: right">총 게시물수 : ${totalcount}</div>
                </div>
             </div>
+            
+            
 
 
    <div id="reviewbox">
@@ -253,6 +247,7 @@ function writeOk() {
                </div>
             </c:forEach>
      
+  </div>
   </div>
        </div>
       </section>
