@@ -78,13 +78,11 @@ $(function(){
             $.each(val,function(index, obj) {
                 var temp = ''+obj.readcount+'';
                 var option = {v:obj.readcount, f:temp};
-                //console.log(option);
                 var option2 = obj.title;
                 arr[index] = [option2, option];
                 
              });
             arr1[0]=arr;
-            //console.log(arr1[0]);
             data.addRows(arr1[0]);
         var table = new google.visualization.Table(document.getElementById('table_div'));
 

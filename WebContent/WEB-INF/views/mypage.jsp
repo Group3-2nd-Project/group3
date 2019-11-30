@@ -270,7 +270,7 @@ $(function(){
 <jsp:include page="/common/top.jsp"></jsp:include>
 <body>
 <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero.jpg)"> 
-<div style ="padding-top:15%; padding-bottom:10%; margin-left: 20%; margin-right: 20%;">
+<div style ="padding-top:15%; padding-bottom:10%; margin-left: 10%; margin-right: 10%;">
 
 <div class="tab" style ="background-color: #DCDCDC;">
 
@@ -324,7 +324,7 @@ $(function(){
 <div id="MyInfo" class="tabcontent" style="overflow-x:auto; height:100%; color: #333333; ">
 <form action="MyInfoEditOk.do">
 	<h5 style="text-align: center; margin-top: 2%">나의 정보</h5>
-  <table class="table" id=table style="width:70%; margin-left: auto; margin-right: auto">
+  <table class="table" id=table style="width:50%; margin-left: auto; margin-right: auto; font-size: 13px; text-align: center">
   	<tr style="margin:2%">
   		<th>아이디</th>
   		<th><input type="text" class="form-control" readonly="readonly" id="myid" name="myid"></th>
