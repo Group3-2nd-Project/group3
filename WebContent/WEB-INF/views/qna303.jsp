@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 
@@ -26,12 +26,12 @@
 
 
 <link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
+   href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+   rel="stylesheet" id="bootstrap-css">
 <link rel='stylesheet prefetch'
-	href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+   href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
 <script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+   src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
@@ -483,40 +483,23 @@ ul {
 	margin: 0px;
 }
 
+tr {
+ border:0;	
 
-th,td {
-text-align: center;
-}
+ }
+
+
 </style>
 <script type="text/javascript">
 
-$(function() {	
-	var pagesize = $('#pagesize :selected').val();
-	var currentpage = Math.ceil($('#indexend').text() / pagesize);
-	
-	console.log("온로드 하면 실행 되는 함수" + pagesize);
-	console.log(currentpage);
-	
-	var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 2}
-	var mytbc;
-	$.ajax({
-				url:"boardList.do",
-				data:page_data,
-				type:"POST",       //httpReq.open("post")
-				dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-				
-				success :function(responsedata){
-					console.log(responsedata);
-					$('#tbc').text(responsedata);
-	
-		
-				},
-				error:function(xhr){
-					alert("토탈 카운트 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-				}
-	
-			});	
-	
+
+
+
+$(function () {   
+   myTotal();
+	   if(${sessionScope.grade}!=2){
+		   $('#colin').hide();
+	   }
 });
 
 
@@ -528,91 +511,89 @@ $(function() {
 
 
 function showlist() {
-	
-	
-	var pagesize = $('#pagesize :selected').val();
-	var currentpage = 1;
-	var tbc = $('#tbc').text();
-	
-	
-	//ps(cp-1)+1 - cp*ps(페이징 처리 공식)
-	$('#indexend').empty();
-	if(pagesize*currentpage > tbc){
-		$('#indexend').text(tbc );
-	}else{
-		$('#indexend').text(pagesize*currentpage );
-	}
-	
-	
-	$('#indexstart').text(pagesize*(currentpage-1)+1 );
-	//var gg = ${requestScope.tbc};
-	var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
-	//console.log(gg);
-	$.ajax(
-			{
-				url:"boardList.do",
-				data:page_data,
-				type:"POST",       //httpReq.open("post")
-				dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-				
-				success :function(responsedata){
-					console.log(responsedata);
-					$("tr:has(td)").remove();
-					//console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
-					var mytable;
-					$.each(responsedata,function(index, obj){
-				
-				
+   
+   
+   var pagesize = $('#pagesize :selected').val();
+   var currentpage = 1;
+   var tbc = $('#tbc').text();
+   
+   
+   //ps(cp-1)+1 - cp*ps(페이징 처리 공식)
+   $('#indexend').empty();
+   if(pagesize*currentpage > tbc){
+      $('#indexend').text(tbc );
+   }else{
+      $('#indexend').text(pagesize*currentpage );
+   }
+   
+   
+   $('#indexstart').text(pagesize*(currentpage-1)+1 );
+   //var gg = ${requestScope.tbc};
+   var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
+   //console.log(gg);
+   $.ajax(
+         {
+            url:"boardList.do",
+            data:page_data,
+            type:"POST",       //httpReq.open("post")
+            dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+            
+            success :function(responsedata){
+               console.log(responsedata);
+               $("tr:has(td)").remove();
+               //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
+               var mytable;
+               $.each(responsedata,function(index, obj){
 
-						mytable+= "<tr class='unread'>"+                          
-		                   "<td class='view-message  dont-show'>";
-		                   mytable+= obj.id;
-		                   mytable+= "</td>"; 
-		                   mytable += "<td class='view-message'>";
-		                   for(var i=1; i<= obj.dept; i++){
-		                      mytable +="&nbsp;&nbsp;&nbsp";
-		                   }
-		                   if(obj.dept > 0){
-		                      mytable += "<img src='img/re.gif' />";
-		                   }
-		                   if(obj.cocode == 1) {
-		                      mytable += "<b>**삭제된 글입니다**</b>"
-		                   }else{
-		                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-		                   }
-		                   mytable += "</td>";                         
-		                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
-		                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
-		                   if(obj.cocode ==1){
-		                      mytable += "<td class='view-message'></td>";
-		                 mytable += "<td class='view-message'></td>";
-		                   }else{
-		                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-		                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-		                   }
-		                   
-		                   mytable += " </tr>";
+            	   mytable+= "<tr class='unread'>"+                          
+                   "<td class='view-message  dont-show'>";
+                   mytable+= obj.id;
+                   mytable+= "</td>"; 
+                   mytable += "<td class='view-message'>";
+                   for(var i=1; i<= obj.dept; i++){
+                      mytable +="&nbsp;&nbsp;&nbsp";
+                   }
+                   if(obj.dept > 0){
+                      mytable += "<img src='img/re.gif' />";
+                   }
+                   if(obj.cocode == 1) {
+                      mytable += "<b>**삭제된 글입니다**</b>"
+                   }else{
+                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=303&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                   }
+                   mytable += "</td>";                         
+                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                   if(obj.cocode ==1){
+                      mytable += "<td class='view-message'></td>";
+                 mytable += "<td class='view-message'></td>";
+                   }else{
+                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=303&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=303&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                   }
+                   
+                   mytable += " </tr>";
 
-					});
-					$('#mytable').append(mytable);
-				
-					
-					
-				},
-				error:function(xhr){
-					alert("비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-				}
-				
-				
-				
-			}		
-				
-	);
-	
-	
-	
-	
-	
+               });
+               $('#mytable').append(mytable);
+            
+               
+               
+            },
+            error:function(xhr){
+               alert("비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+            }
+            
+            
+            
+         }      
+            
+   );
+   
+   
+   
+   
+   
 }
 
 
@@ -621,346 +602,485 @@ function showlist() {
 
 
 function downpage() {
-	
-	
-	var pagesize = $('#pagesize :selected').val();
-	var indexend = $('#indexend').text();
-	var currentpage =Math.ceil($('#indexend').text() / pagesize);
-	
-	
-	
-	console.log(currentpage);
-	
-	var mytbc2 = $('#tbc').text();
-	
-	//ps(cp-1)+1 - cp*ps(페이징 처리 공식)
-	if(currentpage > 1){
-		currentpage = currentpage -1;
-		$('#indexstart').text(pagesize*(currentpage-1)+1);
-		
-		if(pagesize*currentpage > mytbc2){
-			$('#indexend').text(mytbc2 );
-		}else{
-			$('#indexend').text(pagesize*currentpage );
-		}
-		
-		
-	
-		
-		console.log(pagesize);
-		console.log(currentpage);
-		
-		/* $('#indexend').empty();
-		$('#indexend').text(pagesize*currentpage ); */
-		//var gg = ${requestScope.tbc};
-		var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
-		//console.log(gg);
-		$.ajax(
-				{
-					url:"boardList.do",
-					data:page_data,
-					type:"POST",       //httpReq.open("post")
-					dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-					
-					success :function(responsedata){
-						console.log(responsedata);
-						$("tr:has(td)").remove();
-						//console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
-						var mytable;
-						$.each(responsedata,function(index, obj){
-					
-					
+   
+   
+   var pagesize = $('#pagesize :selected').val();
+   var indexend = $('#indexend').text();
+   var currentpage =Math.ceil($('#indexend').text() / pagesize);
+   
+   
+   
+   console.log(currentpage);
+   
+   var mytbc2 = $('#tbc').text();
+   
+   //ps(cp-1)+1 - cp*ps(페이징 처리 공식)
+   if(currentpage > 1){
+      currentpage = currentpage -1;
+      $('#indexstart').text(pagesize*(currentpage-1)+1);
+      
+      if(pagesize*currentpage > mytbc2){
+         $('#indexend').text(mytbc2 );
+      }else{
+         $('#indexend').text(pagesize*currentpage );
+      }
+      
+      
+   
+      
+      console.log(pagesize);
+      console.log(currentpage);
+      
+      /* $('#indexend').empty();
+      $('#indexend').text(pagesize*currentpage ); */
+      //var gg = ${requestScope.tbc};
+      var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
+      //console.log(gg);
+      $.ajax(
+            {
+               url:"boardList.do",
+               data:page_data,
+               type:"POST",       //httpReq.open("post")
+               dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+               
+               success :function(responsedata){
+                  console.log(responsedata);
+                  $("tr:has(td)").remove();
+                  //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
+                  var mytable;
+                  $.each(responsedata,function(index, obj){
+               
 
-							mytable+= "<tr class='unread'>"+                          
-			                   "<td class='view-message  dont-show'>";
-			                   mytable+= obj.id;
-			                   mytable+= "</td>"; 
-			                   mytable += "<td class='view-message'>";
-			                   for(var i=1; i<= obj.dept; i++){
-			                      mytable +="&nbsp;&nbsp;&nbsp";
-			                   }
-			                   if(obj.dept > 0){
-			                      mytable += "<img src='img/re.gif' />";
-			                   }
-			                   if(obj.cocode == 1) {
-			                      mytable += "<b>**삭제된 글입니다**</b>"
-			                   }else{
-			                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-			                   }
-			                   mytable += "</td>";                         
-			                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
-			                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
-			                   if(obj.cocode ==1){
-			                      mytable += "<td class='view-message'></td>";
-			                 mytable += "<td class='view-message'></td>";
-			                   }else{
-			                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-			                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-			                   }
-			                   
-			                   mytable += " </tr>";
+                	  mytable+= "<tr class='unread'>"+                          
+                      "<td class='view-message  dont-show'>";
+                      mytable+= obj.id;
+                      mytable+= "</td>"; 
+                      mytable += "<td class='view-message'>";
+                      for(var i=1; i<= obj.dept; i++){
+                         mytable +="&nbsp;&nbsp;&nbsp";
+                      }
+                      if(obj.dept > 0){
+                         mytable += "<img src='img/re.gif' />";
+                      }
+                      if(obj.cocode == 1) {
+                         mytable += "<b>**삭제된 글입니다**</b>"
+                      }else{
+                         mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=303&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                      }
+                      mytable += "</td>";                         
+                      mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                      mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                      if(obj.cocode ==1){
+                         mytable += "<td class='view-message'></td>";
+                    mytable += "<td class='view-message'></td>";
+                      }else{
+                         mytable += "<td class='view-message'><a href='boardDetail.do?bcode=303&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                          mytable += "<td class='view-message'><a href='boardDelete.do?bcode=303&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                      }
+                      
+                      mytable += " </tr>";
 
-						});
-						$('#mytable').append(mytable);
-					
-						
-						
-						
-						
-						/* if(responsedata.trim() == "success") {
-							$('#message').html('<p>로그인 성공</p>');
-							$('#form1').slideUp();
-						}else{
-							$('#message').html('<p>로그인 실패</p>');
-						} */
-						
-					},
-					error:function(xhr){
-						alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-					}
-					
-					
-					
-				});		
-					
-	}
-	
-	
-}	
-	
-	
-	
+                  });
+                  $('#mytable').append(mytable);
+               
+                  
+                  
+                  
+                  
+                  /* if(responsedata.trim() == "success") {
+                     $('#message').html('<p>로그인 성공</p>');
+                     $('#form1').slideUp();
+                  }else{
+                     $('#message').html('<p>로그인 실패</p>');
+                  } */
+                  
+               },
+               error:function(xhr){
+                  alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+               }
+               
+               
+               
+            });      
+               
+   }
+   
+   
+}   
+   
+   
+   
 
 
 function uppage() {
-	var pagesize = $('#pagesize :selected').val();
-	var currentpage = $('#indexend').text() / pagesize;
-	var mytbc2 = $('#tbc').text();
-	var maxcp = (mytbc2 / pagesize) ;
-	
-	
-	console.log(maxcp);
-	console.log(pagesize);
-	console.log(currentpage);
-	
-	
-	
-	//ps(cp-1)+1 - cp*ps(페이징 처리 공식)
-	if(currentpage < maxcp){
-		currentpage = currentpage +1;
-		$('#indexstart').text(pagesize*(currentpage-1)+1);
-		if(pagesize*currentpage > mytbc2){
-			$('#indexend').text(mytbc2 );
-		}else{
-			$('#indexend').text(pagesize*currentpage );
-		}
-		
-		
-		
-		/* $('#indexend').empty();
-		$('#indexend').text(pagesize*currentpage ); */
-		//var gg = ${requestScope.tbc};
-		var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
-		//console.log(gg);
-		$.ajax(
-				{
-					url:"boardList.do",
-					data:page_data,
-					type:"POST",       //httpReq.open("post")
-					dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-					
-					success :function(responsedata){
-						console.log(responsedata);
-						$("tr:has(td)").remove();
-						//console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
-						var mytable;
-						var dele
-						$.each(responsedata,function(index, obj){
-					
-					
+   var pagesize = $('#pagesize :selected').val();
+   var currentpage = $('#indexend').text() / pagesize;
+   var mytbc2 = $('#tbc').text();
+   var maxcp = (mytbc2 / pagesize) ;
+   
+   
+   console.log(maxcp);
+   console.log(pagesize);
+   console.log(currentpage);
+   
+   
+   
+   //ps(cp-1)+1 - cp*ps(페이징 처리 공식)
+   if(currentpage < maxcp){
+      currentpage = currentpage +1;
+      $('#indexstart').text(pagesize*(currentpage-1)+1);
+      if(pagesize*currentpage > mytbc2){
+         $('#indexend').text(mytbc2 );
+      }else{
+         $('#indexend').text(pagesize*currentpage );
+      }
+      
+      
+      
+      /* $('#indexend').empty();
+      $('#indexend').text(pagesize*currentpage ); */
+      //var gg = ${requestScope.tbc};
+      var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1}
+      //console.log(gg);
+      $.ajax(
+            {
+               url:"boardList.do",
+               data:page_data,
+               type:"POST",       //httpReq.open("post")
+               dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+               
+               success :function(responsedata){
+                  console.log(responsedata);
+                  $("tr:has(td)").remove();
+                  //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
+                  var mytable;
+                  var dele
+                  $.each(responsedata,function(index, obj){
 
-							mytable+= "<tr class='unread'>"+                          
-			                   "<td class='view-message  dont-show'>";
-			                   mytable+= obj.id;
-			                   mytable+= "</td>"; 
-			                   mytable += "<td class='view-message'>";
-			                   for(var i=1; i<= obj.dept; i++){
-			                      mytable +="&nbsp;&nbsp;&nbsp";
-			                   }
-			                   if(obj.dept > 0){
-			                      mytable += "<img src='img/re.gif' />";
-			                   }
-			                   if(obj.cocode == 1) {
-			                      mytable += "<b>**삭제된 글입니다**</b>"
-			                   }else{
-			                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-			                   }
-			                   mytable += "</td>";                         
-			                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
-			                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
-			                   if(obj.cocode ==1){
-			                      mytable += "<td class='view-message'></td>";
-			                 mytable += "<td class='view-message'></td>";
-			                   }else{
-			                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-			                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-			                   }
-			                   
-			                   mytable += " </tr>";
+                	  mytable+= "<tr class='unread'>"+                          
+                      "<td class='view-message  dont-show'>";
+                      mytable+= obj.id;
+                      mytable+= "</td>"; 
+                      mytable += "<td class='view-message'>";
+                      for(var i=1; i<= obj.dept; i++){
+                         mytable +="&nbsp;&nbsp;&nbsp";
+                      }
+                      if(obj.dept > 0){
+                         mytable += "<img src='img/re.gif' />";
+                      }
+                      if(obj.cocode == 1) {
+                         mytable += "<b>**삭제된 글입니다**</b>"
+                      }else{
+                         mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=303&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                      }
+                      mytable += "</td>";                         
+                      mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                      mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
+                      if(obj.cocode ==1){
+                         mytable += "<td class='view-message'></td>";
+                    mytable += "<td class='view-message'></td>";
+                      }else{
+                         mytable += "<td class='view-message'><a href='boardDetail.do?bcode=303&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                          mytable += "<td class='view-message'><a href='boardDelete.do?bcode=303&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                      }
+                      
+                      mytable += " </tr>";
 
-						});
-						$('#mytable').append(mytable);
-					
-						 
-						
-						
-						
-						/* if(responsedata.trim() == "success") {
-							$('#message').html('<p>로그인 성공</p>');
-							$('#form1').slideUp();
-						}else{
-							$('#message').html('<p>로그인 실패</p>');
-						} */
-						
-					},
-					error:function(xhr){
-						alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-					}
-					
-					
-					
-				});		
-					
-	}
-	
-	
-	
-	
+                  });
+                  $('#mytable').append(mytable);
+               
+                   
+                  
+                  
+                  
+                  /* if(responsedata.trim() == "success") {
+                     $('#message').html('<p>로그인 성공</p>');
+                     $('#form1').slideUp();
+                  }else{
+                     $('#message').html('<p>로그인 실패</p>');
+                  } */
+                  
+               },
+               error:function(xhr){
+                  alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+               }
+               
+               
+               
+            });      
+               
+   }
+   
+   
+   
+   
 }
 
 
 function message() {
-	return "Are you fucking sure? There is no way back!!!!";
+   return "Are you fucking sure? There is no way back!!!!";
 }
+
+
+function myTotal() {
+	   var pagesize = $('#pagesize :selected').val();
+	   var currentpage = Math.ceil($('#indexend').text() / pagesize);
+	   
+	   console.log("온로드 하면 실행 되는 함수 토탈 카운트를 위해" + pagesize);
+	   console.log(currentpage);
+	   
+	  
+	   
+	   
+	   var page_data;
+	   var searchword = $('#searchword').val();
+	   console.log("토탈 카운트 하는 함수에서 보이는 서치워드는??" +searchword);
+	   
+	   
+	   if(searchword == ""){
+	      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 2}
+	   }else{
+	      page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 2, "sw" : searchword}
+	   }
+	   
+	   console.log(page_data);
+	   
+	   var mytbc;
+	   $.ajax({
+	            url:"boardList.do",
+	            data:page_data,
+	            type:"POST",       //httpReq.open("post")
+	            dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+	            
+	            success :function(responsedata){
+	               console.log("토탈보드 카운트 비동기 처리후 보드 카운트 수는???" +responsedata);
+	               $('#tbc').text(responsedata);
+	               
+	   			   mytbc = responsedata;
+	      
+	            },
+	            error:function(xhr){
+	               alert("토탈 카운트 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+	            }
+	   
+	         });   
+	   
+	   
+	   return mytbc
+	}
 
 
 function search() {
-	event.preventDefault();
-	var searchword = $('#searchword').val();
-	console.log(searchword);
-	var pagesize = $('#pagesize :selected').val();
-	var currentpage = 1;
-	var tbc = $('#tbc').text();
-	
-	
-	if(searchword != null){
-		
-		var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1, "sw" : searchword}
-	
-		$.ajax(
-				{
-					url:"boardList.do",
-					data:page_data,
-					type:"POST",       //httpReq.open("post")
-					dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
-					
-					success :function(responsedata){
-						console.log(responsedata);
-						$("tr:has(td)").remove();
-						//console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
-						var mytable;
-						var dele
-						$.each(responsedata,function(index, obj){
-					
-					
+   event.preventDefault();
+   var searchword = $('#searchword').val();
+   console.log(searchword);
+   
+   
+   
+   
+   var pagesize = $('#pagesize :selected').val();
+   var currentpage = 1;
+   
+   
+   //서치 할 때 페이지 처리를 위해 페이지 설정
+   
+   /* var tbc = myTotal();
+   console.log("서치했을 때 보드 카운트 수" + tbc);
+   $('#indexstart').text("1");
+   if(tbc < pagesize){
+	   $('#indexend').text(tbc);
+   }else{
+	   $('#indexend').text(pagesize);
+   }
+   console.log("서치할 때 인덱스 앤드 설정" +$('#indexend').text()); */
+   
+   
+   
+   if(searchword != null){
+      
+      var page_data = {"ps" : pagesize, "cp" : currentpage, "bcode" : 303, "zcode" : 1, "sw" : searchword}
+   
+      $.ajax(
+            {
+               url:"boardList.do",
+               data:page_data,
+               type:"POST",       //httpReq.open("post")
+               dataType:"json", //서버가 응답하는 데이터 형식(Text(json,script,txt,html) , xml) 
+               
+               success :function(responsedata){
+                  console.log(responsedata);
+                  $("tr:has(td)").remove();
+                  //console.log(">"+responsedata+"<"); 공백이 있는지 없는지 확인 할 수 있는 트릭 ~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
+                  var mytable;
+                  var dele
+                  $.each(responsedata,function(index, obj){
+               
+               
+                     mytable+= "<tr class='unread'>"+                          
+                           "<td class='view-message  dont-show'>";
+                           mytable+= obj.id;
+                           mytable+= "</td>"; 
+                           mytable += "<td class='view-message'>";
+                           for(var i=1; i<= obj.dept; i++){
+                              mytable +="&nbsp;&nbsp;&nbsp";
+                           }
+                           if(obj.dept > 0){
+                              mytable += "<img src='img/re.gif' />";
+                           }
+                           if(obj.cocode == 1) {
+                              mytable += "<b>**삭제된 글입니다**</b>"
+                           }else{
+                              mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=303&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
+                           }
 
-							mytable+= "<tr class='unread'>"+                          
-			                   "<td class='view-message  dont-show'>";
-			                   mytable+= obj.id;
-			                   mytable+= "</td>"; 
-			                   mytable += "<td class='view-message'>";
-			                   for(var i=1; i<= obj.dept; i++){
-			                      mytable +="&nbsp;&nbsp;&nbsp";
-			                   }
-			                   if(obj.dept > 0){
-			                      mytable += "<img src='img/re.gif' />";
-			                   }
-			                   if(obj.cocode == 1) {
-			                      mytable += "<b>**삭제된 글입니다**</b>"
-			                   }else{
-			                      mytable += "<a href='boardDetail.do?edit=0&idx="+ obj.idx+ "&bcode=401&cp=" + obj.cp + "&ps="+ obj.ps + "&zcode=0'>"+ obj.title + "</a>";
-			                   }
-			                   mytable += "</td>";                         
-			                   mytable += "<td class='view-message'>" + obj.writedate + "</td>";
-			                   mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
-			                   if(obj.cocode ==1){
-			                      mytable += "<td class='view-message'></td>";
-			                 mytable += "<td class='view-message'></td>";
-			                   }else{
-			                      mytable += "<td class='view-message'><a href='boardDetail.do?bcode=401&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
-			                       mytable += "<td class='view-message'><a href='boardDelete.do?bcode=401&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
-			                   }
-			                   
-			                   mytable += " </tr>";
+                           mytable += "</td>";                         
+                           mytable += "<td class='view-message'>" + obj.writedate + "</td>";
+                           mytable += "<td class='view-message'>" +   obj.readnum + "</td>";
 
-						});
-						$('#mytable').append(mytable);
-					
-						 
-						
-						
-						
-					},
-					error:function(xhr){
-						alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
-					}
-					
-					
-					
-				});		
-					
-	}
-	
-	
-	
+                           if(obj.cocode ==1){
+                              mytable += "<td class='view-message'></td>";
+                         mytable += "<td class='view-message'></td>";
+                           }else{
+                              mytable += "<td class='view-message'><a href='boardDetail.do?bcode=303&edit=1&tcode=0&idx="+ obj.idx+ "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue'>수정</a> </td>";
+                               mytable += "<td class='view-message'><a href='boardDelete.do?bcode=303&tcode=0&idx="+ obj.idx + "&cp="+obj.cp+"&ps="+ obj.ps+"&zcode=0' class='btn mini blue' onclick='return confirm(message())'>삭제 </a> </td>";
+                           }
+                           
+                           mytable += " </tr>";
+                  });
+                  $('#mytable').append(mytable);
+               
+                   
+                  
+                  
+                  
+               },
+               error:function(xhr){
+                  alert(" 다운 페이지 비동기 처리 실패~~~~~" + xhr.status + " / " + xhr.statusText);
+               }
+               
+               
+               
+            });      
+               
+   }
+   
+   
+   
 }
 
 function writeOk() {
-	if('${sessionScope.id}'==''){
-		   alert('로그인이 필요합니다');
-		   return false;
-	   }
+   if('${sessionScope.id}'==''){
+         alert('로그인이 필요합니다');
+         return false;
+      }
 }
 
-
-$(function(){
-	console.log("세션에 저장된 회원등급보기" +${sessionScope.grade});
-	if(${sessionScope.grade} == 2) {
-		$('#writeButton').show();
-		$('#editHd').show();
-	}else{
-		$('#writeButton').hide();
-		$('#editHd').hide();
-	}
-});
 </script>
 
 <jsp:include page="/common/top.jsp"></jsp:include>
 <body>
-	<div class="breadcumb-area bg-img bg-overlay"
-		style="background-image: url(img/bg-img/hero.jpg)">
-		<section style='padding-top: 200px; padding-bottom: 100px'>
-			<div class="container">
+   <div class="breadcumb-area bg-img bg-overlay"
+      style="background-image: url(img/bg-img/hero.jpg)">
+      <section style='padding-top: 200px; padding-bottom: 100px'>
+         <div class="container">
 
-				<div>
-					
+            <div class="mail-box">
+              <!--  <aside class="sm-side">
+                  <div class="user-head">
+                     <a class="inbox-avatar" href="javascript:;"
+                        style="color: #341a79;"> <img width="64" height="60"
+                        src="http://bootsnipp.com/img/avatars/ebeb306fd7ec11ab68cbcaa34282158bd80361a7.jpg">
+                     </a>
+                     <div class="user-name">
+                        <h3>Q&A Board
+                           <a href="#"></a>
+                        </h3>
+                        <span><a href="#"></a></span>
+                     </div>
+                     <a class="mail-dropdown pull-right" href="javascript:;"> <i
+                        class="fa fa-chevron-down"></i>
+                     </a>
+                  </div>
+                  <div class="inbox-body">
+                     <a href="#myModal" data-toggle="modal" title="Compose"
+                        class="btn btn-compose"> Compose </a>
+                     Modal
+                     <div aria-hidden="true" aria-labelledby="myModalLabel"
+                        role="dialog" tabindex="-1" id="myModal" class="modal fade"
+                        style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <button aria-hidden="true" data-dismiss="modal" class="close"
+                                    type="button">×</button>
+                                 <h4 class="modal-title">Compose</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <form role="form" class="form-horizontal">
+                                    <div class="form-group">
+                                       <label class="col-lg-2 control-label">To</label>
+                                       <div class="col-lg-10">
+                                          <input type="text" placeholder="" id="inputEmail1"
+                                             class="form-control">
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="col-lg-2 control-label">Cc / Bcc</label>
+                                       <div class="col-lg-10">
+                                          <input type="text" placeholder="" id="cc"
+                                             class="form-control">
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="col-lg-2 control-label">Subject</label>
+                                       <div class="col-lg-10">
+                                          <input type="text" placeholder="" id="inputPassword1"
+                                             class="form-control">
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="col-lg-2 control-label">Message</label>
+                                       <div class="col-lg-10">
+                                          <textarea rows="10" cols="30" class="form-control" id=""
+                                             name=""></textarea>
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                       <div class="col-lg-offset-2 col-lg-10">
+                                          <span class="btn green fileinput-button"> <i
+                                             class="fa fa-plus fa fa-white"></i> <span>Attachment</span>
+                                             <input type="file" name="files[]" multiple="">
+                                          </span>
+                                          <button class="btn btn-send" type="submit">Send</button>
+                                       </div>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                           /.modal-content
+                        </div>
+                        /.modal-dialog
+                     </div>
+                     /.modal
+                  </div>
+                  <ul class="inbox-nav inbox-divider">
+                     <li class="active"><a href="boardList.do?bcode=303&cp=1&ps=10&zcode=0"><i class="fa fa-inbox"></i>
+                           Q&A <span class="label label-danger pull-right">2</span></a></li>
+                     <li><a href="boardList.do?bcode=303&cp=1&ps=10&zcode=0"><i class="fa fa-bookmark-o"></i> Notice</a>
+                     </li>
+                  </ul>
 
 
-					<aside class="lg-side">
-						<div class="inbox-head">
-							<h3 style = "color: #125448;">Notice Board</h3>
 
-							<form  class="pull-right position" onSubmit="JavaScript:search()">
+               </aside> -->
+
+
+
+               <aside class="lg-side">
+                  <div class="inbox-head">
+                     <h3 style = "color: #125448;">NOTICE</h3>
+                     <form  class="pull-right position" onSubmit="JavaScript:search()">
                         <div class="input-append">
                            <input type="text" id="searchword" class="sr-input" placeholder="게시판 검색">
                            <button class="btn sr-btn" type="button" onclick="search()">
@@ -968,187 +1088,176 @@ $(function(){
                            </button>
                         </div>
                      </form>
-
-						</div>
-						<div class="inbox-body">
-							<div class="mail-option">
-								<!-- <div class="chk-all">
-									<input type="checkbox"
-										class="mail-checkbox mail-group-checkbox">
-									<div class="btn-group">
-										<a data-toggle="dropdown" href="#" class="btn mini all"
-											aria-expanded="false"> All <i class="fa fa-angle-down "></i>
-										</a>
-										<ul class="dropdown-menu">
-											<li><a href="#"> None</a></li>
-											<li><a href="#"> Read</a></li>
-											<li><a href="#"> Unread</a></li>
-										</ul>
-									</div>
-								</div>
- -->
-						<!-- 		<div class="btn-group">
-									<a data-original-title="Refresh" data-placement="top"
-										data-toggle="dropdown" href="#" class="btn mini tooltips">
-										<i class=" fa fa-refresh"></i>
-									</a>
-								</div> -->
-						<!-- 		<div class="btn-group hidden-phone">
-									<a data-toggle="dropdown" href="#" class="btn mini blue"
-										aria-expanded="false"> More <i class="fa fa-angle-down "></i>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#"><i class="fa fa-pencil"></i> Mark as
-												Read</a></li>
-										<li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
-										<li class="divider"></li>
-										<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-									</ul>
-								</div> -->
-								<!-- <div class="btn-group">
-									<a data-toggle="dropdown" href="#" class="btn mini blue">
-										Move to <i class="fa fa-angle-down "></i>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#"><i class="fa fa-pencil"></i> Mark as
-												Read</a></li>
-										<li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
-										<li class="divider"></li>
-										<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-									</ul>
-								</div> -->
-								    <div class="btn-group">
-                           <a href="boardList.do?zcode=0&bcode=401&tcode=0&cp=1&ps=${requestScope.ps }&idx=0&id=${sessionScope.id}" class="btn mini blue">
-                              	전체글 보기 
+                  </div>
+                  <div class="inbox-body">
+                     <div class="mail-option">
+                       <!--  <div class="chk-all">
+                           <input type="checkbox"
+                              class="mail-checkbox mail-group-checkbox">
+                           <div class="btn-group">
+                              <a data-toggle="dropdown" href="#" class="btn mini all"
+                                 aria-expanded="false"> All <i class="fa fa-angle-down "></i>
+                              </a>
+                              <ul class="dropdown-menu">
+                                 <li><a href="#"> None</a></li>
+                                 <li><a href="#"> Read</a></li>
+                                 <li><a href="#"> Unread</a></li>
+                              </ul>
+                           </div>
+                        </div> -->
+<!-- 
+                        <div class="btn-group">
+                           <a data-original-title="Refresh" data-placement="top"
+                              data-toggle="dropdown" href="#" class="btn mini tooltips">
+                              <i class=" fa fa-refresh"></i>
+                           </a>
+                        </div> -->
+                   <!--      <div class="btn-group hidden-phone">
+                           <a data-toggle="dropdown" href="#" class="btn mini blue"
+                              aria-expanded="false"> More <i class="fa fa-angle-down "></i>
+                           </a>
+                           <ul class="dropdown-menu">
+                              <li><a href="#"><i class="fa fa-pencil"></i> Mark as
+                                    Read</a></li>
+                              <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                           </ul>
+                        </div> -->
+                     <div class="btn-group">
+                           <a href="boardList.do?zcode=0&bcode=303&tcode=0&cp=1&ps=${requestScope.ps }&idx=0&id=${sessionScope.id}" class="btn mini blue">
+                              전체글 보기 
                            </a>
                            
                         </div> 
 
-								<div class="btn-group">
-									<a
-										href="gotoWrite.do?zcode=0&bcode=303&tcode=0&cp=1&ps=5&idx=0&id=${sessionScope.id }"
-										class="btn mini blue">글쓰기</a>
-								</div>
-								<c:set var="pagesize" value="${param.ps }"></c:set>
-								<div class="btn-group">
-									<select id="pagesize" name="ps" onchange="showlist()">
-										<c:forEach var="i" begin="5" end="20" step="5">
-											<c:choose>
-												<c:when test="${pagesize == i}">
-													<option value="${i}" selected>${i}건</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${i}">${i}건</option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</select>
-								</div>
+                        <div class="btn-group">
+                           <a
+                              href="gotoWrite.do?zcode=0&bcode=303&tcode=0&cp=1&ps=5&idx=0&id=${sessionScope.id}"
+                              class="btn mini blue" onclick="return writeOk()" id="colin">글쓰기</a>
+                        </div>
+                        <c:set var="pagesize" value="${param.ps }"></c:set>
+                        <div class="btn-group">
+                           <select id="pagesize" name="ps" onchange="showlist()">
+                              <c:forEach var="i" begin="5" end="20" step="5">
+                                 <c:choose>
+                                    <c:when test="${pagesize == i}">
+                                       <option value="${i}" selected>${i}건</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                       <option value="${i}">${i}건</option>
+                                    </c:otherwise>
+                                 </c:choose>
+                              </c:forEach>
+                           </select>
+                        </div>
 
 
-								<!-- 페이징 처리  ps(cp-1)+1 - cp*ps -->
-								<c:set var="ps" value="${requestScope.ps }"></c:set>
-								<c:set var="cp" value="${requestScope.cp }"></c:set>
-								<c:set var="tbc" value="${requestScope.totalboardcount}"></c:set>
-								<c:set var="bcode" value="${requestScope.bcode}"></c:set>
-								<ul class="unstyled inbox-pagination">
-									<!-- 페이징 처리 인덱스 끝 번호가 토탈 카운트 보다 큰경우 처리 해주기 -->
-									<li><span id="indexstart">${ps*(cp-1)+1}</span><span>-</span>
-										<span id="indexend"> <c:choose>
-												<c:when test="${ps*cp > tbc }">${tbc}</c:when>
-												<c:otherwise>${ps*cp}</c:otherwise>
-											</c:choose>
-									</span> of <span id="tbc">${tbc}</span></li>
-									<li style="cursor: pointer"><a class="np-btn"
-										onclick="downpage()"><i
-											class="fa fa-angle-left  pagination-left"></i></a></li>
-									<li style="cursor: pointer"><a class="np-btn"
-										onclick="uppage()"><i
-											class="fa fa-angle-right pagination-right"></i></a></li>
-								</ul>
-							</div>
+                        <!-- 페이징 처리  ps(cp-1)+1 - cp*ps -->
+                        <c:set var="ps" value="${requestScope.ps }"></c:set>
+                        <c:set var="cp" value="${requestScope.cp }"></c:set>
+                        <c:set var="tbc" value="${requestScope.totalboardcount}"></c:set>
+                        <ul class="unstyled inbox-pagination">
+                           <!-- 페이징 처리 인덱스 끝 번호가 토탈 카운트 보다 큰경우 처리 해주기 -->
+                           <li><span id="indexstart">${ps*(cp-1)+1}</span><span>-</span>
+                              <span id="indexend"> <c:choose>
+                                    <c:when test="${ps*cp > tbc }">${tbc}</c:when>
+                                    <c:otherwise>${ps*cp}</c:otherwise>
+                                 </c:choose>
+                           </span> of <span id="tbc">${tbc}</span></li>
+                           <li style="cursor: pointer"><a class="np-btn"
+                              onclick="downpage()"><i
+                                 class="fa fa-angle-left  pagination-left"></i></a></li>
+                           <li style="cursor: pointer"><a class="np-btn"
+                              onclick="uppage()"><i
+                                 class="fa fa-angle-right pagination-right"></i></a></li>
+                        </ul>
+                     </div>
 
-							<table class="table table-inbox table-hover">
-								<tbody id="mytable">
-									<tr class="unread">										
-										<th class="view-message dont-show">글쓴이</th>
+                     <table class="table table-inbox table-hover">
+                        <tbody id="mytable">
+                           <tr class="unread">
+                              
+                              <th class="view-message dont-show">글쓴이</th>
                               <th class="view-message">제목
                               </td>
                              
                               <th class="view-message">작성일
                               </td>
                               <th class="view-message">조회수</th>
-                              <th class="view-message">수정</th>
-                              <th class="view-message">삭제</th>
-									</tr>
+                              <th class="view-message"></th>
+                              <th class="view-message"></th>
 
-									<c:forEach var="blist" items='${requestScope.boardlist}'>
-										<tr class="unread">
-											
-											<td class="view-message  dont-show">${blist.id}</td>
+                           </tr>
 
-
-
-											<!-- 타이트 처리 티디 -->
-											<td class="view-message "><c:forEach var="i" begin="1"
-													end="${blist.dept}" step="1">
-									&nbsp;&nbsp;&nbsp;
-									</c:forEach> <c:if test="${blist.dept > 0}">
-													<img src="img/re.gif" />
-												</c:if> 
-												<!-- 삭제된 글 처리 -->
-												<c:choose>
-													<c:when test="${blist.cocode == 1 }">
-														<b>**삭제된 글입니다**</b>
-													</c:when>
-													<c:otherwise>
-														<a href="boardDetail.do?edit=0&idx=${blist.idx}&bcode=${blist.bcode}&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}">  ${blist.title}</a>
-													</c:otherwise>
-												</c:choose></td>
+                           <c:forEach var="blist" items='${requestScope.boardlist}'>
+                              <tr class="unread">
+                                 
+                                 <td class="view-message  dont-show">${blist.id}</td>
 
 
-											
-											<td class="view-message">${blist.writedate}</td>
-											<td class="view-message ">${blist.readnum}</td>
+
+                                 <!-- 타이트 처리 티디 -->
+                                 <td class="view-message "><c:forEach var="i" begin="1"
+                                       end="${blist.dept}" step="1">
+                           &nbsp;&nbsp;&nbsp;
+                           </c:forEach> <c:if test="${blist.dept > 0}">
+                                       <img src="img/re.gif" />
+                                    </c:if> 
+                                    <!-- 삭제된 글 처리 -->
+                                    <c:choose>
+                                       <c:when test="${blist.cocode == 1 }">
+                                          <b>**삭제된 글입니다**</b>
+                                       </c:when>
+                                       <c:otherwise>
+                                          <a href="boardDetail.do?edit=0&idx=${blist.idx}&bcode=303&cp=${cp}&ps=${ps}&zcode=0" onclick="return writeOk()">  ${blist.title}</a>
+                                       </c:otherwise>
+                                    </c:choose></td>
 
 
-											<c:choose>
-											<c:when test="${blist.id == sessionScope.id}">
-											<c:choose>
-													<c:when test="${blist.cocode == 1 }">
-														<td class="view-message"></td>
-															
-														<td class="view-message"></td>
-													</c:when>
-													<c:otherwise>
-														<td class="view-message"><a
-															href="boardDetail.do?bcode=${blist.bcode }&edit=1&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
-															class="btn mini blue">수정</a></td>
-														<td class="view-message"><a
-															href="boardDelete.do?bcode=${blist.bcode }&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
-															class="btn mini blue" onclick="return confirm(message())">삭제</a>
-														</td>
-													</c:otherwise>
-												</c:choose>
-											
-											</c:when>
-											<c:otherwise>
-											<td class="view-message  text-right"></td>
-															
-														<td class="view-message  text-right"></td>
-											</c:otherwise>
-											</c:choose>
+                                 
+                                 <td class="view-message">${blist.writedate}</td>
+                                 <td class="view-message">${blist.readnum}</td>
 
+                                 <c:choose>
+                                 <c:when test="${blist.id == sessionScope.id}">
+                                 <c:choose>
+                                       <c:when test="${blist.cocode == 1 }">
+                                          <td class="view-message  text-right"></td>
+                                             
+                                          <td class="view-message  text-right"></td>
+                                       </c:when>
+                                       <c:otherwise>
+                                          <td class="view-message"><a
+                                             href="boardDetail.do?bcode=303&edit=1&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
+                                             class="btn mini blue">수정</a></td>
+                                          <td class="view-message"><a
+                                             href="boardDelete.do?bcode=303&tcode=0&idx=${blist.idx }&cp=${cp}&ps=${ps}&zcode=0&id=${sessionScope.id}"
+                                             class="btn mini blue" onclick="return confirm(message())">삭제</a>
+                                          </td>
+                                       </c:otherwise>
+                                    </c:choose>
+                                 
+                                 </c:when>
+                                 <c:otherwise>
+                                 <td class="view-message  text-right"></td>
+                                             
+                                          <td class="view-message  text-right"></td>
+                                 </c:otherwise>
+                                 </c:choose>
+                                 
 
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</aside>
-				</div>
-			</div>
-		</section>
+                                 
+
+                              </tr>
+                           </c:forEach>
+                        </tbody>
+                     </table>
+                  </div>
+               </aside>
+            </div>
+         </div>
+      </section>
 </body>
 
 <jsp:include page="/common/bottom.jsp"></jsp:include>
