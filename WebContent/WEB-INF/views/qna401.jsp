@@ -483,9 +483,11 @@ ul {
 	margin: 0px;
 }
 
-th,td {
-text-align: center;
-}
+tr {
+ border:0;	
+
+ }
+
 
 </style>
 <script type="text/javascript">
