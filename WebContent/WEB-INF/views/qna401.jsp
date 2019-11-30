@@ -497,6 +497,9 @@ tr {
 
 $(function () {   
    myTotal();
+   if('${sessionScope.id}'==''){
+	   $('#colin').hide();
+   }
 });
 
 
@@ -1131,7 +1134,7 @@ function writeOk() {
                         <div class="btn-group">
                            <a
                               href="gotoWrite.do?zcode=0&bcode=401&tcode=0&cp=1&ps=5&idx=0&id=${sessionScope.id}"
-                              class="btn mini blue" onclick="return writeOk()">글쓰기</a>
+                              class="btn mini blue" onclick="return writeOk()" id="colin">글쓰기</a>
                         </div>
                         <c:set var="pagesize" value="${param.ps }"></c:set>
                         <div class="btn-group">
