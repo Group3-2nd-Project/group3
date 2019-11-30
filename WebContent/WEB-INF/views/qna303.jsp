@@ -208,7 +208,7 @@ ul.labels-info li a i {
 }
 
 .inbox-head {
-	background: none repeat scroll 0 0 #125448;
+	background: none repeat scroll 0 0 #eaedea;
 	border-radius: 0 4px 0 0;
 	color: #fff;
 	min-height: 80px;
@@ -233,7 +233,7 @@ ul.labels-info li a i {
 }
 
 .inbox-head .sr-btn {
-	background: none repeat scroll 0 0 #eaedea;
+	background: none repeat scroll 0 0 #125448;
 	border: medium none;
 	border-radius: 0 4px 4px 0;
 	color: #fff;
@@ -964,15 +964,15 @@ $(function(){
 
 					<aside class="lg-side">
 						<div class="inbox-head">
-							<h3>Notice Board</h3>
-							<!-- <form action="#" class="pull-right position">
+							<h3 style = "color: #125448;">Notice Board</h3>
+							<form action="#" class="pull-right position">
 								<div class="input-append">
-									<input type="text" class="sr-input" placeholder="Search Mail">
+									<input type="text" class="sr-input" placeholder="게시판 검색">
 									<button class="btn sr-btn" type="button">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>
-							</form> -->
+							</form>
 						</div>
 						<div class="inbox-body">
 							<div class="mail-option">
@@ -1021,6 +1021,12 @@ $(function(){
 										<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
 									</ul>
 								</div> -->
+								    <div class="btn-group">
+                           <a href="boardList.do?zcode=0&bcode=401&tcode=0&cp=1&ps=${requestScope.ps }&idx=0&id=${sessionScope.id}" class="btn mini blue">
+                              	전체글 보기 
+                           </a>
+                           
+                        </div> 
 
 								<div class="btn-group">
 									<a

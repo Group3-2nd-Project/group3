@@ -40,7 +40,7 @@
                                  </li> -->
                                 </ul>
                         </div>
-                        
+
                                      <div class="collapse navbar-collapse" id="dorneNav">
                                      <ul class="navbar-nav mr-auto" id="dorneMenu" style = "margin-left: 300px;">
 	                                <c:choose>

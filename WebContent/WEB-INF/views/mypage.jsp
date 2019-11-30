@@ -29,7 +29,7 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
+  border: 0 solid #ccc;
   background-color: #696969;
 
 }
@@ -37,7 +37,7 @@
 /* Style the buttons inside the tab */
 .tab button {
   background-color: inherit;
-  float: left;
+  float: left;s
   border: none;
   outline: none;
   cursor: pointer;
@@ -48,19 +48,20 @@
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color:  #deb887;
+  background-color:#eaedea;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #6b8e23;
+  background-color: #125448;
+  font-color: #fff;
 }
 
 /* Style the tab content */
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
+  border: 0 solid #ccc;
   border-top: none;
   height: 600px;
 }
