@@ -22,8 +22,10 @@ public class TradeListService implements Action { //수여닝
 		try {
 			
 			int bcode = Integer.parseInt(request.getParameter("bcode"));
-			 String cp = "1";
-	         String ps = "5";
+			String cp = request.getParameter("cp");
+			String ps = request.getParameter("ps");
+			// String cp = "1";
+	        // String ps = "5";
 			System.out.println("bcode 왜 여기로 안 들어와?/?/?//" +bcode);
 			
 			 BoardDao dao = new BoardDao();

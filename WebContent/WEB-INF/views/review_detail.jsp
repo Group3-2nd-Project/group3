@@ -173,7 +173,7 @@ $(function(){
 													<div class="comment-list">
 														<div class="single-comment justify-content-between d-flex">
 															<div class="user justify-content-between d-flex">
-																<div class="thumb">
+																<div class="thumb" >
 																	<i class="fab fa-replyd fa-5x"></i>
 
 																</div>
@@ -184,12 +184,9 @@ $(function(){
 																		rows="3" cols="100" style="resize: none;"></textarea>
 																</div>
 															</div>
-															<input type="hidden" id="idx" name="idx"
-																value="${detail.idx}" /> <input type="hidden" id="id"
-																name="id" value="${sessionScope.id}" /> <input
-																type="button" id="reviewbtn" name="reviewbtn"
-																class="btn-reply text-uppercase" value="reply"
-																onclick="addreply()">
+															<input type="hidden" id="idx" name="idx" value="${detail.idx}" /> 
+															<input type="hidden" id="id" name="id" value="${sessionScope.id}" /> 
+															<input type="button" id="reviewbtn" name="reviewbtn" class="btn-reply text-uppercase" value="reply" onclick="addreply()">
 
 														</div>
 													</div>

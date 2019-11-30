@@ -969,7 +969,7 @@ $(function(){
 							<form action="#" class="pull-right position">
 								<div class="input-append">
 									<input type="text" class="sr-input" placeholder="게시판 검색">
-									<button class="btn sr-btn" type="button">
+									<button class="btn sr-btn" type="button" onclick="search()">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>

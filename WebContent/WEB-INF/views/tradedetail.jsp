@@ -174,7 +174,7 @@ $(function(){
 													<div class="comment-list">
 														<div class="single-comment justify-content-between d-flex">
 															<div class="user justify-content-between d-flex">
-																<div class="thumb" style="width: 50px; height: 20px;">
+																<div class="thumb" >
 
 																	<i class="fab fa-replyd fa-5x"></i>
 
@@ -183,7 +183,7 @@ $(function(){
 
 																	ID : ${sessionScope.id} <br>
 																	<textarea id="replycontent" name="replycontent"
-																		rows="3" cols="120" style="resize: none;"></textarea>
+																		rows="3" cols="100" style="resize: none;"></textarea>
 																</div>
 															</div>
 															<input type="hidden" id="idx" name="idx"

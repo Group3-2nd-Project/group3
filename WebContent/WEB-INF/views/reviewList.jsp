@@ -68,6 +68,10 @@
  color : red;
 }
 
+a {
+color: #125448;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -149,13 +153,13 @@ function writeOk() {
                   <div class="col-sm ">
                      <!--이전 링크 -->
                      <c:if test="${cp>1}">
-                        <a href="ReviewList.do?cp=${cp-1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-left"></i></a>
+                        <a href="ReviewList.do?cp=${cp-1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-left" ></i></a>
                         <!--페이지 리스트 구현  -->
                      </c:if>
                      <c:forEach var="i" begin="1" end="${pagecount}" step="1">
                         <c:choose>
                            <c:when test="${cp==i}">
-                              <a><u><font color='red'>${i}</font></u></a>
+                              <a><u><font color="#FA8072;">${i}</font></u></a>
                            </c:when>
                            <c:otherwise>
                               <a href="ReviewList.do?cp=${i}&ps=${ps}&bcode=202">&nbsp;${i}&nbsp;</a>
@@ -164,32 +168,30 @@ function writeOk() {
                      </c:forEach>
                      <!--다음 링크 -->
                      <c:if test="${cp<pagecount}">
-                        <a href="ReviewList.do?cp=${cp+1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-right"></i></a>
+                        <a href="ReviewList.do?cp=${cp+1}&ps=${ps}&bcode=202"><i class="fas fa-chevron-circle-right" ></i></a>
                      </c:if>
                   </div>
                </div>
             </div>
 
 
-
-
 <br>
-<br>
+
    <div id="reviewbox">
    
             <c:forEach var="list" items="${requestScope.reviewlist}"  varStatus="status">
             
-               <div class="container"  id="inyoung">
+               <div class="container"  id="reviewdiv">
                   <div class="row justify-content-center d-flex"></div>
                   <div class="col-lg-12 post-list" id="reviewdiv">
 
                      <div class="single-post d-flex flex-row">
                         <div class="thumb" style="margin-right:5%">
-                           <img src="upload/${list.savename}"  style="width: 250px" onerror="this.src='./img/bg-img/noimage.gif'">
+                           <img src="upload/${list.savename}"  style="width: 220px; height: 190px" onerror="this.src='./img/bg-img/noimage.gif'">
                         </div>
                         <div class="details" style="margin-top: 1%">
                            <div class="title d-flex flex-row justify-content-between">
-                              <div class="titles" id="titlehover" style="font-size: 13px;">
+                              <div class="titles" id="titlehover" style="font-size: 13px; margin-bottom: 10%">
                                  <!-- 제목 -->
                                  <a href="ShowReviewDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}" onclick="return writeOk()">
                                     <h4>&nbsp;&nbsp;${list.title}</h4>

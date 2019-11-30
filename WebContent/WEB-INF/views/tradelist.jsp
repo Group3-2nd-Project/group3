@@ -64,8 +64,12 @@
 
 #titlehover:visited {
  background-color: #E6E6E6;
-
  color : red;
+}
+
+
+a {
+color: #125448;
 }
 
 </style>
@@ -123,7 +127,7 @@ function writeOk() {
                </button>
 
             </a>
-               <input type= "text" name="campgnm" id="campgnm" placeholder="검색어를 입력하세요" style ="width:30%; height:52px;">
+               <input type= "text" name="campgnm" id="campgnm" placeholder="검색어를 입력하세요" style ="width:15%; height:52px;">
               <button type="submit" id="searchbtn" name="searchbtn" class="btn dorne-btn" style ="width: 200px; background-color:#125448;"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
 
 <br>
@@ -133,7 +137,7 @@ function writeOk() {
             
             <div class="container" style="margin-bottom: 5%">
                <div class="row">
-                  <div class="col-sm ">PageSize설정:</div>
+                  <div class="col-sm ">PageSize설정 : </div>
                   <div class="col-sm">
                   <form name="list">
                   <input type="hidden" name="cp" value="1">
@@ -152,7 +156,7 @@ function writeOk() {
                      </select>
                      </form>
                   </div>
-                  <div class="col-sm ">&nbsp;&nbsp;&nbsp;&nbsp;총 게시물수 :${totalcount}</div>
+                  <div class="col-sm ">&nbsp;&nbsp;&nbsp;&nbsp;총 게시물수 : ${totalcount}</div>
                </div>
             </div>
             
@@ -163,7 +167,7 @@ function writeOk() {
                   <div class="col-sm ">
                      <!--이전 링크 -->
                      <c:if test="${cp>1}">
-                        <a href="TradeList.do?cp=${cp-1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-left"></i></a>
+                        <a href="TradeList.do?cp=${cp-1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-left" ></i></a>
                         <!--페이지 리스트 구현  -->
                      </c:if>
                      <c:forEach var="i" begin="1" end="${pagecount}" step="1">
@@ -178,17 +182,18 @@ function writeOk() {
                      </c:forEach>
                      <!--다음 링크 -->
                      <c:if test="${cp<pagecount}">
-                        <a href="TradeList.do?cp=${cp+1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-right"></i></a>
+                        <a href="TradeList.do?cp=${cp+1}&ps=${ps}&bcode=102"><i class="fas fa-chevron-circle-right" ></i></a>
                      </c:if>
                   </div>
                </div>
             </div>
 
+
    <div id="reviewbox">
 
             <c:forEach var="list" items="${requestScope.boardfile}" varStatus="status">
             <input type="hidden"  name="idx" value="${list.idx}">
-               <div class="container" id="inyoung">
+               <div class="container" id="reviewdiv">
 
                   <div class="row justify-content-center d-flex"></div>
                   <div class="col-lg-12 post-list">
@@ -197,29 +202,35 @@ function writeOk() {
 
                      <div class="single-post d-flex flex-row">
                         <div class="thumb"  style="margin-right:5%">
-                        <img src="upload/${list.savename}" name="oriname" style="width: 250px" onerror="this.src='./img/bg-img/noimage.gif'">
+                        <img src="upload/${list.savename}" name="oriname"  style="width: 220px; height: 190px" onerror="this.src='./img/bg-img/noimage.gif'">
                         </div>
                         <div class="details" style="margin-top: 1%">
                            <div class="title d-flex flex-row justify-content-between">
-                           <div class= "trading on" id="titlehover" style="font-size: 13px;"> 
+
+                  
+                           
+                            <div class= "trading on" id="titlehover" style="font-size: 13px; margin-bottom: 10%"> 
                            <!-- 제목 -->
                                  <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
                                  <h4>&nbsp;&nbsp; ${list.title}</h4>
                                  </a> 
                                  </div>
-                              <div class="titles" style = "margin-left: 300px;">
+                           
+                            <div class="col-lg-2">
+                               <div class="titles">
                               <br>
-                                 <a href="TradeDetail.do?idx=${list.idx}&cp=${cp}&ps=${ps}">
                                  <c:choose>
                                  <c:when test="${list.tcode==1}">
-                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매중<i class="fas fa-cart-plus fa-3x" style ="color:#125448;"></i></h4></a>
+                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매중<i class="fas fa-cart-plus fa-2x" style ="color:#FA8072;"></i></h4></a>
                                  </c:when>
                                  <c:otherwise>
-                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매완료<i class="fas fa-shopping-cart fa-3x" style ="color:#125448;"></i></h4></a>
+                                    <h4 id ="tcode" style ="text-align: center">&nbsp;&nbsp;판매완료<i class="fas fa-shopping-cart fa-2x" style ="color:#125448;"></i></h4></a>
                                  </c:otherwise>
                                  </c:choose>
                      
                               </div>
+                           </div>
+
                            </div>
                            <p class="address"  style="text-align: left">
                               &nbsp;&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;&nbsp;
