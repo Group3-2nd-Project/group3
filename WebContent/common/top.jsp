@@ -12,7 +12,7 @@
             <div class="row h-100" style= "padding:0 0 0 0; margin:0 0 0 0;">
                 <div class="col-12 h-100"  style= "padding:0 0 0 0; margin:0 0 0 0;">
                     <nav class="h-100 navbar navbar-expand-lg" style= "padding:0 0 0 0; margin:0 0 0 0;">
-                        <a class="navbar-brand" href="index.jsp" style= "padding:0 0 0 0; margin:0 0 0 0;"><img src="img/bg-img/logotent.png" alt="" style= "padding:0 0 0 0; margin:0 0 0 0;"></a>
+                        <a class="navbar-brand" href="index.jsp" style= "padding:0 0 0 0; margin:0 0 0 0;"><img src="img/main.png" alt="" style= "padding:0 0 0 0; margin:0 0 0 0;"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dorneNav" aria-controls="dorneNav" aria-expanded="false" aria-label="Toggle navigation" style= "padding:0 0 0 0; margin:0 0 0 0;"><span class="fa fa-bars" style= "padding:0 0 0 0; margin:0 0 0 0;"></span></button>
                         <!-- Nav -->
                         <div class="collapse navbar-collapse" id="dorneNav">

@@ -915,7 +915,7 @@ public class BoardDao {
        ResultSet rs = null;
        
        ArrayList<File> boardlist =new ArrayList<>();
-       String sql = "select  b.idx,b.id, b.writedate, b.title, b.readnum, f.savename from board b join fileupload f on b.idx = f.idx where bcode=? and rownum <=5 ORDER BY writedate desc";
+       String sql = "select  b.idx,b.id, b.writedate, b.title, b.readnum, f.savename from board b join fileupload f on b.idx = f.idx where b.cocode=0 and bcode=? and rownum <=5 ORDER BY writedate desc";
                 
     
        try {
@@ -957,7 +957,7 @@ public class BoardDao {
 	      ResultSet rs = null;
 	      
 	      ArrayList<File> boardlist =new ArrayList<>();
-	      String sql = "select b.id, b.idx, b.writedate, b.title, b.readnum, f.savename from board b join fileupload f on b.idx = f.idx where b.bcode=? and b.id=? ORDER BY b.writedate desc";
+	      String sql = "select b.id, b.idx, b.writedate, b.title, b.readnum, f.savename from board b join fileupload f on b.idx = f.idx where b.bcode=? and b.id=? and b.cocode=0 ORDER BY b.writedate desc";
 	      		   
 	   
 	      try {
